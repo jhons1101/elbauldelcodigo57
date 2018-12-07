@@ -21,66 +21,67 @@ class postController extends Controller
     public function index($page=1)
     {
         // traemos la cantidad de registros para el paginador
-		$registros = DB::table('posts')
-            ->join('temas', 'post_tema', '=', 'temas.tema_id')
+        $registros = DB::table('posts')
+            ->join('tema_posts', 'post_tema', '=', 'tema_posts.tema_id')
             ->where('post_tipo', 'ENTRADA')
             ->orderBy('post_fec', 'desc')
             ->get();
 
 
-		$totalRegistros = count($registros);
-		$paginador      = 15; // Parametrizarlo desde DB
-		$cantPagina     = $totalRegistros/$paginador;
-		$cantPagina     = ceil($cantPagina);
+        $totalRegistros = count($registros);
+        $paginador      = 15; // Parametrizarlo desde DB
+        $cantPagina     = $totalRegistros/$paginador;
+        $cantPagina     = ceil($cantPagina);
 
-		if ($page != 1){
-			// comenzara en la 16, pagina 2 y asi sucesivamente..
-			$comienzo = (($page * $paginador)-$paginador)+1;
-		} else {
-			$comienzo = 1;
-		}
+        if ($page != 1){
+            // comenzara en la 16, pagina 2 y asi sucesivamente..
+            $comienzo = (($page * $paginador)-$paginador)+1;
+        } else {
+            $comienzo = 1;
+        }
 
-		$final = ($page * $paginador);
+        $final = ($page * $paginador);
 
-		$post = DB::table('posts')
-            ->join('temas', 'post_tema', '=', 'temas.tema_id')
+        $post = DB::table('posts')
+            ->join('tema_posts', 'post_tema', '=', 'tema_posts.tema_id')
             ->where('post_tipo', 'ENTRADA')
             ->orderBy('post_fec', 'desc')
             ->skip($comienzo-1)
             ->take($paginador)
             ->get();
 
-		if (count($post) < 1) {
-			$error = "No hay más resultados para mostrar.";
-		} else {
-			$error = "";
-		}
+        if (count($post) < 1) {
+            $error = "No hay más resultados para mostrar.";
+        } else {
+            $error = "";
+        }
 
 
-		$tema = DB::table('posts as p')
+        $tema = DB::table('posts as p')
             ->select('tm.tema_txt', 'tm.tema_img')
             ->distinct()
             ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
-            ->join('temas as tm', 'p.post_tema', '=', 'tm.tema_id')
+            ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
             ->orderBy('tm.tema_txt', 'asc')
             ->get();
-		// Retornamos todos los datos
+        // Retornamos todos los datos
 
-		$entradas =  DB::table('posts as p')
+        $entradas =  DB::table('posts as p')
             ->select('p.*', 'u.usuarios_name', 'tm.tema_txt')
             ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
-            ->join('temas as tm', 'p.post_tema', '=', 'tm.tema_id')
+            ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
             ->orderBy('p.post_fec', 'desc')
             ->get();
 
-
+        
         return View(
             'post.index', array(
                 'post'        => $post,
                 'temas'       => $tema,
                 'cantidadPag' => $cantPagina,
                 'errores'     => $error,
-                'entradas'    => $entradas
+                'entradas'    => $entradas,
+                'public_path' => public_path()
             )
         );
     }
@@ -94,24 +95,16 @@ class postController extends Controller
     public function create()
     {
         // recursos de la pagina
-        $tipoPost  = 1;
+        $tipoPost  = TipoPost::orderBy('tipo_txt', 'asc')->get();
         $usuPost   = 1;
         $temaPost  = TemaPost::orderBy('tema_txt', 'asc')->get();
-        $optionTema = '';
-
-        foreach ($temaPost as $tema) {
-            $optionTema .=  '<option value=' .$tema->tema_id. '>' .$tema->tema_txt. '</option>\r';
-        }
-        
-        /*General::comboModel($temaPost, 'tema_id', 'tema_txt')
-        echo "<pre>";
-        print_r($optionTema);
-        echo "</pre>";*/
+        $tagsPost  = TagsPost::orderBy('tag_txt', 'asc')->get();
 
         return View('post.create')
         ->with('tipoPost', $tipoPost)
         ->with('usuPost', $usuPost)
-        ->with('temaPost', $optionTema);
+        ->with('temaPost', $temaPost)
+        ->with('tagsPost', $tagsPost);
     }
 
     /**
@@ -153,7 +146,69 @@ class postController extends Controller
      */
     public function show($id)
     {
-        //
+        // traemos los datos del post según el ID
+        $post = Post::find($id);
+
+        $comm = DB::table('comentarios')
+            ->select('com_texto', 'com_fec', 'usuarios_name', 'usuarios_email', 'usuarios_img')
+            ->join('usuarios', 'comentarios.com_usu', '=', 'usuarios.usuarios_id')
+            ->where('comentarios.com_post', $id)->orderBy('com_fec', 'desc')->get();
+
+        $flagNuevoComm = null;
+
+        $posts = DB::table('posts as p')
+            ->select('p.*', 'u.usuarios_name', 'tm.tema_txt')
+            ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
+            ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
+            ->where('p.id', $id)->get();
+
+        // Traemos las imagenes adjuntas de cada Entrada para generar el fuente que las muestre dinámicamente
+        $pantallazo = DB::table('pantallazos')->select('*')->where('id_post', $id)->get();
+        $totalImg = count($pantallazo);
+
+        // Consultamos los post relacionados según el tema de la entrada.
+        $relacionados = DB::table('posts')->where('post_tema', $posts[0]->post_tema)->orderBy('post_fec', 'desc')->skip(0)->take(5)->get();
+
+        // recorremos los tags del post y le traemos su descipción para pintarla en la plantilla
+        $txtTags = '';
+        foreach ($posts as $key => $value){
+            foreach(explode(',', $value->post_tags) as $idtag){
+                $tag = DB::table('tags_posts')->select('tag_txt')->where('tag_id', $idtag)->get();
+                $txtTags .= strtolower($tag[0]->tag_txt).",";
+            }
+            $posts[$key]->post_tags = substr($txtTags, 0, -1);
+        }
+
+        // Establecer el tamaño que desee, o al azar para mas seguridad
+        $captchaTextSize = 7;
+
+        do {
+
+              //     Generar una cadena aleatoria y cifrarla con md5
+              $md5Hash = $this::cadenaAleatoria();
+
+              //     Eliminar cualquier caracter dificil de distinguir de nuestro hash
+              preg_replace( '([1aeilou0])', "", $md5Hash );
+
+        } while( strlen( $md5Hash ) < $captchaTextSize );
+
+            // Solo necesitamos 7 caracteres para este captcha
+            $key = substr( $md5Hash, 0, $captchaTextSize );
+
+            // Agregue la clave recién generada a la sesion. Tenga en cuenta que esta cifrado.
+            $_SESSION['key'] = md5( $key );
+
+        /*return View::make($rutaPost, array('comm' => $comm, 'flagNuevoComm' => $flagNuevoComm, 'Posts' => $posts, 'totalImg' => $totalImg, 'pantallazo' => $pantallazo, 'relacionados' => $relacionados, 'keyCp' => $key));*/
+
+        return view('post.show')
+        ->with('id',             $id)
+        ->with('comm',           $comm)
+        ->with('flagNuevoComm',  $flagNuevoComm)
+        ->with('Posts',          $posts)
+        ->with('totalImg',       $totalImg)
+        ->with('pantallazo',     $pantallazo)
+        ->with('relacionados',   $relacionados)
+        ->with('keyCp',          $key);
     }
 
     /**
@@ -192,5 +247,17 @@ class postController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Esta funcion genera una cadena aleatoria según una longitud de entrada
+     * Su longitud de cadena por defecto es 7
+     *
+     * @param number $length longitud de la cadena
+     * @return return String
+     */
+
+    public function cadenaAleatoria($length = 7) {
+        return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
     }
 }

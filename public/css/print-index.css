@@ -1,0 +1,1 @@
+@page{margin:1cm}body{font-family:verdana;background-image:none;orphans:3;widows:3}header,footer,nav,aside{display:none}.autor,.tematica,.header,.bottomCero,paginadorI,paginadorF{display:none}a[href^=http]:after{content:" <" attr(href) ">";font-family:verdana;font-size:10px;font-style:italic;color:#f2f2f2}h3{page-break-before:always}.cardHeaderText{text-align:left}

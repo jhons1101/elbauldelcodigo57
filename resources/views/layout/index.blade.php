@@ -3,13 +3,13 @@
     <head>
         <title>El baúl del código</title>
         <meta charset="UTF-8">
-        <link rel="shortcut icon" href="{{ asset('/img/claves-elbauldelcodigo_ico.png') }}" type="image/png" />
+        <link rel="shortcut icon" href="/img/claves-elbauldelcodigo_ico.png" type="image/png" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <link rel="stylesheet" href="{{ asset('/materialize/css/materialize.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('/css/index.css') }}">
-        <link rel="stylesheet" href="{{ asset('/fonts/style.css') }}">
-        <link rel="stylesheet" href="{{ asset('/css/print-index.css') }}" type="text/css" media="print" />
-        <link rel="image_src"  href="{{ asset('/img/elbauldelcodigo.com_front_2.png') }}" />
+        <link rel="stylesheet" href="/materialize/css/materialize.min.css">
+        <link rel="stylesheet" href="/css/index.css">
+        <link rel="stylesheet" href="/fonts/style.css">
+        <link rel="stylesheet" href="/css/print-index.css" type="text/css" media="print" />
+        <link rel="image_src"  href="/resources/img/elbauldelcodigo.com_front_2.png" />
         <link rel="image_src"  href="https://fonts.googleapis.com/css?family=Poiret+One">
         <link rel="image_src"  href="https://fonts.googleapis.com/css?family=Kavivanar|Pacifico">
         
@@ -23,7 +23,7 @@
         <meta property="og:site_name" content="elbauldelcodigo">
         <meta property="og:url" content="www.elbauldelcodigo.com">
         <meta property="og:description" content="Sitio web de código gratuito, preguntas, foros temas, novedades, actualidad tecnológica, que esperas suscríbete!">
-        <meta property="og:image" content="{{ asset('/img/elbauldelcodigo.com_front_2.png') }}" />
+        <meta property="og:image" content="/img/elbauldelcodigo.com_front_2.png" />
         <meta property="fb:app_id" content="1386964998221435">
         <meta property="og:type" content="website">
 		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -59,11 +59,11 @@
                     <div class="row bottomCero">
                         <div class="paginadorI">
                             <ul class="pagination">							
-                                <li class="waves-effect"><a href="{{ asset('/1') }}"><i class="icon-circle-left"></i></a></li>
+                                <li class="waves-effect"><a href="1') }}"><i class="icon-circle-left"></i></a></li>
                                 @for ($i = 0; $i < $cantidadPag; $i++)
-                                <li class="waves-effect"><a href="{{ asset('/') }}{{intval($i)+1}}">{{ intval($i)+1 }}</a></li>
+                                <li class="waves-effect"><a href="') }}{{intval($i)+1}}">{{ intval($i)+1 }}</a></li>
                                 @endfor
-                                <li class="waves-effect"><a href="{{ asset('/') }}{{$cantidadPag}}"><i class="icon-circle-right"></i></a></li>
+                                <li class="waves-effect"><a href="') }}{{$cantidadPag}}"><i class="icon-circle-right"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -78,11 +78,11 @@
                     <div class="row bottomCero">
                         <div class="paginadorF">
                             <ul class="pagination">
-                                <li class="waves-effect"><a href="{{ asset('/1') }}"><i class="icon-circle-left"></i></a></li>
+                                <li class="waves-effect"><a href="1') }}"><i class="icon-circle-left"></i></a></li>
                                 @for ($i = 0; $i < $cantidadPag; $i++)
-                                <li class="waves-effect"><a href="{{ asset('/') }}{{intval($i)+1}}">{{ intval($i)+1 }}</a></li>
+                                <li class="waves-effect"><a href="') }}{{intval($i)+1}}">{{ intval($i)+1 }}</a></li>
                                 @endfor
-                                <li class="waves-effect"><a href="{{ asset('/') }}{{$cantidadPag}}"><i class="icon-circle-right"></i></a></li>
+                                <li class="waves-effect"><a href="') }}{{$cantidadPag}}"><i class="icon-circle-right"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -99,9 +99,9 @@
             </div>
         </div>
         <br /><br />
-        @yield('footer')
-        <script src="{{ asset('/js/jquery-1.11.1.min.js') }}"></script>
-        <script src="{{ asset('/materialize/js/materialize.min.js') }}"></script>
-        <script src="{{ asset('/js/index.js') }}"></script>
+        @yield('footer2')
+        <script src="/js/jquery-1.11.1.min.js"></script>
+        <script src="/materialize/js/materialize.min.js"></script>
+        <script src="/js/index.js"></script>
     </body>
 </html>

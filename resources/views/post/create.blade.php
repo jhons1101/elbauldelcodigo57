@@ -13,7 +13,9 @@
                     <div class="col s12 m12 l4">
                         <label for="tem_post" data-error="wrong" data-success="right" class="labelbk">Tema ppal</label>
                         <select class="" id="tem_post" name="txtTemPost">
-                            {{!$temaPost}}<option value="1">hh</option>
+                            @foreach ($temaPost as $tema)
+                            <option value="{{$tema->tema_id}}">{{$tema->tema_txt}}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -25,7 +27,9 @@
                     <div class="col s12 m12 l4">
                         <label for="tags_post" data-error="wrong" data-success="right" class="labelbk">Tags</label>
                         <select class="" id="tags_post" name="txtTagsPost">
-                            <option value="1">xx</option>
+                            @foreach ($tagsPost as $tag)
+                            <option value="{{$tag->tag_id}}">{{$tag->tag_txt}}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -48,7 +52,9 @@
                     <div class="col s12 m12 l4">
                         <label for="tip_post" data-error="wrong" data-success="right" class="labelbk">Tipo de entrada</label>
                         <select class="" id="tip_post" name="txtTipPost">
-                            {{!$tipoPost}}<option value="1">hh</option>
+                            @foreach ($tipoPost as $tipo)
+                            <option value="{{$tipo->tipo_id}}">{{$tipo->tipo_txt}}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>

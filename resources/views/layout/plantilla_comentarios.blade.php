@@ -59,7 +59,7 @@
 				<div class="row valign-wrapper">
 					<div class="col s3 m2 l1 ">
 						@if ($comentario->usuarios_img == null)
-							<img src="{{ asset('/img/usuarios/img_default.png') }}" class="circle responsive-img">
+							<img src="/img/usuarios/img_default.png" class="circle responsive-img">
 						@else
 							<img src="http://elbauldelcodigo.com/img/usuarios/{{ $comentario->usuarios_img }}" class="circle responsive-img">
 						@endif              
