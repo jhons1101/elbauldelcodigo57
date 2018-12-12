@@ -16,34 +16,73 @@
     </head>   
     <body>
         <input type="checkbox" id="nav-toggle" />
-        <nav class="nav">
+        <nav class="nav" style="overflow-y: autoo;">
             <div class="nav-div">
                 <label for="nav-toggle" class="nav-toggle" onclick>☰</label>
                 <ul class="ul">
-                    <li class="nav-ul-li"><a class="nav-ul-a" href=""><span class="nav-ul-li-span">El baúl del código</span></a></li>
-                    <li class="nav-ul-li"><a class="nav-ul-a" href="tus-puntos"><i class="icon-lifebuoy"></i>&nbsp; Tus Puntos</a></li>
-                    <li class="nav-ul-li"><a class="nav-ul-a" href="tus-preguntas"><i class="icon-notification"></i>&nbsp; Tus Preguntas</a></li>
-                    <li class="nav-ul-li"><a class="nav-ul-a" href="tus-respuestas"><i class="icon-compass"></i>&nbsp; Tus Respuestas</a></li>
-                    <li class="nav-ul-li"><a class="nav-ul-a" href="dudas"><i class="icon-question"></i>&nbsp; ¿ Alguna Pregunta.?</a></li>
-                    <li class="nav-ul-li"><a class="nav-ul-a" href="reponde"><i class="icon-checkmark2"></i>&nbsp; Responder</a></li>
-                    <li class="nav-ul-li"><a class="nav-ul-a" href="estadisticas"><i class="icon-stats-dots"></i>&nbsp; Estadisticas</a></li>
-                    <li class="nav-ul-li"><a class="nav-ul-a" href="linea-de-tiempo"><i class="icon-hour-glass"></i>&nbsp; linea de Tiempo</a></li>
-                    <li class="nav-ul-li"><a class="nav-ul-a" href="favoritos"><i class="icon-star-half"></i>&nbsp; Favoritos</a></li>
-                    <li class="nav-ul-li"><a class="nav-ul-a" href="configuracion"><i class="icon-cogs"></i>&nbsp; Configuración</a></li>
+                    <li>
+                        <a href="">
+                            <span class="nav-ul-li-span" style="display: unset;">El baúl del código</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="tus-puntos">
+                            <i class="icon-lifebuoy" style="display: unset;"></i>&nbsp; Tus Puntos
+                        </a>
+                    </li>
+                    <li>
+                        <a href="tus-preguntas">
+                            <i class="icon-notification" style="display: unset;"></i>&nbsp; Tus Preguntas
+                        </a>
+                    </li>
+                    <li>
+                        <a href="tus-respuestas">
+                            <i class="icon-compass" style="display: unset;"></i>&nbsp; Tus Respuestas
+                        </a>
+                    </li>
+                    <li>
+                        <a href="dudas">
+                            <i class="icon-question" style="display: unset;"></i>&nbsp; ¿ Necesitas ayuda.? Pregunta ahora!
+                        </a>
+                    </li>
+                    <li>
+                        <a href="reponde">
+                            <i class="icon-checkmark2" style="display: unset;"></i>&nbsp; Responder
+                        </a>
+                    </li>
+                    {{-- <li>
+                        <a href="estadisticas">
+                            <i class="icon-stats-dots" style="display: unset;"></i>&nbsp; Estadisticas
+                        </a>
+                    </li>
+                    <li>
+                        <a href="linea-de-tiempo">
+                            <i class="icon-hour-glass" style="display: unset;"></i>&nbsp; linea de Tiempo
+                        </a>
+                    </li> --}}
+                    <li>
+                        <a href="favoritos">
+                            <i class="icon-star-half" style="display: unset;"></i>&nbsp; Favoritos
+                        </a>
+                    </li>
+                    <li>
+                        <a href="configuracion">
+                            <i class="icon-cogs" style="display: unset;"></i>&nbsp; Configuración
+                        </a>
+                    </li>
                 </ul>
                 <div class="nav-div-footer">
-                    <img src="{{ asset('/') }}img/usuarios/@yield('img-usuario').jpg" alt="usuario nombre" class="nav-div-img">
+                    <img src="{{ asset('/') }}img/usuarios/img_default.png" alt="usuario nombre" class="nav-div-img">
                     <span class="nav-div-span">Usuario</span>
                 </div>
             </div>
         </nav>
         <nav>
             <div class="nav-wrapper">
-                <a href="#" class="brand-logo">Logo</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="sass.html">Sass</a></li>
-                    <li><a href="badges.html">Components</a></li>
-                    <li><a href="collapsible.html">JavaScript</a></li>
+                    <li><a href="/admin/">Administrar</a></li>
+                    <li><a href="/post/create">Publicar</a></li>
+                    <li><a href="/post/showUser">Mis publicaciones</a></li>
                 </ul>
             </div>
         </nav>
@@ -68,6 +107,7 @@
         <script src="{{ asset('/js/admin.js') }}"></script>
         <script src="{{ asset('/js/modernizr.js') }}"></script>
         <script src="{{ asset('/materialize/js/materialize.min.js') }}"></script>
+        <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
         <script type="text/javascript">
             @yield('javascript')
         </script>

@@ -116,7 +116,10 @@ class postController extends Controller
      */
     public function store(Request $request)
     {
-        
+        // echo "<pre>";
+        // print_r($request->all());
+        // echo "</pre>";
+        // die();
         $post               =  new Post();
         $post->post_tit     =  $request->get('txtTitPost');
         $post->post_tema    =  $request->get('txtTemPost');
@@ -125,11 +128,19 @@ class postController extends Controller
         $post->post_fec     =  date("Y-m-d");
         $post->post_key     =  $request->get('txtKeyPost');
         $post->post_desc    =  $request->get('txtDesPost');
-        $post->flg_publicar =  $request->get('txtPubPost');
         $post->created_at   =  date("Y-m-d H:i:s");
         $post->updated_at   =  date("Y-m-d H:i:s");
         $post->post_tipo    =  $request->get('txtTipPost');
         $post->slug         =  $request->get('txtSlugPost');
+        $post->desc_post    =  $request->get('textareaPost');
+        $post->des_code     =  $request->get('textareaCode');
+
+        if ($request->get('txtPubPost') == 'on'){
+            $txtPubPost = 1;
+        } else {
+            $txtPubPost = 0;
+        }
+        $post->flg_publicar =  $txtPubPost;
         
         if ($post->save()) {
             return "Ok";

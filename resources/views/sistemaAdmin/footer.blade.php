@@ -1,5 +1,5 @@
 @section('footer')
-<footer class="page-footer">
+<footer class="page-footer" style="padding-top: 0; background-color: #00adb5;">
     <div class="footer-copyright">
         <div class="container">
             Power By Jhons1101<sup>©</sup> desde el 2015 para <a href="http://elbauldelcodigo.com/" target="_blank" style="color:white;">

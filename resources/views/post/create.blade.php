@@ -7,6 +7,20 @@
 $(document).ready(function(){
     $('select').material_select();
 });
+{{-- tinymce.init({
+    selector: '#textareaPost'
+}); --}}
+tinymce.init({
+    selector: '.textareaTiny',
+    theme: 'modern',
+    plugins: [
+        'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+        'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+        'save table contextmenu directionality emoticons template paste textcolor'
+    ],
+    content_css: 'css/content.css',
+    toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | preview media fullpage | forecolor backcolor'
+});
 @stop
 
 <!-- secciónpara cargar la foto del usuario de la sessión del post -->
@@ -21,7 +35,7 @@ $(document).ready(function(){
         <hr />
     </div>
     <div class="row">
-        <div class="col s12 m8 l8">
+        <div class="col s12 m12 l12">
             <form class="" action="/post" method="POST">
                 @csrf
                 <div class="row">
@@ -53,6 +67,7 @@ $(document).ready(function(){
                     <div class="col s12 m6 l6">
                         <div class="input-field">
                             <select multiple>
+                                <option value="" selected>Seleccione</option>
                                 @foreach ($tagsPost as $tag)
                                 <option value="{{$tag->tag_id}}">{{$tag->tag_txt}}</option>
                                 @endforeach
@@ -74,6 +89,20 @@ $(document).ready(function(){
                         <div class="input-field">
                             <label for="des_post" data-error="wrong" data-success="right" class="labelbk">Describe</label>
                             <input type="text" class="" id="des_post" name="txtDesPost">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <div class="input-field">
+                            <textarea class="textareaTiny" name="textareaPost">Ingrese la descripcion del post</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <div class="input-field">
+                            <textarea class="textareaTiny" name="textareaCode">Ingrese la información complementaria, código fuente y evidencias del código que se está probando</textarea>
                         </div>
                     </div>
                 </div>
@@ -111,6 +140,5 @@ $(document).ready(function(){
                 </div>
             </form>
         </div>
-        <div class="col s12 m8 l8">&nbsp;</div>
     </div>
 @stop
