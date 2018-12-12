@@ -129,6 +129,7 @@ class postController extends Controller
         $post->created_at   =  date("Y-m-d H:i:s");
         $post->updated_at   =  date("Y-m-d H:i:s");
         $post->post_tipo    =  $request->get('txtTipPost');
+        $post->slug         =  $request->get('txtSlugPost');
         
         if ($post->save()) {
             return "Ok";
@@ -144,18 +145,20 @@ class postController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
         // traemos los datos del post según el ID
-        $post = Post::find($id);
+        $post = Post::where('slug', '=', $slug)->firstOrFail();
+        $id   = $post->id;
 
+        // se cargan los comentarios del post, si los tiene...
         $comm = DB::table('comentarios')
             ->select('com_texto', 'com_fec', 'usuarios_name', 'usuarios_email', 'usuarios_img')
             ->join('usuarios', 'comentarios.com_usu', '=', 'usuarios.usuarios_id')
             ->where('comentarios.com_post', $id)->orderBy('com_fec', 'desc')->get();
-
         $flagNuevoComm = null;
 
+        // se cargan la información del post...
         $posts = DB::table('posts as p')
             ->select('p.*', 'u.usuarios_name', 'tm.tema_txt')
             ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
@@ -164,19 +167,23 @@ class postController extends Controller
 
         // Traemos las imagenes adjuntas de cada Entrada para generar el fuente que las muestre dinámicamente
         $pantallazo = DB::table('pantallazos')->select('*')->where('id_post', $id)->get();
-        $totalImg = count($pantallazo);
+        $totalImg   = count($pantallazo);
 
         // Consultamos los post relacionados según el tema de la entrada.
-        $relacionados = DB::table('posts')->where('post_tema', $posts[0]->post_tema)->orderBy('post_fec', 'desc')->skip(0)->take(5)->get();
+        $relacionados = DB::table('posts')
+            ->where('post_tema', $posts[0]->post_tema)
+            ->where('id', '!=', $id)
+            ->orderBy('post_fec', 'desc')
+            ->skip(0)->take(5)->get();
 
         // recorremos los tags del post y le traemos su descipción para pintarla en la plantilla
-        $txtTags = '';
+        $txtTags  = [];
         foreach ($posts as $key => $value){
-            foreach(explode(',', $value->post_tags) as $idtag){
-                $tag = DB::table('tags_posts')->select('tag_txt')->where('tag_id', $idtag)->get();
-                $txtTags .= strtolower($tag[0]->tag_txt).",";
+            
+            foreach(explode(',', $value->post_tags) as $item => $idtag){
+                $tag             = DB::table('tags_posts')->select('tag_txt')->where('tag_id', $idtag)->get();
+                $txtTags[$item]  = strtolower($tag[0]->tag_txt);
             }
-            $posts[$key]->post_tags = substr($txtTags, 0, -1);
         }
 
         // Establecer el tamaño que desee, o al azar para mas seguridad
@@ -198,8 +205,7 @@ class postController extends Controller
             // Agregue la clave recién generada a la sesion. Tenga en cuenta que esta cifrado.
             $_SESSION['key'] = md5( $key );
 
-        /*return View::make($rutaPost, array('comm' => $comm, 'flagNuevoComm' => $flagNuevoComm, 'Posts' => $posts, 'totalImg' => $totalImg, 'pantallazo' => $pantallazo, 'relacionados' => $relacionados, 'keyCp' => $key));*/
-
+        
         return view('post.show')
         ->with('id',             $id)
         ->with('comm',           $comm)
@@ -208,7 +214,8 @@ class postController extends Controller
         ->with('totalImg',       $totalImg)
         ->with('pantallazo',     $pantallazo)
         ->with('relacionados',   $relacionados)
-        ->with('keyCp',          $key);
+        ->with('keyCp',          $key)
+        ->with('txtTags',        $txtTags);
     }
 
     /**

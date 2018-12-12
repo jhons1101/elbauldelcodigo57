@@ -6,6 +6,7 @@
         <link rel="shortcut icon" href="/img/claves-elbauldelcodigo_ico.png" type="image/png" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <link rel="stylesheet" href="/materialize/css/materialize.min.css">
+        <link rel="stylesheet" href="/css/tidy.css">
         <link rel="stylesheet" href="/css/index.css">
         <link rel="stylesheet" href="/fonts/style.css">
         <link rel="stylesheet" href="/css/print-index.css" type="text/css" media="print" />
@@ -34,7 +35,7 @@
             });
         </script>
     </head>
-    <body>
+    <body class="anulaBackground">
         <script type="text/javascript">
             (function (i, s, o, g, r, a, m) {
                 i['GoogleAnalyticsObject'] = r;
@@ -56,6 +57,7 @@
             <div class="row">&nbsp;</div>
             <div class="row">
                 <div class="col s12 m12 l9">
+                    @if ($errores == '')
                     <div class="row bottomCero">
                         <div class="paginadorI">
                             <ul class="pagination">							
@@ -67,14 +69,18 @@
                             </ul>
                         </div>
                     </div>
+                    @endif
                     <div class="row">
                         <div class="s12 m12 l12">
                             @yield('post')
                             @if ($errores != '')
+                            <br />
+                            <br />
                             <div class="resaltadoRojo">{{$errores}}</div>
                             @endif
                         </div>
                     </div>
+                    @if ($errores == '')
                     <div class="row bottomCero">
                         <div class="paginadorF">
                             <ul class="pagination">
@@ -86,6 +92,7 @@
                             </ul>
                         </div>
                     </div>
+                    @endif
                 </div>
                 <div class="col s12 m12 l3">
                     <div class="row">

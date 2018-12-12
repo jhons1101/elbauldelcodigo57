@@ -176,7 +176,7 @@
 						</a>
 						<hr />
 						<div class="row">
-							{{-- Form::open(array('method' => 'POST', 'name' => 'guardarComentario', 'url' => 'guardarComentario')) --}}
+							{{ Form::open(array('method' => 'POST', 'name' => 'guardarComentario', 'url' => 'guardarComentario')) }}
 							<div class="col s12 m12 l12">
 								<br /><br />
 								<span class="labelComentario">Agrega tu comentario...</span>
@@ -184,24 +184,24 @@
 							</div>
 							<div class="col s12 m12 l12">
 								<label for="emailComm" data-error="wrong" data-success="right" class="labelbk">Correo electrónico</label>
-									{{-- Form::email('email', null, array(
+									{{ Form::email('email', null, array(
 										'class'			=> 'validate',
 										'id' 			=> 'emailComm',
 										'placeholder'	=> 'Escribe tu correo electrónico',
 										'required',
 										'maxlength'		=> '120'))
-									--}}
+									}}
 								<span class="erroresLaravel" >{{ $errors->first('email')}}</span>
 							</div>
 							<div class="col s12 m12 l12">
 							  <label for="commText" class="labelbk">Escribe tu comentario</label>
-								{{-- Form::textarea('comentario', null, array(
+								{{ Form::textarea('comentario', null, array(
 									'class'			=> 'commText materialize-textarea',
 									'id'			=> 'commText',
 									'placeholder'	=> 'Escribe tus ideas, líneas de código, opiniones, preguntas o secillo. Abre una discusión.',
 									'required',
 									'maxlength'		=> '2000'))
-								--}}
+								}}
 								<span class="erroresLaravel" >{{ $errors->first('comentario')}}</span>
 								<div class="etiquetasDisponibles">
 									<span>Puedes utilizar etiquetas </span>
@@ -212,15 +212,15 @@
 								<br />
 								<input type="text" name="codecaptcha" width="300px" placeholder="Ingrese el código captcha"/>
 								<br />
-								{{-- Form::hidden('idPost', null, array('id' => 'idPost')) --}}
-								{{-- Form::button('Guardar Comentario', array(
+								{{ Form::hidden('idPost', null, array('id' => 'idPost')) }}
+								{{ Form::button('Guardar Comentario', array(
 									'class' => 'btn waves-effect waves-light',
 									'type' => 'submit'))
-								--}}
+								}}
 								<i class="material-icons right"></i>
 								<br /><br /><br />
 							</div>
-							{{-- Form::close() --}}
+							{{ Form::close() }}
 						</div>
 						@if (count($comm) <= 0)
 						   <div>Este post no tiene comentarios, sé el primero en hacerlo</div>
@@ -256,7 +256,6 @@
 					</main>
 				</div>
 			    <div id="pantallazos" class="col s12 m12 l12 txt-center text-description">
-			    	<!--@yield('pantallazos')-->
 					@if ($totalImg > 0)
 						@foreach ($pantallazo as $imagen)
 							@if ($imagen->tipo == 1)
@@ -284,9 +283,9 @@
 			</div>
 			<br />
 			<div class="wow fadeInUp content-card" style="margin-top: 0;">
+				@if (count($relacionados) > 0 )
 				<div class="row">
 					<div class="col s12 m12 l12">
-
 				        <div id="publicidad">&nbsp;</div>
 				        <h1 class="text-title">Articulos que tal vez te interesen.!</h1>
 						@foreach ($relacionados as $entrada)
@@ -298,6 +297,7 @@
 						@endforeach
 				    </div>
 				</div>
+				@endif
 				<div class="row">
 					<div class="col s12 m12 l12">
 						<p>
