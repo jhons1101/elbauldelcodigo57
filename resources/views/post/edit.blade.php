@@ -3,7 +3,7 @@
 
 <!-- sección para poner el title del post -->
 @section('seccion')
-Escribir nuevo post
+Editar post
 @stop
 
 
@@ -15,7 +15,7 @@ Escribir nuevo post
 
         setTimeout(function(){
             $("#mceu_88, #mceu_90").css('display', 'none');
-        }, 3000);
+        }, 2000);
     });
 
 
@@ -40,26 +40,35 @@ Escribir nuevo post
 
 @section('contenido')
     <div class="row">
-        <h2>Crear nuevo POST</h2>
+        <h2>Editar POST: {{ $posts->post_tit }}</h2>
         <hr />
+        @if ($errors->any())
+            <p class="card-panel red lighten-5">
+                @foreach($errors->all() as $error)
+                * {{ $error }} <br />
+                @endforeach
+            </p>
+            <hr />
+        @endif
     </div>
     <div class="row">
         <div class="col s12 m12 l12">
-            <form class="" action="/post" method="POST">
+        <form class="" action="/post/{{ $posts->slug }}" method="POST">
+                @method('PUT')
                 @csrf
                 <div class="row">
                     <div class="col s12 m6 l6">
                         <div class="input-field">
                             <label for="tit_post" data-error="wrong" data-success="right" class="labelbk">Título</label>
-                            <input type="text" class="" id="tit_post" name="txtTitPost">
+                            <input type="text" class="" id="tit_post" name="txtTitPost" value="{{ $posts->post_tit }}">
                         </div>
                     </div>
                     <div class="col s12 m6 l6">
                         <div class="input-field">
                             <select id="tem_post" name="txtTemPost">
-                                <option value="" selected>Seleccione</option>
+                                <option value="">Seleccione</option>
                                 @foreach ($temaPost as $tema)
-                                <option value="{{$tema->tema_id}}">{{$tema->tema_txt}}</option>
+                                <option value="{{$tema->tema_id}}" @if($posts->post_tema == $tema->tema_id) selected @endif>{{$tema->tema_txt}}</option>
                                 @endforeach
                             </select>
                             <label>Tema principal</label>
@@ -70,16 +79,16 @@ Escribir nuevo post
                     <div class="col s12 m6 l6">
                         <div class="input-field">
                             <label for="slug_post" data-error="wrong" data-success="right" class="labelbk">Slug</label>
-                            <input type="text" class="" id="usu_post" name="txtUsuPost" value="1" style="display:none;">
-                            <input type="text" class="" id="slug_post" name="txtSlugPost">
+                            <input type="text" class="" id="usu_post" name="txtUsuPost" value="{{ $posts->post_usu }}" style="display:none;">
+                            <input type="text" class="" id="slug_post" name="txtSlugPost" value="{{ $posts->slug }}">
                         </div>
                     </div>
                     <div class="col s12 m6 l6">
                         <div class="input-field">
                             <select multiple name="txtTagsPost">
-                                <option value="" selected>Seleccione</option>
+                                <option value="">Seleccione</option>
                                 @foreach ($tagsPost as $tag)
-                                <option value="{{$tag->tag_id}}">{{$tag->tag_txt}}</option>
+                                <option value="{{$tag->tag_id}}" @if($posts->post_tags == $tag->tag_id) selected @endif>{{$tag->tag_txt}}</option>
                                 @endforeach
                             </select>
                             <label>Tags</label>
@@ -90,7 +99,7 @@ Escribir nuevo post
                     <div class="col s12 m12 l12">
                         <div class="input-field">
                             <label for="key_post" data-error="wrong" data-success="right" class="labelbk">Keys</label>
-                            <input type="text" class="" id="key_post" name="txtKeyPost">
+                            <input type="text" class="" id="key_post" name="txtKeyPost" value="{{ $posts->slug }}">
                         </div>
                     </div>
                 </div>
@@ -98,21 +107,25 @@ Escribir nuevo post
                     <div class="col s12 m12 l12">
                         <div class="input-field">
                             <label for="des_post" data-error="wrong" data-success="right" class="labelbk">Describe</label>
-                            <input type="text" class="" id="des_post" name="txtDesPost">
+                            <input type="text" class="" id="des_post" name="txtDesPost" value="{{ $posts->slug }}">
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12">
                         <div class="input-field">
-                            <textarea class="textareaTiny" name="textareaPost">Ingrese la descripcion del post</textarea>
+                            <textarea class="textareaTiny" name="textareaPost" value="{{ $posts->slug }}">
+                                Ingrese la descripcion del post
+                            </textarea>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12">
                         <div class="input-field">
-                            <textarea class="textareaTiny" name="textareaCode">Ingrese la información complementaria, código fuente y evidencias del código que se está probando</textarea>
+                            <textarea class="textareaTiny" name="textareaCode" value="{{ $posts->slug }}">
+                                Ingrese la información complementaria, código fuente y evidencias del código que se está probando
+                            </textarea>
                         </div>
                     </div>
                 </div>
@@ -122,7 +135,7 @@ Escribir nuevo post
                         <div class="switch">
                             <label>
                                 NO
-                                <input type="checkbox" name="txtPubPost" id="txtPubPost">
+                                <input type="checkbox" name="txtPubPost" id="txtPubPost" @if( $posts->flg_publicar == 1) checked @endif>
                                 <span class="lever"></span>
                                 SI
                             </label>
@@ -131,9 +144,9 @@ Escribir nuevo post
                     <div class="col s12 m6 l6">
                         <div class="input-field">
                             <select id="tip_post" name="txtTipPost">
-                                <option value="" selected>Seleccione</option>
+                                <option value="">Seleccione</option>
                                 @foreach ($tipoPost as $tipo)
-                                <option value="{{$tipo->tipo_id}}">{{$tipo->tipo_txt}}</option>
+                                <option value="{{$tipo->tipo_id}}" @if($posts->post_tipo == $tipo->tipo_id) selected @endif>{{$tipo->tipo_txt}}</option>
                                 @endforeach
                             </select>
                             <label>Tipo de entrada</label>

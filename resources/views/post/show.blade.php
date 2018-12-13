@@ -39,11 +39,11 @@
 
 <!-- sección para el contenido introductorio del post -->
 @section('PostContent')
-{{ $Posts[0]->desc_post }}
+{!! html_entity_decode($Posts[0]->desc_post, ENT_QUOTES, 'UTF-8') !!}
 @stop
 
 
 <!-- sección para definir el código fuente y los detalles del post -->
 @section('CodigoFte')
-{{ $Posts[0]->des_code }}
+{!! html_entity_decode($Posts[0]->des_code, ENT_QUOTES, 'UTF-8') !!}
 @stop

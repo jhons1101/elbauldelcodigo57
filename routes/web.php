@@ -11,8 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'postController@index');
 
 Route::resource('post', 'postController');
+Route::get('showPostAdmin/{slug}', 'postController@showPostAdmin');

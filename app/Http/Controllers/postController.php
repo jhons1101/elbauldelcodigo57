@@ -9,6 +9,8 @@ use elbauldelcodigo\TemaPost;
 use elbauldelcodigo\TipoPost;
 use elbauldelcodigo\General;
 use Illuminate\Support\Facades\DB;
+use elbauldelcodigo\Http\Requests\UpdatePostRequest;
+use elbauldelcodigo\Http\Requests\StorePostRequest;
 
 class postController extends Controller
 {
@@ -16,12 +18,13 @@ class postController extends Controller
      * Display a listing of the resource.
      * Despliega la ventana con todas las entradas de la DB 
      *
-     * @return \Illuminate\Http\Response
+     * @param  int $page pagina actual donde el usuario final (front) está ubicado
+     * @return view resources/view/post.index
      */
     public function index($page=1)
     {
         // traemos la cantidad de registros para el paginador
-        $registros = DB::table('posts')
+        $registros      = DB::table('posts')
             ->join('tema_posts', 'post_tema', '=', 'tema_posts.tema_id')
             ->where('post_tipo', 'ENTRADA')
             ->orderBy('post_fec', 'desc')
@@ -44,7 +47,7 @@ class postController extends Controller
 
         $post = DB::table('posts')
             ->join('tema_posts', 'post_tema', '=', 'tema_posts.tema_id')
-            ->where('post_tipo', 'ENTRADA')
+            ->where('post_tipo', 3)
             ->orderBy('post_fec', 'desc')
             ->skip($comienzo-1)
             ->take($paginador)
@@ -134,8 +137,8 @@ class postController extends Controller
         $post->updated_at   =  date("Y-m-d H:i:s");
         $post->post_tipo    =  $request->get('txtTipPost');
         $post->slug         =  $request->get('txtSlugPost');
-        $post->desc_post    =  ($request->get('textareaPost'));
-        $post->des_code     =  ($request->get('textareaCode'));
+        $post->desc_post    =  htmlentities ($request->get('textareaPost'), ENT_QUOTES);
+        $post->des_code     =  htmlentities ($request->get('textareaCode'), ENT_QUOTES);
 
         // foreach ($txtTags as $key => $tag) {
         //     $itemTag .= $tag. ',';
@@ -159,10 +162,10 @@ class postController extends Controller
 
     /**
      * Display the specified resource.
-     * Me muestra el detalle de la entrada (post) en la pantalla
+     * Me muestra el detalle de la entrada (post) en la pantalla del usuario final (front)
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  string  $slug
+     * @return view resources/view/post.show
      */
     public function show($slug)
     {
@@ -238,34 +241,127 @@ class postController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     * Me abre la pantalla para modificar la entrada (post)
+     * Display the specified resource.
+     * Muestra las entradas (post) que  tiene asociadas el usuario admin (back)
      *
-     * @param  int  $id
+     * @param  string  $slug cadena unica que identifica el post
+     * @return view resources/view/post.showPostAdmin
+     */
+    public function showPostAdmin($slug)
+    {
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     * Me abre la pantalla para modificar la entrada (post) en la pantalla del usuario admin (back)
+     * http://127.0.0.1:8000/post/prueba-con-css/edit
+     *
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        //
+        // traemos los datos del post según el SLUG
+        $post = Post::where('slug', '=', $slug)->firstOrFail();
+        $id   = $post->id;
+        
+        // recursos de la pagina
+        $tipoPost  = TipoPost::orderBy('tipo_txt', 'asc')->get();
+        $usuPost   = 1;
+        $temaPost  = TemaPost::orderBy('tema_txt', 'asc')->get();
+        $tagsPost  = TagsPost::orderBy('tag_txt', 'asc')->get();
+
+        // se cargan la información del post...
+        $posts = DB::table('posts as p')
+            ->select('p.*', 'u.usuarios_name', 'tm.tema_txt')
+            ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
+            ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
+            ->where('p.id', $id)->get();
+
+        // Consultamos los post relacionados según el tema de la entrada.
+        $relacionados = DB::table('posts')
+            ->where('post_tema', $posts[0]->post_tema)
+            ->where('id', '!=', $id)
+            ->orderBy('post_fec', 'desc')
+            ->skip(0)->take(5)->get();
+
+        // recorremos los tags del post y le traemos su descipción para pintarla en la plantilla
+        $txtTags  = [];
+        foreach ($posts as $key => $value){
+            
+            foreach(explode(',', $value->post_tags) as $item => $idtag){
+                $tag             = DB::table('tags_posts')->select('tag_txt')->where('tag_id', $idtag)->get();
+                $txtTags[$item]  = strtolower($tag[0]->tag_txt);
+            }
+        }
+
+        
+        return view('post.edit')
+        ->with('id',        $id)
+        ->with('posts',     $posts[0])
+        ->with('txtTags',   $txtTags)
+        ->with('tipoPost',  $tipoPost)
+        ->with('usuPost',   $usuPost)
+        ->with('temaPost',  $temaPost)
+        ->with('tagsPost',  $tagsPost);
     }
 
     /**
      * Update the specified resource in storage.
-     * Permite editar la entrada (post) en la DB
+     * Permite editar la entrada (post) en la DB. Pantalla del usuario admin (back)
+     * http://127.0.0.1:8000/post/prueba-con-css
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePostRequest $request, $slug)
     {
-        //
+        // traemos los datos del post según el SLUG
+        $post = Post::where('slug', '=', $slug)->firstOrFail();
+        
+        $itemTag            = '';
+        $txtTags            = $request->get('txtTagsPost');
+
+        $post->post_tit     =  $request->get('txtTitPost');
+        $post->post_tema    =  $request->get('txtTemPost');
+        $post->post_usu     =  $request->get('txtUsuPost');
+        $post->post_key     =  $request->get('txtKeyPost');
+        $post->post_desc    =  $request->get('txtDesPost');
+        $post->updated_at   =  date("Y-m-d H:i:s");
+        $post->post_tipo    =  $request->get('txtTipPost');
+        $post->desc_post    =  htmlentities ($request->get('textareaPost'), ENT_QUOTES);
+        $post->des_code     =  htmlentities ($request->get('textareaCode'), ENT_QUOTES);
+
+        // foreach ($txtTags as $key => $tag) {
+        //     $itemTag .= $tag. ',';
+        // }
+
+        if ($request->get('txtPubPost') == 'on'){
+            $txtPubPost = 1;
+        } else {
+            $txtPubPost = 0;
+        }
+
+        // para actualizar las fotos de pantallazos e imagenes incorporadas.
+        // Ver este video minuto 11
+        //https://www.youtube.com/watch?v=uRQv_ojF9JQ&list=PLIddmSRJEJ0sxS-RmqdRMlkyWOQWvEGEt&index=23
+
+        $post->flg_publicar =  $txtPubPost;
+        $post->post_tags    =  $request->get('txtTagsPost'); //itemTag
+
+
+        if ($post->save()) {
+            return "Ok";
+        } else {
+            return "bad";
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      * Elima de la pantalla la entrada, lo que hace en sí es ocultar la entrada po medio del
-     * flag de mostrar si o no (campo flg_publicar en la DB)
+     * flag de mostrar si o no (campo flg_publicar en la DB). Pantalla del usuario admin (back)
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -279,8 +375,8 @@ class postController extends Controller
      * Esta funcion genera una cadena aleatoria según una longitud de entrada
      * Su longitud de cadena por defecto es 7
      *
-     * @param number $length longitud de la cadena
-     * @return return String
+     * @param int $length longitud de la cadena
+     * @return string
      */
 
     public function cadenaAleatoria($length = 7) {
