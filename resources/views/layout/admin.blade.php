@@ -100,7 +100,6 @@
                 <button class="modo-aleatorio">@yield('sub-seccion')</button>
             </div> --}}
             @yield('contenido')
-            {{-- <br /><br /><br /><br /><br /> --}}
         </div>
         @yield('footer')
         <script type="text/javascript" src="{{ asset('/js/jquery-1.11.1.min.js') }}"></script>

@@ -121,9 +121,11 @@ class postController extends Controller
         // echo "</pre>";
         // die();
         $post               =  new Post();
+        $itemTag            = '';
+        $txtTags            = $request->get('txtTagsPost');
+
         $post->post_tit     =  $request->get('txtTitPost');
         $post->post_tema    =  $request->get('txtTemPost');
-        $post->post_tags    =  $request->get('txtTitPost');
         $post->post_usu     =  $request->get('txtUsuPost');
         $post->post_fec     =  date("Y-m-d");
         $post->post_key     =  $request->get('txtKeyPost');
@@ -132,15 +134,21 @@ class postController extends Controller
         $post->updated_at   =  date("Y-m-d H:i:s");
         $post->post_tipo    =  $request->get('txtTipPost');
         $post->slug         =  $request->get('txtSlugPost');
-        $post->desc_post    =  $request->get('textareaPost');
-        $post->des_code     =  $request->get('textareaCode');
+        $post->desc_post    =  ($request->get('textareaPost'));
+        $post->des_code     =  ($request->get('textareaCode'));
+
+        // foreach ($txtTags as $key => $tag) {
+        //     $itemTag .= $tag. ',';
+        // }
 
         if ($request->get('txtPubPost') == 'on'){
             $txtPubPost = 1;
         } else {
             $txtPubPost = 0;
         }
+
         $post->flg_publicar =  $txtPubPost;
+        $post->post_tags    =  $request->get('txtTagsPost'); //itemTag
         
         if ($post->save()) {
             return "Ok";
@@ -175,7 +183,7 @@ class postController extends Controller
             ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
             ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
             ->where('p.id', $id)->get();
-
+        
         // Traemos las imagenes adjuntas de cada Entrada para generar el fuente que las muestre dinámicamente
         $pantallazo = DB::table('pantallazos')->select('*')->where('id_post', $id)->get();
         $totalImg   = count($pantallazo);
