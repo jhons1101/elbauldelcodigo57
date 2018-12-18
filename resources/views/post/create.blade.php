@@ -42,6 +42,7 @@ Escribir nuevo post
     <div class="row">
         <h2>Crear nuevo POST</h2>
         <hr />
+        @include('partials.errors')
     </div>
     <div class="row">
         <div class="col s12 m12 l12">

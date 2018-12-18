@@ -8,6 +8,7 @@ use elbauldelcodigo\TagsPost;
 use elbauldelcodigo\TemaPost;
 use elbauldelcodigo\TipoPost;
 use elbauldelcodigo\General;
+use elbauldelcodigo\ParametroGral;
 use Illuminate\Support\Facades\DB;
 use elbauldelcodigo\Http\Requests\UpdatePostRequest;
 use elbauldelcodigo\Http\Requests\StorePostRequest;
@@ -119,10 +120,10 @@ class postController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        echo "<pre>";
-        print_r($request->all());
-        echo "</pre>";
-        die();
+        // echo "<pre>";
+        // print_r($request->all());
+        // echo "</pre>";
+        // die();
         $post               =  new Post();
         $itemTag            = '';
         $txtTags            = $request->get('txtTagsPost');
@@ -152,11 +153,25 @@ class postController extends Controller
 
         $post->flg_publicar =  $txtPubPost;
         $post->post_tags    =  $request->get('txtTagsPost'); //itemTag
-        
+
+
         if ($post->save()) {
-            return "Ok";
+
+            $msj = ParametroGral::where('id', '=', 2)->firstOrFail();
+
+            return  redirect()
+                    ->route('post.index', [ $post->slug ])
+                    ->with('msgStatus', $msj->txt_parametro)
+                    ->with('status', 1);
+
         } else {
-            return "bad";
+
+            $msj = ParametroGral::where('id', '=', 4)->firstOrFail();
+
+            return  redirect()
+                    ->route('post.index', [ $post->slug ])
+                    ->with('msgStatus', $msj->txt_parametro)
+                    ->with('status', 0);
         }
     }
 
@@ -317,6 +332,10 @@ class postController extends Controller
      */
     public function update(UpdatePostRequest $request, $slug)
     {
+        // echo "<pre>";
+        // print_r($request->all());
+        // echo "</pre>";
+        // die();
         // traemos los datos del post según el SLUG
         $post = Post::where('slug', '=', $slug)->firstOrFail();
         
@@ -349,12 +368,24 @@ class postController extends Controller
 
         $post->flg_publicar =  $txtPubPost;
         $post->post_tags    =  $request->get('txtTagsPost'); //itemTag
-
-
+        
         if ($post->save()) {
-            return "Ok";
+
+            $msj = ParametroGral::where('id', '=', 3)->firstOrFail();
+
+            return  redirect()
+                    ->route('post.edit', [ $post->slug ])
+                    ->with('msgStatus', $msj->txt_parametro)
+                    ->with('status', 1);
+
         } else {
-            return "bad";
+
+            $msj = ParametroGral::where('id', '=', 5)->firstOrFail();
+
+            return  redirect()
+                    ->route('post.edit', [ $post->slug ])
+                    ->with('msgStatus', $msj->txt_parametro)
+                    ->with('status', 0);
         }
     }
 

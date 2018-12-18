@@ -1,5 +1,5 @@
-@extends('layout/admin')
-@extends('sistemaAdmin/footer')
+@extends('layout.admin')
+@extends('sistemaAdmin.footer')
 
 <!-- sección para poner el title del post -->
 @section('seccion')
@@ -42,6 +42,7 @@ Editar post
     <div class="row">
         <h2>Editar POST: {{ $posts->post_tit }}</h2>
         <hr />
+        @include('partials.errors')
     </div>
     <div class="row">
         <div class="col s12 m12 l12">
