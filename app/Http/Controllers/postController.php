@@ -117,12 +117,12 @@ class postController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
-        // echo "<pre>";
-        // print_r($request->all());
-        // echo "</pre>";
-        // die();
+        echo "<pre>";
+        print_r($request->all());
+        echo "</pre>";
+        die();
         $post               =  new Post();
         $itemTag            = '';
         $txtTags            = $request->get('txtTagsPost');

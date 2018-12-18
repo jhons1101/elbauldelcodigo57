@@ -42,14 +42,6 @@ Editar post
     <div class="row">
         <h2>Editar POST: {{ $posts->post_tit }}</h2>
         <hr />
-        @if ($errors->any())
-            <p class="card-panel red lighten-5">
-                @foreach($errors->all() as $error)
-                * {{ $error }} <br />
-                @endforeach
-            </p>
-            <hr />
-        @endif
     </div>
     <div class="row">
         <div class="col s12 m12 l12">
@@ -59,8 +51,11 @@ Editar post
                 <div class="row">
                     <div class="col s12 m6 l6">
                         <div class="input-field">
-                            <label for="tit_post" data-error="wrong" data-success="right" class="labelbk">Título</label>
-                            <input type="text" class="" id="tit_post" name="txtTitPost" value="{{ $posts->post_tit }}">
+                            <input type="text" class="validate" id="tit_post" name="txtTitPost" value="{{ $posts->post_tit }}">
+                            <label>Título</label>
+                            @if ($errors->has('txtTitPost'))
+                                <span class="helper-text red-text text-darken-4 red lighten-5">{{ $errors->first('txtTitPost') }}</span>
+                            @endif
                         </div>
                     </div>
                     <div class="col s12 m6 l6">
@@ -72,15 +67,21 @@ Editar post
                                 @endforeach
                             </select>
                             <label>Tema principal</label>
+                            @if ($errors->has('txtTemPost'))
+                                <span class="helper-text red-text text-darken-4 red lighten-5">{{ $errors->first('txtTemPost') }}</span>
+                            @endif
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12 m6 l6">
                         <div class="input-field">
-                            <label for="slug_post" data-error="wrong" data-success="right" class="labelbk">Slug</label>
                             <input type="text" class="" id="usu_post" name="txtUsuPost" value="{{ $posts->post_usu }}" style="display:none;">
                             <input type="text" class="" id="slug_post" name="txtSlugPost" value="{{ $posts->slug }}">
+                            <label>Slug</label>
+                            @if ($errors->has('txtSlugPost'))
+                                <span class="helper-text red-text text-darken-4 red lighten-5">{{ $errors->first('txtSlugPost') }}</span>
+                            @endif
                         </div>
                     </div>
                     <div class="col s12 m6 l6">
@@ -92,22 +93,31 @@ Editar post
                                 @endforeach
                             </select>
                             <label>Tags</label>
+                            @if ($errors->has('txtTagsPost'))
+                                <span class="helper-text red-text text-darken-4 red lighten-5">{{ $errors->first('txtTagsPost') }}</span>
+                            @endif
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12">
                         <div class="input-field">
-                            <label for="key_post" data-error="wrong" data-success="right" class="labelbk">Keys</label>
                             <input type="text" class="" id="key_post" name="txtKeyPost" value="{{ $posts->slug }}">
+                            <label>Keys</label>
+                            @if ($errors->has('txtKeyPost'))
+                                <span class="helper-text red-text text-darken-4 red lighten-5">{{ $errors->first('txtKeyPost') }}</span>
+                            @endif
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12">
                         <div class="input-field">
-                            <label for="des_post" data-error="wrong" data-success="right" class="labelbk">Describe</label>
                             <input type="text" class="" id="des_post" name="txtDesPost" value="{{ $posts->slug }}">
+                            <label>Describe</label>
+                            @if ($errors->has('txtDesPost'))
+                                <span class="helper-text red-text text-darken-4 red lighten-5">{{ $errors->first('txtDesPost') }}</span>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -117,6 +127,9 @@ Editar post
                             <textarea class="textareaTiny" name="textareaPost" value="{{ $posts->slug }}">
                                 Ingrese la descripcion del post
                             </textarea>
+                            @if ($errors->has('textareaPost'))
+                                <span class="helper-text red-text text-darken-4 red lighten-5">{{ $errors->first('textareaPost') }}</span>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -126,6 +139,9 @@ Editar post
                             <textarea class="textareaTiny" name="textareaCode" value="{{ $posts->slug }}">
                                 Ingrese la información complementaria, código fuente y evidencias del código que se está probando
                             </textarea>
+                            @if ($errors->has('textareaCode'))
+                                <span class="helper-text red-text text-darken-4 red lighten-5">{{ $errors->first('textareaCode') }}</span>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -139,6 +155,9 @@ Editar post
                                 <span class="lever"></span>
                                 SI
                             </label>
+                            @if ($errors->has('txtPubPost'))
+                                <span class="helper-text red-text text-darken-4 red lighten-5">{{ $errors->first('txtPubPost') }}</span>
+                            @endif
                         </div>
                     </div>
                     <div class="col s12 m6 l6">
@@ -150,6 +169,9 @@ Editar post
                                 @endforeach
                             </select>
                             <label>Tipo de entrada</label>
+                            @if ($errors->has('txtTipPost'))
+                                <span class="helper-text red-text text-darken-4 red lighten-5">{{ $errors->first('txtTipPost') }}</span>
+                            @endif
                         </div>
                     </div>
                 </div>
