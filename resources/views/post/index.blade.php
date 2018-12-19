@@ -1,8 +1,8 @@
 @extends('layout/index')
-@extends('layout.plantilla_header')
-@extends('layout.plantilla_autor')
-@extends('layout.plantilla_tematica')
-@extends('layout.plantilla_footer')
+@extends('layouts.plantilla_header')
+@extends('layouts.plantilla_autor')
+@extends('layouts.plantilla_tematica')
+@extends('layouts.plantilla_footer')
 
 @section('post')
     @foreach ($post as $post)

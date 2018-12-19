@@ -1,6 +1,6 @@
-@extends('layout.plantilla_post')
-@extends('layout.plantilla_header')
-@extends('layout.plantilla_footer')
+@extends('layouts.plantilla_post')
+@extends('layouts.plantilla_header')
+@extends('layouts.plantilla_footer')
 
 
 <!-- sección de imagenes para cada post -->

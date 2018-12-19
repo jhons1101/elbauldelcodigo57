@@ -24,6 +24,7 @@ class postController extends Controller
      */
     public function index($page=1)
     {
+
         // traemos la cantidad de registros para el paginador
         $registros      = DB::table('posts')
             ->join('tema_posts', 'post_tema', '=', 'tema_posts.tema_id')
@@ -96,8 +97,9 @@ class postController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(request $request)
     {
+        $request->user()->authorizeRole(['User']);
         // recursos de la pagina
         $tipoPost  = TipoPost::orderBy('tipo_txt', 'asc')->get();
         $usuPost   = 1;

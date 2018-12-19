@@ -22,7 +22,7 @@ class CreatePostsTable extends Migration
             $table->date('post_fec')->comment('fecha de publicación de la entrada');
             $table->string('post_key', 500)->comment('palabras claves de lka entrada para el SEO');
             $table->string('post_desc', 300)->comment('breve descripción de la entrada para mostrar en SEO');
-            $table->enum('post_tipo', ['TEMA','NOTICIA','ENTRADA'])->comment('tipo de entrada POSTS');
+            $table->integer('post_tipo')->comment('tipo de entrada POSTS');
             $table->boolean('flg_publicar')->comment('1 para publicar la entrada y 0 para ocultarla de la pantalla');
             $table->timestamps();
         });

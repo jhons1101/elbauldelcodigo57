@@ -1,4 +1,4 @@
-@extends('layout.admin')
+@extends('layouts.admin')
 @extends('sistemaAdmin.footer')
 
 <!-- sección para poner el title del post -->
