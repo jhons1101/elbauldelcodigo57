@@ -20,7 +20,7 @@ class PerformanceTablePosts extends Migration
         Schema::table('posts', function (Blueprint $table) {
             $table->boolean('flg_publicar')->default(1)->change();
             $table->unique('post_tit')->charset('utf8')->change();
-            $table->enum('post_tipo', ['TEMA','NOTICIA','ENTRADA'])->comment('tipo de entrada POSTS');
+            $table->integer('post_tipo')->comment('tipo de entrada POSTS');
         });
     }
 
