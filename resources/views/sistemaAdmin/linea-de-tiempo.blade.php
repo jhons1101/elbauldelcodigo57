@@ -1,4 +1,4 @@
-@extends('layout/admin')
+@extends('layouts/admin')
 <link rel="stylesheet" href="{{ asset('css/linea-de-tiempo.css') }}">
 <script src="{{ asset('js/jquery-1.11.1.min.js') }}"></script>
 @section('seccion')

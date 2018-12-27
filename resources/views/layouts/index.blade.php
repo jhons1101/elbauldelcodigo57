@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ config('app.locale') }}">
     <head>
-        <title>El baúl del código</title>
+        <title>{{ config('app.name') }}</title>
         <meta charset="UTF-8">
         <link rel="shortcut icon" href="/img/claves-elbauldelcodigo_ico.png" type="image/png" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -57,6 +57,7 @@
             <div class="row">&nbsp;</div>
             <div class="row">
                 <div class="col s12 m12 l9">
+                    {!! $errors->first('msg', '<div class="card-panel red-text red lighten-5 red text-darken-4">:message</div>') !!}
                     @if ($errores == '')
                     <div class="row bottomCero">
                         <div class="paginadorI">
@@ -76,7 +77,7 @@
                             @if ($errores != '')
                             <br />
                             <br />
-                            <div class="resaltadoRojo">{{$errores}}</div>
+                            <div class="card-panel red-text red lighten-5 red text-darken-4">{{$errores}}</div>
                             @endif
                         </div>
                     </div>

@@ -1,4 +1,4 @@
-@extends('layout/index')
+@extends('layouts/index')
 @extends('layouts.plantilla_header')
 @extends('layouts.plantilla_autor')
 @extends('layouts.plantilla_tematica')
@@ -22,7 +22,7 @@
                     <h2 class="card-title activator grey-text text-darken-4">{{$post->post_tit}}</h2>
                 </div>
             </a>
-            <div class="cardFooter"><a href="{{ asset('/post') }}/{{ $post->slug }}">Leer Mas..!</a></div>
+            <div class="cardFooter"><a href="{{ asset('/post') }}/{{ $post->slug }}">{{ trans('message.leerMas') }}</a></div>
         </div>
     </div>
     @endforeach

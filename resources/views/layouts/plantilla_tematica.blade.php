@@ -2,7 +2,7 @@
 <div class="col s12 m12 l12 tematica">
     <div class="col s12">
         <div class="row">
-            <div class="col s12 subtitle">Visita nuestras publicaciones</div>
+            <div class="col s12 subtitle">{{ trans('message.visitPub') }}</div>
         </div>
         <ul class="collapsible" data-collapsible="accordion">
             @foreach ($temas as $tema)

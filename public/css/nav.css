@@ -91,11 +91,10 @@ nav ul li {
     .nav-div-footer {
         position: absolute;
         background: rgba(237, 237, 237, 0.5) none repeat scroll 0% 0%;
-        padding: 15px 5px;
+        padding: 20px 0px 0 20px;
         bottom: 0px;
         width: 100%;
         left: 0px;
-        margin-top: 20px
     }
     .nav-div-img {
         border-radius: 50%;

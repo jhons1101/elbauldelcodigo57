@@ -14,8 +14,8 @@ class AddCamposPostDescYDescCode extends Migration
     public function up()
     {
         Schema::table('Posts', function (Blueprint $table) {
-            $table->string('desc_post')->comment('campo para guardar el contenido del post');
-            $table->string('des_code')->comment('campo para guardar el código fuente del post');
+            $table->string('desc_post', 4000)->comment('campo para guardar el contenido del post');
+            $table->string('des_code', 4000)->comment('campo para guardar el código fuente del post');
         });
     }
 

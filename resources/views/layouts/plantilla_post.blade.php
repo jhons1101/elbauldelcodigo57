@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>@foreach ($Posts as $post){{ $post->post_tit }}@endforeach</title>
+		<title>@foreach ($Posts as $post){{ $post->post_tit }}@endforeach| {{ config('app.name') }}</title>
 		<meta charset="UTF-8">
 		<link rel="shortcut icon" href="{{ asset('/img/claves-elbauldelcodigo_ico.png') }}" type="image/png" />
 		<meta name="description" content="@foreach ($Posts as $post){{ $post->post_desc }}@endforeach">
@@ -84,32 +84,64 @@
 								<img src="{{ asset('/img/claves-elbauldelcodigo.png') }}" alt="ElbauldelCodigo.com" title="Ir al inicio de ElbauldelCodigo.com" class="logo_TC" />
 							</a>
 						</li>
-						<li><h1><a href="{{ asset('/') }}" style="color:white;"><i><b>elbauldelcodigo</b></i></a></h1></li>
-						<!--<li><a class="txtWhite" href="{{ asset('/foro') }}">Foro</a></li>
-						<li><a class="txtWhite" href="{{ asset('/login') }}">Inicia Sesión</a></li>-->
-						<li><a class="txtWhite" href="{{ asset('/contacto') }}">Contacto</a></li>
-						<li class="txtWhite">Unete al grupo de whatsApp +57 316 392 6456</li>
+						<li><h1><a href="{{ asset('/') }}" style="color:white;"><i><b>{{ config('app.name') }}</b></i></a></h1></li>
+						<li><a class="txtWhite" href="{{ asset('/foro') }}">{{ trans('message.foro') }}</a></li>
+						<li><a class="txtWhite" href="{{ asset('/blog') }}">{{ trans('message.blog') }}</a></li>
+						<li class="txtWhite">{{ trans('message.groupWS') }} {{ trans('message.celWS') }}</li>
 						<li>
 							<a href="https://www.facebook.com/groups/1820752601515497/" class="txtWhite" target="_blank">
-								Sigue el grupo en facebook
+								{{ trans('message.groupFB') }}
 							</a>
 						</li>
+						@if (Auth::guest())
+						<li><a class="txtWhite" href="{{ asset('/login') }}">{{ trans('message.login') }}</a></li>
+                    	<li><a class="txtWhite" href="{{ asset('/register') }}">{{ trans('message.register') }}</a></li>
+						@else
+                    	<li><a class="txtWhite" href="{{ asset('/home') }}">{{ trans('message.seccionHome') }}</a></li>
+						@endif
+						<li><a class="txtWhite" href="{{ asset('/contacto') }}">{{ trans('message.contact') }}</a></li>
+						@if (!Auth::guest())
+						<li>
+							<a href="/logout" class="txtWhite" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+								{{ trans('message.logout') }}
+							</a>
+							<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+								{{ csrf_field() }}
+							</form>
+						</li>
+						@endif
 					</ul>
 					<ul class="side-nav" id="mobile-demo">
 						<li class="li-svg">
 							<a class="navbar-brand" href="{{ asset('/') }}">
-								<img src="{{ asset('/') }}/img/claves-elbauldelcodigo.png" alt="ElbauldelCodigo.com" title="Ir al inicio de ElbauldelCodigo.com" class="logo_TC" />
+								<img src="{{ asset('/') }}img/claves-elbauldelcodigo.png" alt="ElbauldelCodigo.com" title="Ir al inicio de ElbauldelCodigo.com" class="logo_TC" />
 							</a>
 						</li>
-						<!--<li><a href="{{ asset('/foro') }}">Foro</a></li>
-						<li><a href="{{ asset('/login') }}">Inicia Sesión</a></li>-->
-						<li><a class="aMovil" href="{{ asset('/contacto') }}">Contacto</a></li>
-						<li class="aMovil">WhatsApp +57 316 392 6456</li>
-						<li>
+						<li><a href="{{ asset('/foro') }}">{{ trans('message.foro') }}</a></li>
+						<li><a href="{{ asset('/blog') }}">{{ trans('message.blog') }}</a></li>
+						<li class="aMovil">{{ trans('message.groupWS') }} {{ trans('message.celWS') }}</li>
+						<li style="display: inline-block;">
 							<a href="https://www.facebook.com/groups/1820752601515497/" class="aMovil" target="_blank">
-								Sigue el grupo en facebook
+								{{ trans('message.groupFB') }}
 							</a>
 						</li>
+						@if (Auth::guest())
+						<li><a href="{{ asset('/login') }}">{{ trans('message.login') }}</a></li>
+                    	<li><a href="{{ asset('/register') }}">{{ trans('message.register') }}</a></li>
+						@else
+                    	<li><a href="{{ asset('/home') }}">{{ trans('message.seccionHome') }}</a></li>
+						@endif
+						<li><a class="aMovil" href="{{ asset('/contacto') }}">{{ trans('message.contact') }}</a></li>
+						@if (!Auth::guest())
+						<li>
+							<a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+								{{ trans('message.logout') }}
+							</a>
+							<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+								{{ csrf_field() }}
+							</form>
+						</li>
+						@endif
 					</ul>
 			    </div>
 			</nav>
@@ -134,14 +166,13 @@
 							<input id="post_tit" type="hidden" value="@foreach ($Posts as $post){{ $post->post_tit }}@endforeach" />
 						</h1>
 						<div class="fecha-blogger">
-							Por : 
+							{{ trans('message.forBy') }} : 
 							@foreach ($Posts as $post)
 								<a href="/usuario/{{ $post->usuarios_name }}" target="_blank">{{ $post->usuarios_name }}</a>
 							@endforeach
 						</div>
 						<div class="fecha-blogger">@foreach ($Posts as $post){{ $post->post_fec }}@endforeach</div>
-						<div class="fecha-blogger">Tags : @yield('TagsPost')</div>
-						<input type="hidden" id="flagNuevoComm" value="@yield('flagNuevoComm')" />
+						<div class="fecha-blogger">{{ trans('message.tags') }} : @yield('TagsPost')</div>
 					</div>
 				</div>
 				<div class="text-description">
@@ -150,80 +181,86 @@
 			</div>
 			<div class="wow fadeInUp content-card" style="margin-top:2%;box-shadow: none;background: none;" id="redesSoc">
 				<div class="row" style="text-align: center;">
-					<img src="/img/compartir-facebook.png" alt="compartir en facebook" id="facebookbot" class="separar-img" title="compartir en facebook">
-			        <img src="/img/compartir-google.png" alt="compartir en Google" id="googlebot" class="separar-img" title="compartir en Google">
-			        <img src="/img/compartir-twitter.png" alt="compartir en Twitter" id="twitterbot" class="separar-img" title="compartir en Twitter">
-			        <img src="/img/compartir-blogger.png" alt="compartir en Blogger" id="bloggerbot" class="separar-img" title="compartir en Blogger">
-			        <img src="/img/compartir-embebido.png" alt="compartir como código embebido" id="embebidobot" class="separar-img" title="compartir como código embebido">
-			        <img src="/img/compartir-url.png" alt="compartir la url" id="urlbot" class="separar-img" title="compartir la url">
+					<img src="{{ asset('/img/compartir-facebook.png') }}" alt="{{ trans('message.shareFB') }}"  id="facebookbot" class="separar-img" title="{{ trans('message.shareFB') }}">
+			        <img src="{{ asset('/img/compartir-google.png') }}"   alt="{{ trans('message.shareGoo') }}" id="googlebot"   class="separar-img" title="{{ trans('message.shareGoo') }}">
+			        <img src="{{ asset('/img/compartir-twitter.png') }}"  alt="{{ trans('message.shareTw') }}"  id="twitterbot"  class="separar-img" title="{{ trans('message.shareTw') }}">
+			        <img src="{{ asset('/img/compartir-blogger.png') }}"  alt="{{ trans('message.shareBg') }}"  id="bloggerbot"  class="separar-img" title="{{ trans('message.shareBg') }}">
+			        <img src="{{ asset('/img/compartir-embebido.png') }}" alt="{{ trans('message.shareCe') }}"  id="embebidobot" class="separar-img" title="{{ trans('message.shareCe') }}">
+			        <img src="{{ asset('/img/compartir-url.png') }}"      alt="{{ trans('message.shareUrl') }}" id="urlbot"      class="separar-img" title="{{ trans('message.shareUrl') }}">
 			    </div>
 			</div>
 			<div class="wow fadeInUp content-card" style="margin-top: 0;">
+
+
 				<div class="row">
 				    <div class="col s12 m12 l12">
 				        <ul class="tabs">
-					        <li class="tab"><a href="#codefte" class="active">Código Fuente</a></li>
-					        <li class="tab"><a href="#pantallazos" class="active">Pantallazos</a></li>
+					        <li class="tab"><a href="#codefte" class="active">{{ trans('message.codFte') }}</a></li>
+					        <li class="tab"><a href="#pantallazos" class="active">{{ trans('message.screen') }}</a></li>
 				        </ul>
 				    </div>
 				</div>
+
+
 			    <div id="codefte" class="col s12">
 					<main class="text-description">
 						@yield('CodigoFte')
 						<br /><br /><br /><br />
 						<a href="#redesSoc">
-							Si este contenido te fue útil, no olvides compartirlo en redes sociales, Considéralo. Puede ser la manera de agradecer!
+							{{ trans('message.usefulContent') }}
 						</a>
 						<hr />
 						<div class="row">
 							{{ Form::open(array('method' => 'POST', 'name' => 'guardarComentario', 'url' => 'guardarComentario')) }}
 							<div class="col s12 m12 l12">
 								<br /><br />
-								<span class="labelComentario">Agrega tu comentario...</span>
+								<span class="labelComentario">{{ trans('message.addComment') }}</span>
 								<br /><br />
 							</div>
 							<div class="col s12 m12 l12">
-								<label for="emailComm" data-error="wrong" data-success="right" class="labelbk">Correo electrónico</label>
+								<label for="emailComm" data-error="wrong" data-success="right" class="labelbk">{{ trans('message.email') }}</label>
 									{{ Form::email('email', null, array(
 										'class'			=> 'validate',
 										'id' 			=> 'emailComm',
-										'placeholder'	=> 'Escribe tu correo electrónico',
+										'placeholder'	=> trans('message.writeEmail'),
 										'required',
 										'maxlength'		=> '120'))
 									}}
 								<span class="erroresLaravel" >{{ $errors->first('email')}}</span>
 							</div>
 							<div class="col s12 m12 l12">
-							  <label for="commText" class="labelbk">Escribe tu comentario</label>
+							  <label for="commText" class="labelbk">{{ trans('message.writeComment') }}</label>
 								{{ Form::textarea('comentario', null, array(
 									'class'			=> 'commText materialize-textarea',
 									'id'			=> 'commText',
-									'placeholder'	=> 'Escribe tus ideas, líneas de código, opiniones, preguntas o secillo. Abre una discusión.',
+									'placeholder'	=> trans('message.writeBodyComment'),
 									'required',
 									'maxlength'		=> '2000'))
 								}}
 								<span class="erroresLaravel" >{{ $errors->first('comentario')}}</span>
 								<div class="etiquetasDisponibles">
-									<span>Puedes utilizar etiquetas </span>
-									&#60;pre&#62;&#60;/pre&#62;, &#60;p&#62;&#60;/p&#62;,  &#60;div&#62;&#60;/div&#62;, + (Nombre usuario, para responderle a alguien)
+									<span>{{ trans('message.tagsAval') }}</span>
+									&#60;pre&#62;&#60;/pre&#62;, &#60;p&#62;&#60;/p&#62;,  &#60;div&#62;&#60;/div&#62;, + ({{ trans('message.taggerUser') }})
 								</div>
 								<br />
 								<div class="captchaText">{{$keyCp}}</div>
 								<br />
-								<input type="text" name="codecaptcha" width="300px" placeholder="Ingrese el código captcha"/>
+								<input type="text" name="codecaptcha" width="300px" placeholder="{{ trans('message.writeCaptcha') }}"/>
 								<br />
 								{{ Form::hidden('idPost', null, array('id' => 'idPost')) }}
-								{{ Form::button('Guardar Comentario', array(
+								{{ Form::button(trans('message.saveComment'), array(
 									'class' => 'btn waves-effect waves-light',
-									'type' => 'submit'))
+									'type'  => 'submit'))
 								}}
 								<i class="material-icons right"></i>
-								<br /><br /><br />
+								<br /><br /><br /><br />
 							</div>
 							{{ Form::close() }}
 						</div>
+
+
 						@if (count($comm) <= 0)
-						   <div>Este post no tiene comentarios, sé el primero en hacerlo</div>
+						   <div>{{ trans('message.zeroComments') }}</div>
 						@else
 							@foreach($comm as $comentario)
 								<div class="col s12 m12 l12">
@@ -233,7 +270,7 @@
 												@if ($comentario->usuarios_img == null)
 													<img src="{{ asset('/img/usuarios/img_default.png') }}" class="circle responsive-img">
 												@else
-													<img src="http://elbauldelcodigo.com/img/usuarios/{{ $comentario->usuarios_img }}" class="circle responsive-img">
+													<img src="{{ asset('/img/usuarios') }}/{{ $comentario->usuarios_img }}" class="circle responsive-img">
 												@endif
 											</div>
 											<div class="col s9 m10 l11" style="padding-left:10px">
@@ -253,8 +290,12 @@
 								document.getElementById("idPost").value = rutaPagina[2];
 							}, 3000);
 						</script>
+
+
 					</main>
 				</div>
+
+
 			    <div id="pantallazos" class="col s12 m12 l12 txt-center text-description">
 					@if ($totalImg > 0)
 						@foreach ($pantallazo as $imagen)
@@ -275,7 +316,7 @@
 						@endforeach
 					@else
 						<div class="s12 m12 l12">
-							<div class="resaltadoRojo">Esta entrada no cuenta con imágenes adjuntas</div>
+							<div class="resaltadoRojo">{{ trans('message.zeroSreen') }}</div>
 						</div>
 					@endif
 			    </div>
@@ -287,7 +328,7 @@
 				<div class="row">
 					<div class="col s12 m12 l12">
 				        <div id="publicidad">&nbsp;</div>
-				        <h1 class="text-title">Articulos que tal vez te interesen.!</h1>
+				        <h1 class="text-title">{{ trans('message.articlesInterest') }}</h1>
 						@foreach ($relacionados as $entrada)
 							<div class="col s12 m12 l12 relacionado">
 								<div class="articuloRelacionado">
@@ -301,89 +342,80 @@
 				<div class="row">
 					<div class="col s12 m12 l12">
 						<p>
-							<b></i>Unete al grupo de whatsApp +57 316 392 6456</i></b>
+							<b></i>{{ trans('message.groupWS') }} {{ trans('message.celWS') }}</i></b>
 						</p>
 						<p>
 							<a href="https://www.facebook.com/groups/1820752601515497/" target="_blank">
-								Sigue el grupo en facebook
+								{{ trans('message.groupFB') }}
 							</a>
 						</p>
 				    </div>
 				</div>
 			</div>
 		</div>
+
+
 		<div class="fixed-action-btn" style="bottom: 55px; right: 24px;">
-		    <a class="btn-floating btn-large red" title="Siguenos....." >
-		        <img src="/img/share.png" style="position: relative; transform: translateY(45%);width: 28px;" alt="Siguenos.....">
+		    <a class="btn-floating btn-large red" title="{{ trans('message.shareyou') }}" >
+		        <img src="/img/share.png" style="position: relative; transform: translateY(45%);width: 28px;" alt="{{ trans('message.shareyou') }}">
 		    </a>
 		    <ul>
 		        <li>
-		        	<a class="btn-floating" style="background-color:#3B5998;" title="Sigueme en Facebook" href="https://www.facebook.com/elBaulDelCodigo?ref=hl" target="_blank">
-		        		<img src="/img/mini-facebook.png" style="position: relative; top: 8px;" alt="Sigueme en Facebook">
+		        	<a class="btn-floating" style="background-color:#3B5998;" title="{{ trans('message.shareFB') }}" href="https://www.facebook.com/elBaulDelCodigo?ref=hl" target="_blank">
+		        		<img src="/img/mini-facebook.png" style="position: relative; top: 8px;" alt="{{ trans('message.shareFB') }}">
 		        	</a>
 		        </li>
 		        <li class="shareBtn">
-		        	<a class="btn-floating red" title="Siguenos en google plus" href="https://plus.google.com/b/109009744640604915833/+ElbauldelcodigoOficial/posts" target="_blank">
-		        		<img src="/img/mini-google.png"  style="position: relative; top: 8px;" alt="siguenos en google plus">
+		        	<a class="btn-floating red" title="{{ trans('message.shareGoo') }}" href="https://plus.google.com/b/109009744640604915833/+ElbauldelcodigoOficial/posts" target="_blank">
+		        		<img src="/img/mini-google.png"  style="position: relative; top: 8px;" alt="{{ trans('message.shareGoo') }}">
 		        	</a>
 		        </li>
 		        <li class="shareBtn">
-		        	<a class="btn-floating blue" title="Siguenos en twitter" href="https://twitter.com/Jhons1101" target="_blank">
-		        		<img src="/img/mini-twitter.png" style="position: relative; top: 8px;" alt="siguenos en twitter">
+		        	<a class="btn-floating blue" title="{{ trans('message.shareTw') }}" href="https://twitter.com/Jhons1101" target="_blank">
+		        		<img src="/img/mini-twitter.png" style="position: relative; top: 8px;" alt="{{ trans('message.shareTw') }}">
 		        	</a>
 		        </li>
 		        <li class="shareBtn">
-		        	<a class="btn-floating blue" title="Unete al grupo de whatsApp 57+ 3163926456" href="https://web.whatsapp.com/" target="_blank">
-		        		<img src="/img/whatsapp.png" style="position: relative; top: 2px; right: -2px;" alt="whatsApp 57+ 3163926456">
+		        	<a class="btn-floating blue" title="{{ trans('message.groupWS') }} {{ trans('message.celWS') }}" href="https://web.whatsapp.com/" target="_blank">
+		        		<img src="/img/whatsapp.png" style="position: relative; top: 2px; right: -2px;" alt="{{ trans('message.groupWS') }} {{ trans('message.celWS') }}">
 		        	</a>
 		        </li>
 		    </ul>
 		</div>
-  		<div id="modal1" class="modal modal-fixed-footer" style="width: 550px;height: 290px;">
+
+
+  		<div id="modal1" class="modal modal-fixed-footer" style="width: 550px;height: 320px;">
     		<div class="modal-content">
-      			<div class="text-description">Copie y pegue el siguiente código en su sitio Web</div>
+      			<div class="text-description">{{ trans('message.copyCode') }}</div>
       			<br />
       			<script>
       				document.write('<p>&#60;iframe width="560" height="315" src="'+document.URL+'" frameborder="0" allowfullscreen>&#60;/iframe&#62;</p>')
       			</script>
       			<br />
-      			<span class="text-description">Pueden cambiar el tamaño del ancho y alto a su gusto..</span>
+      			<span class="text-description">{{ trans('message.changeProperties') }}</span>
     		</div>
    		 	<div class="modal-footer">
-      			<a href="#" class="waves-effect waves-green btn-flat modal-action modal-close">Aceptar</a>
+      			<a href="#" class="waves-effect waves-green btn-flat modal-action modal-close">{{ trans('message.accept') }}</a>
       		</div>
   		</div>
+
+
   		<div id="modal2" class="modal modal-fixed-footer" style="width: 550px;height: 210px;">
     		<div class="modal-content">
-      			<div class="text-description">Copie y pegue el siguiente código en su sitio Web</div>
+      			<div class="text-description">{{ trans('message.copyCode') }}</div>
       			<br />
       			<script>
-      				document.write('<p>&#60;a href="'+document.URL+'" target="_blank">Visite Ahora El Baul del Codigo&#60;/a&#62;</p>')
+      				document.write('<p>&#60;a href="'+document.URL+'" target="_blank">{{ trans('message.visitNow') }}&#60;/a&#62;</p>')
       			</script>
       		</div>
    		 	<div class="modal-footer">
-      			<a href="#" class="waves-effect waves-green btn-flat modal-action modal-close">Aceptar</a>
+      			<a href="#" class="waves-effect waves-green btn-flat modal-action modal-close">{{ trans('message.accept') }}</a>
       		</div>
   		</div>
-  		<div id="modal3" class="modal modal-fixed-footer" style="width: 450px;height: 170px;">
-    		<div class="modal-content">
-      			<div class="text-description">Su comentario ha sido almacenado y está ahora disponible...</div >
-      			<br />
-      		</div>
-   		 	<div class="modal-footer"><!---->
-      			<a href="#comenta" class="waves-effect waves-green btn-flat modal-action modal-close">Aceptar</a>
-      		</div>
-  		</div>
-  		<div id="modal5" class="modal modal-fixed-footer" style="width: 450px;height: 170px;">
-    		<div class="modal-content">
-      			<div class="text-description">Ingresaste el código incorrecto, inténtalo de nuevo!...</div >
-      			<br />
-      		</div>
-   		 	<div class="modal-footer"><!---->
-      			<a href="#comenta" class="waves-effect waves-green btn-flat modal-action modal-close">Aceptar</a>
-      		</div>
-  		</div>
-		<br><br>
+
+
+		<br />
+		<br />
 		<footer class="page-footer">
 			<div class="flotarTwi centrar" style="padding: 8px 19px !important; height:80px;">
 				<a href="https://twitter.com/Jhons1101" target="_blank" style="color:white;">
@@ -394,17 +426,15 @@
 				<div class="row center subirFooter">
 					<span class="nicknameTwi">
 						<a href="/usuario/jhons1101" target="_blank" style="color:white;">@jhons1101</a><sup>©</sup>
-					</span><br>
-					<span>Síguenos para que estés actualizado de lo último del diseño y desarrollo web, búscanos con bajo estas etiquetas</span><br>
-					<span> #jhons1101, #SoyCode, #baulCode y en redes sociales +elbauldelcodigo</span>
+					</span><br />
+					<span>{{ trans('message.shareFooter') }}</span><br />
+					<span>{{ trans('message.footerTags') }}</span>
 				</div>
 			</div>
 			<div class="footer-copyright">
 				<div class="container">
-					Power By Jhons1101<sup>©</sup> 2015
-					<sup title="Todos los Derechos Reservados">&reg;</sup> para <a href="http://elbauldelcodigo.com/" target="_blank" style="color:white;">
-					elBaulDelCodigo.com</a><sup title="Todos los Derechos Reservados">&reg;</sup>
-					<a class="grey-text text-lighten-4 right" href="#!">Mejoramos tu sitio web.!</a>
+					{{ trans('message.powerBy') }}
+					<a class="grey-text text-lighten-4 right" href="#!">{{ trans('message.improveBc') }}</a>
 				</div>
 			</div>
         </footer>

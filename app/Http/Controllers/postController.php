@@ -3,6 +3,7 @@
 namespace elbauldelcodigo\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use elbauldelcodigo\Post;
 use elbauldelcodigo\TagsPost;
 use elbauldelcodigo\TemaPost;
@@ -12,9 +13,22 @@ use elbauldelcodigo\ParametroGral;
 use Illuminate\Support\Facades\DB;
 use elbauldelcodigo\Http\Requests\UpdatePostRequest;
 use elbauldelcodigo\Http\Requests\StorePostRequest;
+use elbauldelcodigo\User;
 
 class postController extends Controller
 {
+    /**
+     * Valida que se haya iniciado sesión para poder acceder a cualqyuier método
+     * del controlador postController
+     */
+
+     public function __construct()
+     {
+        $this->middleware('auth');
+        \App::setLocale('es');
+     }
+
+
     /**
      * Display a listing of the resource.
      * Despliega la ventana con todas las entradas de la DB 
@@ -24,13 +38,13 @@ class postController extends Controller
      */
     public function index($page=1)
     {
-
+        \App::setLocale('en');
         // traemos la cantidad de registros para el paginador
         $registros      = DB::table('posts')
-            ->join('tema_posts', 'post_tema', '=', 'tema_posts.tema_id')
-            ->where('post_tipo', 'ENTRADA')
-            ->orderBy('post_fec', 'desc')
-            ->get();
+                        ->join('tema_posts', 'post_tema', '=', 'tema_posts.tema_id')
+                        ->where('post_tipo', 'ENTRADA')
+                        ->orderBy('post_fec', 'desc')
+                        ->get();
 
 
         $totalRegistros = count($registros);
@@ -48,12 +62,12 @@ class postController extends Controller
         $final = ($page * $paginador);
 
         $post = DB::table('posts')
-            ->join('tema_posts', 'post_tema', '=', 'tema_posts.tema_id')
-            ->where('post_tipo', 3)
-            ->orderBy('post_fec', 'desc')
-            ->skip($comienzo-1)
-            ->take($paginador)
-            ->get();
+                ->join('tema_posts', 'post_tema', '=', 'tema_posts.tema_id')
+                ->where('post_tipo', 3)
+                ->orderBy('post_fec', 'desc')
+                ->skip($comienzo-1)
+                ->take($paginador)
+                ->get();
 
         if (count($post) < 1) {
             $error = "No hay más resultados para mostrar.";
@@ -63,20 +77,20 @@ class postController extends Controller
 
 
         $tema = DB::table('posts as p')
-            ->select('tm.tema_txt', 'tm.tema_img')
-            ->distinct()
-            ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
-            ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
-            ->orderBy('tm.tema_txt', 'asc')
-            ->get();
+                ->select('tm.tema_txt', 'tm.tema_img')
+                ->distinct()
+                ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
+                ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
+                ->orderBy('tm.tema_txt', 'asc')
+                ->get();
         // Retornamos todos los datos
 
         $entradas =  DB::table('posts as p')
-            ->select('p.*', 'u.usuarios_name', 'tm.tema_txt')
-            ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
-            ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
-            ->orderBy('p.post_fec', 'desc')
-            ->get();
+                    ->select('p.*', 'u.usuarios_name', 'tm.tema_txt')
+                    ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
+                    ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
+                    ->orderBy('p.post_fec', 'desc')
+                    ->get();
 
         
         return View(
@@ -99,18 +113,38 @@ class postController extends Controller
      */
     public function create(request $request)
     {
-        $request->user()->authorizeRole(['User']);
+        \App::setLocale('en');
+        // se autentica los roles del usuario
+        if (!$request->user()->authorizeRole(['AdminPost'])) {
+            return back()->withErrors([
+                'msg' => trans('auth.401')
+            ]);
+        }
+
         // recursos de la pagina
-        $tipoPost  = TipoPost::orderBy('tipo_txt', 'asc')->get();
-        $usuPost   = 1;
-        $temaPost  = TemaPost::orderBy('tema_txt', 'asc')->get();
-        $tagsPost  = TagsPost::orderBy('tag_txt', 'asc')->get();
+        $tipoPost   = TipoPost::orderBy('tipo_txt', 'asc')->get();
+        $usuPost    = Auth::user()->id;
+        $temaPost   = TemaPost::orderBy('tema_txt', 'asc')->get();
+        $tagsPost   = TagsPost::orderBy('tag_txt', 'asc')->get();
+        $user       = User::where('id', $usuPost)->get();
+
+        // traemos los roles de usuario
+        $roles  = DB::table('rol_user_user as r')
+                ->select('r.rol_user_id', 'rs.rol_nombre')
+                ->join('rol_users as rs', 'rs.id', '=', 'r.rol_user_id')
+                ->where('user_id', $usuPost)
+                ->orderBy('rol_user_id', 'asc')
+                ->get();
 
         return View('post.create')
-        ->with('tipoPost', $tipoPost)
-        ->with('usuPost', $usuPost)
-        ->with('temaPost', $temaPost)
-        ->with('tagsPost', $tagsPost);
+        ->with('tipoPost',   $tipoPost)
+        ->with('usuPost',    $usuPost)
+        ->with('temaPost',   $temaPost)
+        ->with('tagsPost',   $tagsPost)
+        ->with('roles',      $roles[0])
+        ->with('seccion',    trans('message.seccionAdmin'))
+        ->with('user',       $user[0])
+        ;
     }
 
     /**
@@ -122,17 +156,21 @@ class postController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        // echo "<pre>";
-        // print_r($request->all());
-        // echo "</pre>";
-        // die();
+        \App::setLocale('en');
+        // se autentica los roles del usuario
+        if (!$request->user()->authorizeRole(['AdminPost'])) {
+            return back()->withErrors([
+                'msg' => trans('auth.401')
+            ]);
+        }
+
         $post               =  new Post();
-        $itemTag            = '';
-        $txtTags            = $request->get('txtTagsPost');
+        $itemTag            =  '';
+        $txtTags            =  $request->get('txtTagsPost');
 
         $post->post_tit     =  $request->get('txtTitPost');
         $post->post_tema    =  $request->get('txtTemPost');
-        $post->post_usu     =  $request->get('txtUsuPost');
+        $post->post_usu     =  Auth::user()->id;
         $post->post_fec     =  date("Y-m-d");
         $post->post_key     =  $request->get('txtKeyPost');
         $post->post_desc    =  $request->get('txtDesPost');
@@ -143,9 +181,9 @@ class postController extends Controller
         $post->desc_post    =  htmlentities ($request->get('textareaPost'), ENT_QUOTES);
         $post->des_code     =  htmlentities ($request->get('textareaCode'), ENT_QUOTES);
 
-        // foreach ($txtTags as $key => $tag) {
-        //     $itemTag .= $tag. ',';
-        // }
+        foreach ($txtTags as $key => $tag) {
+            $itemTag .= $tag. ',';
+        }
 
         if ($request->get('txtPubPost') == 'on'){
             $txtPubPost = 1;
@@ -154,26 +192,24 @@ class postController extends Controller
         }
 
         $post->flg_publicar =  $txtPubPost;
-        $post->post_tags    =  $request->get('txtTagsPost'); //itemTag
+        $post->post_tags    =  $itemTag;
+        
 
+        try {
 
-        if ($post->save()) {
-
-            $msj = ParametroGral::where('id', '=', 2)->firstOrFail();
-
+            $post->save();
             return  redirect()
-                    ->route('post.index', [ $post->slug ])
-                    ->with('msgStatus', $msj->txt_parametro)
-                    ->with('status', 1);
+                    ->route('post.create',  [ $post->slug ])
+                    ->with('msgStatus',     1)
+                    ->with('status',        1);
 
-        } else {
-
-            $msj = ParametroGral::where('id', '=', 4)->firstOrFail();
-
+        } catch (\Illuminate\Database\QueryException $ex) {
+            
             return  redirect()
-                    ->route('post.index', [ $post->slug ])
-                    ->with('msgStatus', $msj->txt_parametro)
-                    ->with('status', 0);
+                    ->route('post.create',  [ $post->slug ])
+                    ->with('sqlerror',      $ex->errorInfo[2])
+                    ->with('msgStatus',     1)
+                    ->with('status',        0);
         }
     }
 
@@ -186,23 +222,24 @@ class postController extends Controller
      */
     public function show($slug)
     {
+        // \App::setLocale('en');
         // traemos los datos del post según el ID
         $post = Post::where('slug', '=', $slug)->firstOrFail();
         $id   = $post->id;
-
+        
         // se cargan los comentarios del post, si los tiene...
         $comm = DB::table('comentarios')
-            ->select('com_texto', 'com_fec', 'usuarios_name', 'usuarios_email', 'usuarios_img')
-            ->join('usuarios', 'comentarios.com_usu', '=', 'usuarios.usuarios_id')
-            ->where('comentarios.com_post', $id)->orderBy('com_fec', 'desc')->get();
+                ->select('com_texto', 'com_fec', 'usuarios_name', 'usuarios_email', 'usuarios_img')
+                ->join('usuarios', 'comentarios.com_usu', '=', 'usuarios.usuarios_id')
+                ->where('comentarios.com_post', $id)->orderBy('com_fec', 'desc')->get();
         $flagNuevoComm = null;
 
         // se cargan la información del post...
         $posts = DB::table('posts as p')
-            ->select('p.*', 'u.usuarios_name', 'tm.tema_txt')
-            ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
-            ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
-            ->where('p.id', $id)->get();
+                ->select('p.*', 'u.usuarios_name', 'tm.tema_txt')
+                ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
+                ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
+                ->where('p.id', $id)->get();
         
         // Traemos las imagenes adjuntas de cada Entrada para generar el fuente que las muestre dinámicamente
         $pantallazo = DB::table('pantallazos')->select('*')->where('id_post', $id)->get();
@@ -210,21 +247,21 @@ class postController extends Controller
 
         // Consultamos los post relacionados según el tema de la entrada.
         $relacionados = DB::table('posts')
-            ->where('post_tema', $posts[0]->post_tema)
-            ->where('id', '!=', $id)
-            ->orderBy('post_fec', 'desc')
-            ->skip(0)->take(5)->get();
+                        ->where('post_tema', $posts[0]->post_tema)
+                        ->where('id', '!=', $id)
+                        ->orderBy('post_fec', 'desc')
+                        ->skip(0)->take(5)->get();
 
         // recorremos los tags del post y le traemos su descipción para pintarla en la plantilla
         $txtTags  = [];
         foreach ($posts as $key => $value){
             
-            foreach(explode(',', $value->post_tags) as $item => $idtag){
+            foreach(explode(',', substr($value->post_tags, 0, -1),-1) as $item => $idtag){
                 $tag             = DB::table('tags_posts')->select('tag_txt')->where('tag_id', $idtag)->get();
                 $txtTags[$item]  = strtolower($tag[0]->tag_txt);
             }
         }
-
+        
         // Establecer el tamaño que desee, o al azar para mas seguridad
         $captchaTextSize = 7;
 
@@ -243,7 +280,7 @@ class postController extends Controller
 
             // Agregue la clave recién generada a la sesion. Tenga en cuenta que esta cifrado.
             $_SESSION['key'] = md5( $key );
-
+    
         
         return view('post.show')
         ->with('id',             $id)
@@ -278,29 +315,36 @@ class postController extends Controller
      */
     public function edit($slug)
     {
+        // se autentica los roles del usuario
+        if (!$request->user()->authorizeRole(['AdminPost'])) {
+            return back()->withErrors([
+                'msg' => trans('auth.401')
+            ]);
+        }
+        
         // traemos los datos del post según el SLUG
         $post = Post::where('slug', '=', $slug)->firstOrFail();
         $id   = $post->id;
         
         // recursos de la pagina
         $tipoPost  = TipoPost::orderBy('tipo_txt', 'asc')->get();
-        $usuPost   = 1;
+        $usuPost   = Auth::user()->id;
         $temaPost  = TemaPost::orderBy('tema_txt', 'asc')->get();
         $tagsPost  = TagsPost::orderBy('tag_txt', 'asc')->get();
 
         // se cargan la información del post...
         $posts = DB::table('posts as p')
-            ->select('p.*', 'u.usuarios_name', 'tm.tema_txt')
-            ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
-            ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
-            ->where('p.id', $id)->get();
+                ->select('p.*', 'u.usuarios_name', 'tm.tema_txt')
+                ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
+                ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
+                ->where('p.id', $id)->get();
 
         // Consultamos los post relacionados según el tema de la entrada.
         $relacionados = DB::table('posts')
-            ->where('post_tema', $posts[0]->post_tema)
-            ->where('id', '!=', $id)
-            ->orderBy('post_fec', 'desc')
-            ->skip(0)->take(5)->get();
+                        ->where('post_tema', $posts[0]->post_tema)
+                        ->where('id', '!=', $id)
+                        ->orderBy('post_fec', 'desc')
+                        ->skip(0)->take(5)->get();
 
         // recorremos los tags del post y le traemos su descipción para pintarla en la plantilla
         $txtTags  = [];
@@ -334,6 +378,12 @@ class postController extends Controller
      */
     public function update(UpdatePostRequest $request, $slug)
     {
+        // se autentica los roles del usuario
+        if (!$request->user()->authorizeRole(['AdminPost'])) {
+            return back()->withErrors([
+                'msg' => trans('auth.401')
+            ]);
+        }
         // echo "<pre>";
         // print_r($request->all());
         // echo "</pre>";
@@ -346,7 +396,7 @@ class postController extends Controller
 
         $post->post_tit     =  $request->get('txtTitPost');
         $post->post_tema    =  $request->get('txtTemPost');
-        $post->post_usu     =  $request->get('txtUsuPost');
+        $post->post_usu     =  Auth::user()->id;
         $post->post_key     =  $request->get('txtKeyPost');
         $post->post_desc    =  $request->get('txtDesPost');
         $post->updated_at   =  date("Y-m-d H:i:s");
@@ -377,8 +427,8 @@ class postController extends Controller
 
             return  redirect()
                     ->route('post.edit', [ $post->slug ])
-                    ->with('msgStatus', $msj->txt_parametro)
-                    ->with('status', 1);
+                    ->with('msgStatus',  $msj->txt_parametro)
+                    ->with('status',     1);
 
         } else {
 
@@ -386,8 +436,8 @@ class postController extends Controller
 
             return  redirect()
                     ->route('post.edit', [ $post->slug ])
-                    ->with('msgStatus', $msj->txt_parametro)
-                    ->with('status', 0);
+                    ->with('msgStatus',  $msj->txt_parametro)
+                    ->with('status',     0);
         }
     }
 

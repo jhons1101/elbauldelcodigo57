@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ config('app.locale') }}">
 	<head>
-		<title>Crear nueva entrada</title><meta charset="UTF-8">
+		<title>Crear nueva entrada | {{ config('app.name') }}</title><meta charset="UTF-8">
         <link rel="shortcut icon" href="{{ asset('/img/claves-elbauldelcodigo_ico.png') }}" type="image/png" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <link rel="stylesheet" href="{{ asset('/css/materialize.css') }}">

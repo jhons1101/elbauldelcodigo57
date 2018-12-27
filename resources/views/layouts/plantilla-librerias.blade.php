@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>@foreach ($Posts as $post){{ $post->post_tit }}@endforeach</title>
+		<title>@foreach ($Posts as $post){{ $post->post_tit }}@endforeach | {{ config('app.name') }}</title>
 		<meta charset="UTF-8">
 		<link rel="shortcut icon" href="{{ asset('/img/claves-elbauldelcodigo_ico.png') }}" type="image/png" />
 		<meta name="description" content="@foreach ($Posts as $post){{ $post->post_desc }}@endforeach">

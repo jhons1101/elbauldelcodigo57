@@ -1,22 +1,18 @@
 <?php
 
-namespace elbauldelcodigo;
 
-use Illuminate\Database\Eloquent\Model;
+    use elbauldelcodigo\ParametroGral;
 
-class ParametroGral extends Model
-{
     /**
      * Devuelve el valor del parámetro de tipo cadena de la DB
      */
-    public function getParametroString ($cod) {
+    function getParametroString ($cod) {
         return ParametroGral::where('id', '=', $cod)->firstOrFail()->txt_parametro;
     }
     
     /**
      * Devuelve el valor del parámetro de tipo numérico de la DB
      */
-    public function getParametroNumber ($cod) {
+    function getParametroNumber ($cod) {
         return ParametroGral::where('id', '=', $cod)->firstOrFail()->num_parametro;
     }
-}

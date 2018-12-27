@@ -42,7 +42,6 @@ Editar post
     <div class="row">
         <h2>Editar POST: {{ $posts->post_tit }}</h2>
         <hr />
-        @include('partials.errors')
     </div>
     <div class="row">
         <div class="col s12 m12 l12">
@@ -55,7 +54,7 @@ Editar post
                             <input type="text" class="validate" id="tit_post" name="txtTitPost" value="{{ $posts->post_tit }}">
                             <label>Título</label>
                             @if ($errors->has('txtTitPost'))
-                                <span class="helper-text red-text text-darken-4 red lighten-5">{{ $errors->first('txtTitPost') }}</span>
+                                <span class="helper-text red-text">{{ $errors->first('txtTitPost') }}</span>
                             @endif
                         </div>
                     </div>
@@ -69,7 +68,7 @@ Editar post
                             </select>
                             <label>Tema principal</label>
                             @if ($errors->has('txtTemPost'))
-                                <span class="helper-text red-text text-darken-4 red lighten-5">{{ $errors->first('txtTemPost') }}</span>
+                                <span class="helper-text red-text">{{ $errors->first('txtTemPost') }}</span>
                             @endif
                         </div>
                     </div>
@@ -77,11 +76,10 @@ Editar post
                 <div class="row">
                     <div class="col s12 m6 l6">
                         <div class="input-field">
-                            <input type="text" class="" id="usu_post" name="txtUsuPost" value="{{ $posts->post_usu }}" style="display:none;">
                             <input type="text" class="" id="slug_post" name="txtSlugPost" value="{{ $posts->slug }}">
                             <label>Slug</label>
                             @if ($errors->has('txtSlugPost'))
-                                <span class="helper-text red-text text-darken-4 red lighten-5">{{ $errors->first('txtSlugPost') }}</span>
+                                <span class="helper-text red-text">{{ $errors->first('txtSlugPost') }}</span>
                             @endif
                         </div>
                     </div>
@@ -95,7 +93,7 @@ Editar post
                             </select>
                             <label>Tags</label>
                             @if ($errors->has('txtTagsPost'))
-                                <span class="helper-text red-text text-darken-4 red lighten-5">{{ $errors->first('txtTagsPost') }}</span>
+                                <span class="helper-text red-text">{{ $errors->first('txtTagsPost') }}</span>
                             @endif
                         </div>
                     </div>
@@ -106,7 +104,7 @@ Editar post
                             <input type="text" class="" id="key_post" name="txtKeyPost" value="{{ $posts->slug }}">
                             <label>Keys</label>
                             @if ($errors->has('txtKeyPost'))
-                                <span class="helper-text red-text text-darken-4 red lighten-5">{{ $errors->first('txtKeyPost') }}</span>
+                                <span class="helper-text red-text">{{ $errors->first('txtKeyPost') }}</span>
                             @endif
                         </div>
                     </div>
@@ -117,7 +115,7 @@ Editar post
                             <input type="text" class="" id="des_post" name="txtDesPost" value="{{ $posts->slug }}">
                             <label>Describe</label>
                             @if ($errors->has('txtDesPost'))
-                                <span class="helper-text red-text text-darken-4 red lighten-5">{{ $errors->first('txtDesPost') }}</span>
+                                <span class="helper-text red-text">{{ $errors->first('txtDesPost') }}</span>
                             @endif
                         </div>
                     </div>
@@ -129,7 +127,7 @@ Editar post
                                 Ingrese la descripcion del post
                             </textarea>
                             @if ($errors->has('textareaPost'))
-                                <span class="helper-text red-text text-darken-4 red lighten-5">{{ $errors->first('textareaPost') }}</span>
+                                <span class="helper-text red-text">{{ $errors->first('textareaPost') }}</span>
                             @endif
                         </div>
                     </div>
@@ -141,7 +139,7 @@ Editar post
                                 Ingrese la información complementaria, código fuente y evidencias del código que se está probando
                             </textarea>
                             @if ($errors->has('textareaCode'))
-                                <span class="helper-text red-text text-darken-4 red lighten-5">{{ $errors->first('textareaCode') }}</span>
+                                <span class="helper-text red-text">{{ $errors->first('textareaCode') }}</span>
                             @endif
                         </div>
                     </div>
@@ -157,7 +155,7 @@ Editar post
                                 SI
                             </label>
                             @if ($errors->has('txtPubPost'))
-                                <span class="helper-text red-text text-darken-4 red lighten-5">{{ $errors->first('txtPubPost') }}</span>
+                                <span class="helper-text red-text">{{ $errors->first('txtPubPost') }}</span>
                             @endif
                         </div>
                     </div>
@@ -171,7 +169,7 @@ Editar post
                             </select>
                             <label>Tipo de entrada</label>
                             @if ($errors->has('txtTipPost'))
-                                <span class="helper-text red-text text-darken-4 red lighten-5">{{ $errors->first('txtTipPost') }}</span>
+                                <span class="helper-text red-text">{{ $errors->first('txtTipPost') }}</span>
                             @endif
                         </div>
                     </div>

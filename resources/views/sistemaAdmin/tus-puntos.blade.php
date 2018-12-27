@@ -1,4 +1,4 @@
-@extends('layout/admin')
+@extends('layouts/admin')
 <link rel="stylesheet" href="{{ asset('css/tus-puntos.css') }}">
 @section('seccion')
 	Tus Puntos

@@ -83,8 +83,8 @@ class User extends Authenticatable
         if ($this->hasAnyRole($roles)){
             return true;
         }
-
-        $msj = ParametroGral::where('id', '=', 6)->firstOrFail();
-        abort(401, $msj->txt_parametro);
+        return false;
+        // $msj = ParametroGral::where('id', '=', 6)->firstOrFail();
+        // abort(401, $msj->txt_parametro);
     }
 }
