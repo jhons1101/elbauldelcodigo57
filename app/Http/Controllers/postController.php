@@ -18,15 +18,15 @@ use elbauldelcodigo\User;
 class postController extends Controller
 {
     /**
-     * Valida que se haya iniciado sesión para poder acceder a cualqyuier método
+     * Valida que se haya iniciado sesión para poder acceder a cualquier método
      * del controlador postController
      */
 
-     public function __construct()
-     {
+    public function __construct()
+    {
         $this->middleware('auth');
-        \App::setLocale('es');
-     }
+        \App::setLocale('en');
+    }
 
 
     /**
@@ -38,7 +38,6 @@ class postController extends Controller
      */
     public function index($page=1)
     {
-        \App::setLocale('en');
         // traemos la cantidad de registros para el paginador
         $registros      = DB::table('posts')
                         ->join('tema_posts', 'post_tema', '=', 'tema_posts.tema_id')
@@ -113,7 +112,6 @@ class postController extends Controller
      */
     public function create(request $request)
     {
-        \App::setLocale('en');
         // se autentica los roles del usuario
         if (!$request->user()->authorizeRole(['AdminPost'])) {
             return back()->withErrors([
@@ -156,7 +154,6 @@ class postController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        \App::setLocale('en');
         // se autentica los roles del usuario
         if (!$request->user()->authorizeRole(['AdminPost'])) {
             return back()->withErrors([
@@ -171,7 +168,7 @@ class postController extends Controller
         $post->post_tit     =  $request->get('txtTitPost');
         $post->post_tema    =  $request->get('txtTemPost');
         $post->post_usu     =  Auth::user()->id;
-        $post->post_fec     =  date("Y-m-d");
+        $post->post_fec     =  date("Y-m-d H:i:s");
         $post->post_key     =  $request->get('txtKeyPost');
         $post->post_desc    =  $request->get('txtDesPost');
         $post->created_at   =  date("Y-m-d H:i:s");
@@ -192,24 +189,26 @@ class postController extends Controller
         }
 
         $post->flg_publicar =  $txtPubPost;
-        $post->post_tags    =  $itemTag;
+        $post->post_tags    =  substr($itemTag, 0, -1);
         
 
         try {
 
             $post->save();
             return  redirect()
-                    ->route('post.create',  [ $post->slug ])
+                    ->route('post.show',  [ $post->slug ])
                     ->with('msgStatus',     1)
-                    ->with('status',        1);
+                    ->with('status',        1)
+                    ->with('statusModule',  'modulePost');
 
         } catch (\Illuminate\Database\QueryException $ex) {
             
             return  redirect()
-                    ->route('post.create',  [ $post->slug ])
+                    ->route('post.create')
                     ->with('sqlerror',      $ex->errorInfo[2])
                     ->with('msgStatus',     1)
-                    ->with('status',        0);
+                    ->with('status',        0)
+                    ->with('statusModule',  'modulePost');
         }
     }
 
@@ -222,7 +221,6 @@ class postController extends Controller
      */
     public function show($slug)
     {
-        // \App::setLocale('en');
         // traemos los datos del post según el ID
         $post = Post::where('slug', '=', $slug)->firstOrFail();
         $id   = $post->id;
@@ -313,7 +311,7 @@ class postController extends Controller
      * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function edit($slug)
+    public function edit(Request $request, $slug)
     {
         // se autentica los roles del usuario
         if (!$request->user()->authorizeRole(['AdminPost'])) {
@@ -326,11 +324,16 @@ class postController extends Controller
         $post = Post::where('slug', '=', $slug)->firstOrFail();
         $id   = $post->id;
         
+        // validamos si el post a editar me pertenece por medio de el id de usuario
+        // del post en la politica de control: PostPolicy
+        $this->authorize('pass', $post);
+        
         // recursos de la pagina
         $tipoPost  = TipoPost::orderBy('tipo_txt', 'asc')->get();
         $usuPost   = Auth::user()->id;
         $temaPost  = TemaPost::orderBy('tema_txt', 'asc')->get();
         $tagsPost  = TagsPost::orderBy('tag_txt', 'asc')->get();
+        $user      = User::where('id', $usuPost)->get();
 
         // se cargan la información del post...
         $posts = DB::table('posts as p')
@@ -338,14 +341,14 @@ class postController extends Controller
                 ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
                 ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
                 ->where('p.id', $id)->get();
-
+        
         // Consultamos los post relacionados según el tema de la entrada.
         $relacionados = DB::table('posts')
                         ->where('post_tema', $posts[0]->post_tema)
                         ->where('id', '!=', $id)
                         ->orderBy('post_fec', 'desc')
                         ->skip(0)->take(5)->get();
-
+        
         // recorremos los tags del post y le traemos su descipción para pintarla en la plantilla
         $txtTags  = [];
         foreach ($posts as $key => $value){
@@ -355,6 +358,15 @@ class postController extends Controller
                 $txtTags[$item]  = strtolower($tag[0]->tag_txt);
             }
         }
+        
+
+        // traemos los roles de usuario
+        $roles  = DB::table('rol_user_user as r')
+                ->select('r.rol_user_id', 'rs.rol_nombre')
+                ->join('rol_users as rs', 'rs.id', '=', 'r.rol_user_id')
+                ->where('user_id', $usuPost)
+                ->orderBy('rol_user_id', 'asc')
+                ->get();
 
         
         return view('post.edit')
@@ -364,6 +376,8 @@ class postController extends Controller
         ->with('tipoPost',  $tipoPost)
         ->with('usuPost',   $usuPost)
         ->with('temaPost',  $temaPost)
+        ->with('roles',     $roles[0])
+        ->with('user',      $user[0])
         ->with('tagsPost',  $tagsPost);
     }
 
@@ -384,12 +398,14 @@ class postController extends Controller
                 'msg' => trans('auth.401')
             ]);
         }
-        // echo "<pre>";
-        // print_r($request->all());
-        // echo "</pre>";
-        // die();
+        
         // traemos los datos del post según el SLUG
         $post = Post::where('slug', '=', $slug)->firstOrFail();
+        
+        // validamos si el post a editar me pertenece por medio de el id de usuario
+        // del post en la politica de control: PostPolicy
+        
+        $this->authorize('pass', $post);
         
         $itemTag            = '';
         $txtTags            = $request->get('txtTagsPost');
@@ -426,18 +442,20 @@ class postController extends Controller
             $msj = ParametroGral::where('id', '=', 3)->firstOrFail();
 
             return  redirect()
-                    ->route('post.edit', [ $post->slug ])
-                    ->with('msgStatus',  $msj->txt_parametro)
-                    ->with('status',     1);
+                    ->route('post.edit',     [ $post->slug ])
+                    ->with('msgStatus',      $msj->txt_parametro)
+                    ->with('status',         1)
+                    ->with('statusModule',  'modulePost');
 
         } else {
 
             $msj = ParametroGral::where('id', '=', 5)->firstOrFail();
 
             return  redirect()
-                    ->route('post.edit', [ $post->slug ])
-                    ->with('msgStatus',  $msj->txt_parametro)
-                    ->with('status',     0);
+                    ->route('post.edit',     [ $post->slug ])
+                    ->with('msgStatus',      $msj->txt_parametro)
+                    ->with('status',         0)
+                    ->with('statusModule',  'modulePost');
         }
     }
 

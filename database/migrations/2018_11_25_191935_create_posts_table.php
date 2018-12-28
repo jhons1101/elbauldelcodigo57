@@ -19,7 +19,7 @@ class CreatePostsTable extends Migration
             $table->integer('post_tema')->comment('tema principal relacionado a la entrada');
             $table->string('post_tags', 50)->nullable($value = true)->comment('subtemas relacionados a la entrada');
             $table->integer('post_usu', 11)->comment('usuario que escribió la entrada');
-            $table->date('post_fec')->comment('fecha de publicación de la entrada');
+            $table->dateTime('post_fec')->comment('fecha de publicación de la entrada');
             $table->string('post_key', 200)->comment('palabras claves de lka entrada para el SEO');
             $table->string('post_desc', 300)->comment('breve descripción de la entrada para mostrar en SEO');
             $table->integer('post_tipo')->comment('tipo de entrada POSTS');

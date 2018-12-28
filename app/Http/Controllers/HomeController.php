@@ -18,6 +18,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        \App::setLocale('en');
     }
 
     /**
@@ -27,7 +28,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // \App::setLocale('en');
         $idUser  = Auth::user()->id;
         $user    = User::where('id', Auth::user()->id)->get();
 

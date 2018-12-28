@@ -14,7 +14,9 @@
 Route::get('/', 'postController@index');
 
 Route::resource('post', 'postController');
-Route::get('showPostAdmin/{slug}', 'postController@showPostAdmin');
-Auth::routes();
+Route::resource('rol', 'roleController');
 
+Route::get('showPostAdmin/{slug}', 'postController@showPostAdmin');
 Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();

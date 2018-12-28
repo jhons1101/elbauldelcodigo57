@@ -169,5 +169,17 @@ return [
         'time'                  => 'hora',
         'subject'               => 'asunto',
         'message'               => 'mensaje',
+        'txtTitrol'             => 'nombre del rol',
+        'txtdescrol'            => 'descripción del rol',
+        'txtUsersList'          => 'lista de usuarios del sistema',
+        'txtTitPost'            => 'título del post',
+        'txtTemPost'            => 'tema del post',
+        'txtSlugPost'           => 'slug único del post',
+        'txtTagsPost'           => 'tags (etiquetas) del post',
+        'txtKeyPost'            => 'key (palabras claves) del post',
+        'txtDesPost'            => 'descripción SEO del post',
+        'textareaPost'          => 'sección de contenido del post ',
+        'textareaCode'          => 'sección del código fuente del post',
+        'txtTipPost'            => 'tipo de post'
     ],
 ];

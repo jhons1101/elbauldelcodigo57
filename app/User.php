@@ -84,7 +84,5 @@ class User extends Authenticatable
             return true;
         }
         return false;
-        // $msj = ParametroGral::where('id', '=', 6)->firstOrFail();
-        // abort(401, $msj->txt_parametro);
     }
 }

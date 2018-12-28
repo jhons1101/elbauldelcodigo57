@@ -66,7 +66,7 @@
                             <select id="tem_post" name="txtTemPost" value="{{ old('txtTemPost') }}">
                                 <option value="" selected>{{ trans('message.select') }}</option>
                                 @foreach ($temaPost as $tema)
-                                <option value="{{$tema->tema_id}}">{{$tema->tema_txt}}</option>
+                                <option value="{{$tema->tema_id}}" @if (old('txtTemPost') == $tema->tema_id) selected @endif>{{$tema->tema_txt}}</option>
                                 @endforeach
                             </select>
                             @if ($errors->has('txtTemPost'))
@@ -93,6 +93,7 @@
                             @foreach ($tagsPost as $tag)
                             <input type="checkbox" name="txtTagsPost[]" value="{{$tag->tag_id}}" id="txtTagsPost_{{$tag->tag_id}}" /> {{$tag->tag_txt}}  &nbsp; 
                             @endforeach
+                            <br />
                             @if ($errors->has('txtTagsPost'))
                                 <span class="helper-text red-text text-darken-4">{{ $errors->first('txtTagsPost') }}</span>
                             @endif
@@ -166,7 +167,7 @@
                             <select id="tip_post" name="txtTipPost" value="{{ old('txtTipPost') }}">
                                 <option value="" selected>{{ trans('message.select') }}</option>
                                 @foreach ($tipoPost as $tipo)
-                                <option value="{{$tipo->tipo_id}}">{{$tipo->tipo_txt}}</option>
+                                <option value="{{$tipo->tipo_id}}" @if (old('txtTipPost') == $tipo->tipo_id) selected @endif>{{$tipo->tipo_txt}}</option>
                                 @endforeach
                             </select>
                             @if ($errors->has('txtTipPost'))
@@ -178,7 +179,7 @@
                 <div class="row">
                     <div class="col s12 m12 l12">
                         <div class="input-field">
-                            <button class="waves-effect waves-light btn-large" type="submit" name="action">{{ trans('message.save') }}
+                            <button class="waves-effect grey darken-4 btn-large" type="submit" name="action">{{ trans('message.save') }}
                                 <i class="material-icons right"></i>
                             </button>
                         </div>

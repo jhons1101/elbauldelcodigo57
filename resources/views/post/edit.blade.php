@@ -33,8 +33,13 @@ Editar post
 @stop
 
 <!-- secciónpara cargar la foto del usuario de la sessión del post -->
-@section('img-usuario')
-
+@section('css')
+<style>
+.select-wrapper+label {
+    top: -75px;
+    position: relative;
+}
+</style>
 @stop
 
 
@@ -177,7 +182,7 @@ Editar post
                 <div class="row">
                     <div class="col s12 m12 l12">
                         <div class="input-field">
-                            <button class="waves-effect waves-light btn-large" type="submit" name="action">Guardar
+                            <button class="waves-effect grey darken-4 btn-large" type="submit" name="action">Guardar
                                 <i class="material-icons right"></i>
                             </button>
                         </div>

@@ -142,6 +142,19 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'txtTitrol'     => 'role name',
+        'txtdescrol'    => 'description of the role',
+        'txtUsersList'  => 'user list',
+        'txtTitPost'    => 'post title',
+        'txtTemPost'    => 'post theme',
+        'txtSlugPost'   => 'slug unique post',
+        'txtTagsPost'   => 'labels (tags) of the post',
+        'txtKeyPost'    => 'key (keywords) of the post',
+        'txtDesPost'    => 'SEO description of the post',
+        'textareaPost'  => 'post content section',
+        'textareaCode'  => 'post source section',
+        'txtTipPost'    => 'post type'
+    ],
 
 ];

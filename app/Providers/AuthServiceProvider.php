@@ -2,6 +2,9 @@
 
 namespace elbauldelcodigo\Providers;
 
+use elbauldelcodigo\Post;
+use elbauldelcodigo\Policies\PostPolicy;
+
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -13,7 +16,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'elbauldelcodigo\Model' => 'elbauldelcodigo\Policies\ModelPolicy',
+        Post::class => PostPolicy::class
     ];
 
     /**

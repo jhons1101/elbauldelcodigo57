@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('/css/nav.css') }}">
         <link rel="stylesheet" href="{{ asset('/css/materialize.css') }}">
+        <link rel="stylesheet" href="{{ asset('/css/tablas-responsive.css') }}">
         <style>
         .nav-navigation {
             overflow-y: auto;
@@ -22,6 +23,15 @@
             display: inline-block !important; 
             line-height: 56px !important;
             font-size: 1rem !important;
+        }
+        .labeltxt {
+            font-weight:700;
+            color:rgba(0,0,0,.87);
+            text-transform: uppercase;
+        }
+        textarea {
+            padding:20px;
+            color:#909090;
         }
         </style>
         @yield('css')
@@ -103,6 +113,7 @@
                     @if ($roles->rol_user_id == 1)
                     <li><a href="/home/">{{ trans('message.seccionHome') }}</a></li>
                     <li><a href="/post/create">{{ trans('message.publish') }}</a></li>
+                    <li><a href="/rol/create">{{ trans('message.roles') }}</a></li>
                     <li><a href="/post/showUser">{{ trans('message.publications') }}</a></li>
                     @endif
                     <li>
