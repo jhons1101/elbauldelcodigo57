@@ -17,7 +17,7 @@ class UserTableSeeder extends Seeder
          * Se traen los modelos con los roles en sistema
          */
         $roleUser  = RolUser::where('rol_nombre', 'User')->first();
-        $roleAdmin = RolUser::where('rol_nombre', 'AdminPost')->first();
+        $roleAdmin = RolUser::where('rol_nombre', 'Admin')->first();
 
         /**
          * Usuario AdminiPost

@@ -113,7 +113,7 @@ class postController extends Controller
     public function create(request $request)
     {
         // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['AdminPost'])) {
+        if (!$request->user()->authorizeRole(['Admin'])) {
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -155,7 +155,7 @@ class postController extends Controller
     public function store(StorePostRequest $request)
     {
         // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['AdminPost'])) {
+        if (!$request->user()->authorizeRole(['Admin'])) {
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -314,7 +314,7 @@ class postController extends Controller
     public function edit(Request $request, $slug)
     {
         // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['AdminPost'])) {
+        if (!$request->user()->authorizeRole(['Admin'])) {
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -393,7 +393,7 @@ class postController extends Controller
     public function update(UpdatePostRequest $request, $slug)
     {
         // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['AdminPost'])) {
+        if (!$request->user()->authorizeRole(['Admin'])) {
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);

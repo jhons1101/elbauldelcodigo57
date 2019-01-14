@@ -30,11 +30,18 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(request $request)
     {
+        // se autentica los roles del usuario
+        if (!$request->user()->authorizeRole(['Admin'])) {
+            return back()->withErrors([
+                'msg' => trans('auth.401')
+            ]);
+        }
         
         $usuPost     = Auth::user()->id;
         $user        = User::where('id', $usuPost)->get();
+        $allRole     = RolUser::orderBy('id', 'asc')->get();
 
         // traemos los roles de usuario para mostrar las acciones disponibles
         $roles  = DB::table('rol_user_user as r')
@@ -43,11 +50,11 @@ class RoleController extends Controller
                 ->where('user_id', $usuPost)
                 ->orderBy('rol_user_id', 'asc')
                 ->get();
-
-
+        
         return View('rol.index')
-        ->with('seccion',      trans('message.seccionRol'))
+        ->with('seccion',      trans('message.seccionListRol'))
         ->with('roles',        $roles[0])
+        ->with('allRole',      $allRole)
         ->with('user',         $user[0]);
     }
 
@@ -60,7 +67,7 @@ class RoleController extends Controller
     public function create(Request $request)
     {
         // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['AdminPost'])) {
+        if (!$request->user()->authorizeRole(['Admin'])) {
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -85,7 +92,7 @@ class RoleController extends Controller
         return View('rol.create')
         ->with('roles',        $roles[0])
         ->with('roleSelects',  $roleSelects)
-        ->with('seccion',      trans('message.seccionRol'))
+        ->with('seccion',      trans('message.seccionCreateRol'))
         ->with('user',         $user[0])
         ->with('usuarios',     $usuarios)
         ;
@@ -101,7 +108,7 @@ class RoleController extends Controller
     public function store(StoreRolRequest $request)
     {
         // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['AdminPost'])) {
+        if (!$request->user()->authorizeRole(['Admin'])) {
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -110,6 +117,7 @@ class RoleController extends Controller
         // guardamos el nuevo rol en la tabla 'rol_users'
         $rol              =  new RolUser();
         $rol->rol_nombre  =  $request->get('txtTitrol');
+        $rol->slug        =  strtolower(slugify($request->get('txtTitrol')));
         $rol->rol_descrip =  $request->get('txtdescrol');
         $rol->created_at  =  date("Y-m-d H:i:s");
         $rol->updated_at  =  date("Y-m-d H:i:s");
@@ -131,7 +139,7 @@ class RoleController extends Controller
                 try {
 
                     $rolUserUser->save();
-                    return  redirect()->route('rol.show',  [ $rol->rol_nombre ])
+                    return  redirect()->route('rol.show',  [ $rol->slug ])
                             ->with('msgStatus',     1)
                             ->with('status',        1)
                             ->with('statusModule',  'moduleRol');
@@ -144,7 +152,7 @@ class RoleController extends Controller
                             ->with('statusModule',  'moduleRol');
                 }
             } else {
-                return  redirect()->route('rol.show',  [ $rol->rol_nombre ])
+                return  redirect()->route('rol.show',  [ $rol->slug ])
                             ->with('msgStatus',     1)
                             ->with('status',        1)
                             ->with('statusModule',  'moduleRol');
@@ -164,12 +172,18 @@ class RoleController extends Controller
      * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show(request $request, $slug)
     {
+        // se autentica los roles del usuario
+        if (!$request->user()->authorizeRole(['Admin'])) {
+            return back()->withErrors([
+                'msg' => trans('auth.401')
+            ]);
+        }
         
-        $usuPost  = Auth::user()->id;
-        $user     = User::where('id', $usuPost)->get();
-        $objRol   = RolUser::where('rol_nombre', $slug)->get();
+        $usuPost     = Auth::user()->id;
+        $user        = User::where('id', $usuPost)->get();
+        $objRol      = RolUser::where('slug', $slug)->get();
         
         // traemos los roles de usuario para mostrar las acciones disponibles
         $roles  = DB::table('rol_user_user as r')
@@ -181,15 +195,15 @@ class RoleController extends Controller
 
         //Listado de usuario que tienen el rol asignado.
         $UserRoles  = DB::table('rol_user_user as r')
-                    ->select('r.user_id', 'us.name', 'us.email')
+                    ->select('r.id', 'r.user_id', 'us.name', 'us.email')
                     ->join('users as us', 'us.id', '=', 'user_id')
                     ->where('rol_user_id', $objRol[0]->id)
                     ->get();
         
-
+        
         return View('rol.show')
         ->with('seccion',      trans('message.seccionShowRol'))
-        ->with('roles',        $roles[0])
+        ->with('roles',        $roles[0]) 
         ->with('user',         $user[0])
         ->with('objRol',       $objRol[0])
         ->with('userRoles',    $UserRoles);
@@ -198,34 +212,146 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(request $request, $slug)
     {
-        //
+        // se autentica los roles del usuario
+        if (!$request->user()->authorizeRole(['Admin'])) {
+            return back()->withErrors([
+                'msg' => trans('auth.401')
+            ]);
+        }
+
+        $usuPost     = Auth::user()->id;
+        $user        = User::where('id', $usuPost)->get();
+        $role        = RolUser::where('slug', $slug)->get();
+        $roleSelects = RolUser::orderBy('rol_nombre', 'asc')->get();
+        $usuarios    = User::orderBy('email', 'asc')->get();
+
+        // traemos los roles de usuario para mostrar las acciones disponibles
+        $roles  = DB::table('rol_user_user as r')
+                ->select('r.rol_user_id', 'rs.rol_nombre')
+                ->join('rol_users as rs', 'rs.id', '=', 'r.rol_user_id')
+                ->where('user_id', $usuPost)
+                ->orderBy('rol_user_id', 'asc')
+                ->get();
+        // echo "<pre>"; print_r($role); echo"</pre>"; die('pausa');
+        return View('rol.edit')
+        ->with('roles',        $roles[0])
+        ->with('seccion',      trans('message.seccionEditRol'))
+        ->with('user',         $user[0])
+        ->with('rol',          $role[0])
+        ->with('roleSelects',  $roleSelects)
+        ->with('usuarios',     $usuarios)
+        ;
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        //
+        // se autentica los roles del usuario
+        if (!$request->user()->authorizeRole(['Admin'])) {
+            return back()->withErrors([
+                'msg' => trans('auth.401')
+            ]);
+        }
+
+        $usuPost           = Auth::user()->id;
+        $user              = User::where('id', $usuPost)->firstOrFail();
+        $role              = RolUser::where('slug', $slug)->firstOrFail();
+
+        $role->rol_nombre  = $request->get('txtTitrol');
+        $role->rol_descrip = $request->get('txtdescrol');
+        $role->slug        =  strtolower(slugify($request->get('txtTitrol')));
+        $role->updated_at  =  date("Y-m-d H:i:s");
+
+        try {
+
+            $role->save();
+
+            if ($request->get('txtUsersList') != null) {
+
+                // guardamos la relación del usuario con el rol en la tabla 'rol_user_user'
+                $rolUserUser              =  new RolUserUser();
+                $rolUserUser->rol_user_id = $role->id;
+                $rolUserUser->user_id     = $request->get('txtUsersList');
+                $rolUserUser->created_at  = date("Y-m-d H:i:s");
+                $rolUserUser->updated_at  = date("Y-m-d H:i:s");
+
+                try {
+
+                    $rolUserUser->save();
+                    return  redirect()->route('rol.show',  [ $role->slug ])
+                            ->with('msgStatus',     1)
+                            ->with('status',        1)
+                            ->with('statusModule',  'moduleRol');
+
+                } catch (\Illuminate\Database\QueryException $ex) {
+                    return  redirect()->route('rol.create')
+                            ->with('sqlerror',      $ex->errorInfo[2])
+                            ->with('msgStatus',     1)
+                            ->with('status',        0)
+                            ->with('statusModule',  'moduleRol');
+                }
+            } else {
+                return  redirect()->route('rol.index',  [ $role->slug ])
+                            ->with('msgStatus',     1)
+                            ->with('status',        1)
+                            ->with('statusModule',  'moduleRol');
+            }
+            
+        } catch (\Illuminate\Database\QueryException $ex) {
+            return  redirect()->route('rol.edit',  [ $role->slug ])
+                    ->with('sqlerror',      $ex->errorInfo[2])
+                    ->with('msgStatus',     1)
+                    ->with('status',        0)
+                    ->with('statusModule',  'moduleRol');
+        }
+
     }
 
     /**
      * Remove the specified resource from storage.
+     * Elimina la relación entre los usuarios y el Rol, NO el Rol
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(request $request, $id)
     {
-        //
+        // se autentica los roles del usuario
+        if (!$request->user()->authorizeRole(['Admin'])) {
+            return back()->withErrors([
+                'msg' => trans('auth.401')
+            ]);
+        }
+        
+        $userRoluser  = RolUserUser::where('id', $id)->get();
+        $userRoluser  = $userRoluser[0];
+        $role         = RolUser::where('id', $userRoluser->rol_user_id)->firstOrFail();
+        
+        try {
+
+            $userRoluser->delete();
+            return  redirect()->route('rol.show',  [ $role->slug ])
+                    ->with('msgStatus',     1)
+                    ->with('status',        1)
+                    ->with('statusModule',  'moduleRol');
+            
+        } catch (\Illuminate\Database\QueryException $ex) {
+            return  redirect()->route('rol.show',  [ $role->slug ])
+                    ->with('sqlerror',      $ex->errorInfo[2])
+                    ->with('msgStatus',     1)
+                    ->with('status',        0)
+                    ->with('statusModule',  'moduleRol');
+        }
     }
 }

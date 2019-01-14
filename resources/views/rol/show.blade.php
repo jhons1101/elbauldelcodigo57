@@ -12,7 +12,9 @@
 
 <!-- sección de javascript propios del rol -->
 @section('javascript')
-
+    $(document).ready(function(){
+        $('select').material_select();
+    });
 @stop
 
 @section('css')
@@ -50,37 +52,48 @@
                 <div class="col s12 m12 l12">
                     <div class="labeltxt">{{ trans('message.listUserRole') }} <i>'{{ $objRol->rol_nombre }}'</i></div>
                     <div class="input-field">
-                        @foreach ($userRoles as $userRol)
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>{{ trans('message.labelCodUser') }}</th>
-                                        <th>{{ trans('message.labelNomUser') }}</th>
-                                        <th>{{ trans('message.email') }}</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td data-label="Nombre">{{ $userRol->user_id }}</td>
-                                        <td data-label="Valores permitidos">{{ $userRol->name }}</td>
-                                        <td data-label="Valores permitidos">{{ $userRol->email }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        @endforeach
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th width="20%">{{ trans('message.labelCodUser') }}</th>
+                                    <th width="30%">{{ trans('message.labelNomUser') }}</th>
+                                    <th width="35%">{{ trans('message.email') }}</th>
+                                    <th width="15%">&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach ($userRoles as $userRol)
+                                <tr>
+                                    <td data-label="{{ trans('message.labelCodUser') }}">{{ $userRol->user_id }}</td>
+                                    <td data-label="{{ trans('message.labelNomUser') }}">{{ $userRol->name }}</td>
+                                    <td data-label="{{ trans('message.email') }}">{{ $userRol->email }}</td>
+                                    <td data-label="{{ trans('message.email') }}">
+                                        <form action="/rol/{{ $userRol->id }}" method="POST">
+                                            @method('DELETE')
+                                            @csrf
+                                            <a href="/rol/{{ $userRol->id }}">
+                                                <button class="waves-effect grey darken-4 btn-small" name="action">{{ trans('message.disass') }}
+                                                    <i class="material-icons right"></i>
+                                                </button>
+                                            </a>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
                     </div>
+                </div>
+            </div>
+            @else
+            <div class="row">
+                <div class="col s12 m12 l12">
+                    <br />
+                    <br />
+                    <br />
                 </div>
             </div>
             @endif
-            <div class="row">
-                <div class="col s12 m12 l12">
-                    <div class="input-field">
-                        <button class="waves-effect grey darken-4 btn-large" type="submit" name="action">{{ trans('message.edit') }}
-                            <i class="material-icons right"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 @stop

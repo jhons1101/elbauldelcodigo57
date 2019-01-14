@@ -17,7 +17,7 @@ class RolUserTableSeeder extends Seeder
          * puede publicar post, blog, cursos y videos
          */
         $role = new RolUser();
-        $role->rol_nombre = "AdminPost";
+        $role->rol_nombre = "Admin";
         $role->rol_descrip = "Rol Usuario que permite manipular los post publicados en el bauldelcodigo";
         $role->save();
         
