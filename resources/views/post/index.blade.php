@@ -4,6 +4,24 @@
 @extends('layouts.plantilla_tematica')
 @extends('layouts.plantilla_footer')
 
+@section('css')
+<style>
+.table {
+    border-collapse: unset !important;
+    border: 0;
+}
+.cardFooter {
+    width:100%;
+}
+.ancho50 {
+    width:50%;
+}
+.bgwhite {
+    background-color: #fff !important;
+}
+</style>
+@stop
+
 @section('post')
     @foreach ($post as $post)
     <div class="col s12 m4 l4">
@@ -22,7 +40,16 @@
                     <h2 class="card-title activator grey-text text-darken-4">{{$post->post_tit}}</h2>
                 </div>
             </a>
-            <div class="cardFooter"><a href="{{ asset('/post') }}/{{ $post->slug }}">{{ trans('message.leerMas') }}</a></div>
+            <div class="cardFooter">
+            <table width="100%" class="table">
+                <tr>
+                    <td class="left-align ancho50"><a href="{{ asset('/post') }}/{{ $post->slug }}">{{ trans('message.leerMas') }}</a></td>
+                    @if ($roles->rol_user_id == 1)
+                    <td class="right-align ancho50"><a href="/post/{{ $post->slug }}/edit">Editar</a></td>
+                    @endif
+                </tr>
+            </table>
+            </div>
         </div>
     </div>
     @endforeach

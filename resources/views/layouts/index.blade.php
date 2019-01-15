@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ config('app.locale') }}">
+<html lang="{{ config('app.locale') }}" class="bgwhite">
     <head>
         <title>{{ config('app.name') }}</title>
         <meta charset="UTF-8">
@@ -34,6 +34,7 @@
                 enable_page_level_ads: true
             });
         </script>
+        @yield('css')
     </head>
     <body class="anulaBackground">
         <script type="text/javascript">
@@ -107,7 +108,7 @@
             </div>
         </div>
         <br /><br />
-        @yield('footer2')
+        @yield('footer')
         <script src="/js/jquery-1.11.1.min.js"></script>
         <script src="/materialize/js/materialize.min.js"></script>
         <script src="/js/index.js"></script>

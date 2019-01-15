@@ -50,6 +50,8 @@ class postController extends Controller
         $paginador      = 15; // Parametrizarlo desde DB
         $cantPagina     = $totalRegistros/$paginador;
         $cantPagina     = ceil($cantPagina);
+        $usuPost        = Auth::user()->id;
+        $user           = User::where('id', $usuPost)->get();
 
         if ($page != 1){
             // comenzara en la 16, pagina 2 y asi sucesivamente..
@@ -90,7 +92,16 @@ class postController extends Controller
                     ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
                     ->orderBy('p.post_fec', 'desc')
                     ->get();
+        
 
+        // traemos los roles de usuario para mostrar las acciones disponibles
+        $roles  = DB::table('rol_user_user as r')
+                ->select('r.rol_user_id', 'rs.rol_nombre')
+                ->join('rol_users as rs', 'rs.id', '=', 'r.rol_user_id')
+                ->where('user_id', $usuPost)
+                ->orderBy('rol_user_id', 'asc')
+                ->get();
+        
         
         return View(
             'post.index', array(
@@ -99,7 +110,8 @@ class postController extends Controller
                 'cantidadPag' => $cantPagina,
                 'errores'     => $error,
                 'entradas'    => $entradas,
-                'public_path' => public_path()
+                'public_path' => public_path(),
+                'roles'       => $roles[0]
             )
         );
     }
@@ -222,8 +234,8 @@ class postController extends Controller
     public function show($slug)
     {
         // traemos los datos del post según el ID
-        $post = Post::where('slug', '=', $slug)->firstOrFail();
-        $id   = $post->id;
+        $post        = Post::where('slug', '=', $slug)->firstOrFail();
+        $id          = $post->id;
         
         // se cargan los comentarios del post, si los tiene...
         $comm = DB::table('comentarios')
