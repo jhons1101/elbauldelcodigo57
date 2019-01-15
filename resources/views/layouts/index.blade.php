@@ -59,19 +59,9 @@
             <div class="row">
                 <div class="col s12 m12 l9">
                     {!! $errors->first('msg', '<div class="card-panel red-text red lighten-5 red text-darken-4">:message</div>') !!}
-                    @if ($errores == '')
                     <div class="row bottomCero">
-                        <div class="paginadorI">
-                            <ul class="pagination">							
-                                <li class="waves-effect"><a href="1') }}"><i class="icon-circle-left"></i></a></li>
-                                @for ($i = 0; $i < $cantidadPag; $i++)
-                                <li class="waves-effect"><a href="') }}{{intval($i)+1}}">{{ intval($i)+1 }}</a></li>
-                                @endfor
-                                <li class="waves-effect"><a href="') }}{{$cantidadPag}}"><i class="icon-circle-right"></i></a></li>
-                            </ul>
-                        </div>
+                        @include('partials.paginate')
                     </div>
-                    @endif
                     <div class="row">
                         <div class="s12 m12 l12">
                             @yield('post')
@@ -82,19 +72,9 @@
                             @endif
                         </div>
                     </div>
-                    @if ($errores == '')
                     <div class="row bottomCero">
-                        <div class="paginadorF">
-                            <ul class="pagination">
-                                <li class="waves-effect"><a href="1') }}"><i class="icon-circle-left"></i></a></li>
-                                @for ($i = 0; $i < $cantidadPag; $i++)
-                                <li class="waves-effect"><a href="') }}{{intval($i)+1}}">{{ intval($i)+1 }}</a></li>
-                                @endfor
-                                <li class="waves-effect"><a href="') }}{{$cantidadPag}}"><i class="icon-circle-right"></i></a></li>
-                            </ul>
-                        </div>
+                        @include('partials.paginate')
                     </div>
-                    @endif
                 </div>
                 <div class="col s12 m12 l3">
                     <div class="row">

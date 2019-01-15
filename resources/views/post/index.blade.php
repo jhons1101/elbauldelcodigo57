@@ -19,6 +19,12 @@
 .bgwhite {
     background-color: #fff !important;
 }
+.pagination li.active {
+    background-color: #00adb5 !important;
+}
+.anchoauto {
+    width:auto !important;
+}
 </style>
 @stop
 
@@ -29,7 +35,7 @@
             <div class="card-image waves-effect waves-block waves-light">
                 <div class="cardHeader">
                     <h3 class="cardHeaderText">
-                        <a href="{{asset('/tema')}}/{{ $post->slug }}" target="_blank">
+                        <a href="{{asset('/tema')}}/{{ $post->tema_txt }}" target="_blank">
                             {{ $post->tema_txt }}
                         </a>
                     </h3>
@@ -44,8 +50,10 @@
             <table width="100%" class="table">
                 <tr>
                     <td class="left-align ancho50"><a href="{{ asset('/post') }}/{{ $post->slug }}">{{ trans('message.leerMas') }}</a></td>
-                    @if ($roles->rol_user_id == 1)
-                    <td class="right-align ancho50"><a href="/post/{{ $post->slug }}/edit">Editar</a></td>
+                    @if (auth()->user())
+                        @if ($roles->rol_user_id == 1)
+                            <td class="right-align ancho50"><a href="/post/{{ $post->slug }}/edit">Editar</a></td>
+                        @endif
                     @endif
                 </tr>
             </table>

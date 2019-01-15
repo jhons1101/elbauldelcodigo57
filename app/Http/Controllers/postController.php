@@ -9,6 +9,8 @@ use elbauldelcodigo\TagsPost;
 use elbauldelcodigo\TemaPost;
 use elbauldelcodigo\TipoPost;
 use elbauldelcodigo\General;
+use elbauldelcodigo\RolUser;
+use elbauldelcodigo\RolUserUser;
 use elbauldelcodigo\ParametroGral;
 use Illuminate\Support\Facades\DB;
 use elbauldelcodigo\Http\Requests\UpdatePostRequest;
@@ -24,7 +26,6 @@ class postController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
         \App::setLocale('en');
     }
 
@@ -33,42 +34,16 @@ class postController extends Controller
      * Display a listing of the resource.
      * Despliega la ventana con todas las entradas de la DB 
      *
-     * @param  int $page pagina actual donde el usuario final (front) está ubicado
      * @return view resources/view/post.index
      */
-    public function index($page=1)
+    public function index()
     {
-        // traemos la cantidad de registros para el paginador
-        $registros      = DB::table('posts')
-                        ->join('tema_posts', 'post_tema', '=', 'tema_posts.tema_id')
-                        ->where('post_tipo', 'ENTRADA')
-                        ->orderBy('post_fec', 'desc')
-                        ->get();
 
-
-        $totalRegistros = count($registros);
-        $paginador      = 15; // Parametrizarlo desde DB
-        $cantPagina     = $totalRegistros/$paginador;
-        $cantPagina     = ceil($cantPagina);
-        $usuPost        = Auth::user()->id;
-        $user           = User::where('id', $usuPost)->get();
-
-        if ($page != 1){
-            // comenzara en la 16, pagina 2 y asi sucesivamente..
-            $comienzo = (($page * $paginador)-$paginador)+1;
-        } else {
-            $comienzo = 1;
-        }
-
-        $final = ($page * $paginador);
-
-        $post = DB::table('posts')
-                ->join('tema_posts', 'post_tema', '=', 'tema_posts.tema_id')
-                ->where('post_tipo', 3)
-                ->orderBy('post_fec', 'desc')
-                ->skip($comienzo-1)
-                ->take($paginador)
-                ->get();
+        $post = DB::table('posts as p')
+                ->join('tema_posts as t', 'p.post_tema', '=', 't.tema_id')
+                ->where('p.post_tipo', 3)
+                ->orderBy('p.updated_at', 'desc')
+                ->paginate(15);
 
         if (count($post) < 1) {
             $error = "No hay más resultados para mostrar.";
@@ -94,20 +69,25 @@ class postController extends Controller
                     ->get();
         
 
-        // traemos los roles de usuario para mostrar las acciones disponibles
+        // Si está autenticado... traemos los roles de usuario para mostrar las acciones disponibles
+        if (auth()->user()) {
+            $usuPost        = Auth::user()->id;
+        
         $roles  = DB::table('rol_user_user as r')
                 ->select('r.rol_user_id', 'rs.rol_nombre')
                 ->join('rol_users as rs', 'rs.id', '=', 'r.rol_user_id')
                 ->where('user_id', $usuPost)
                 ->orderBy('rol_user_id', 'asc')
                 ->get();
-        
+        } else {
+            $roles = new RolUserUser(); 
+        }
         
         return View(
             'post.index', array(
                 'post'        => $post,
+                'paginate'    => $post,
                 'temas'       => $tema,
-                'cantidadPag' => $cantPagina,
                 'errores'     => $error,
                 'entradas'    => $entradas,
                 'public_path' => public_path(),
@@ -124,6 +104,8 @@ class postController extends Controller
      */
     public function create(request $request)
     {
+        $this->middleware('auth');
+
         // se autentica los roles del usuario
         if (!$request->user()->authorizeRole(['Admin'])) {
             return back()->withErrors([
@@ -166,6 +148,8 @@ class postController extends Controller
      */
     public function store(StorePostRequest $request)
     {
+        $this->middleware('auth');
+        
         // se autentica los roles del usuario
         if (!$request->user()->authorizeRole(['Admin'])) {
             return back()->withErrors([
@@ -233,6 +217,8 @@ class postController extends Controller
      */
     public function show($slug)
     {
+        $this->middleware('auth');
+        
         // traemos los datos del post según el ID
         $post        = Post::where('slug', '=', $slug)->firstOrFail();
         $id          = $post->id;
@@ -311,8 +297,39 @@ class postController extends Controller
      * @param  string  $slug cadena unica que identifica el post
      * @return view resources/view/post.showPostAdmin
      */
-    public function showPostAdmin($slug)
+    public function showPostAdmin(request $request)
     {
+        $this->middleware('auth');
+        
+        // se autentica los roles del usuario
+        if (!$request->user()->authorizeRole(['Admin'])) {
+            return back()->withErrors([
+                'msg' => trans('auth.401')
+            ]);
+        }
+        
+        $usuPost     = Auth::user()->id;
+        $user        = User::where('id', $usuPost)->get();
+        $allPost     = DB::table('posts as p')
+                    ->join('tema_posts as t', 't.tema_id', '=', 'p.post_tema')
+                    ->where('p.post_usu', $usuPost)
+                    ->orderBy('p.updated_at', 'desc')
+                    ->paginate(10);
+        
+        // traemos los roles de usuario para mostrar las acciones disponibles
+        $roles  = DB::table('rol_user_user as r')
+                ->select('r.rol_user_id', 'rs.rol_nombre')
+                ->join('rol_users as rs', 'rs.id', '=', 'r.rol_user_id')
+                ->where('user_id', $usuPost)
+                ->orderBy('rol_user_id', 'asc')
+                ->get();
+        
+        return View('post.showPostAdmin')
+        ->with('seccion',      trans('message.seccionListpost'))
+        ->with('roles',        $roles[0])
+        ->with('allPost',      $allPost)
+        ->with('user',         $user[0])
+        ->with('paginate',     $allPost);
     }
 
     /**
@@ -325,6 +342,8 @@ class postController extends Controller
      */
     public function edit(Request $request, $slug)
     {
+        $this->middleware('auth');
+        
         // se autentica los roles del usuario
         if (!$request->user()->authorizeRole(['Admin'])) {
             return back()->withErrors([
@@ -404,6 +423,8 @@ class postController extends Controller
      */
     public function update(UpdatePostRequest $request, $slug)
     {
+        $this->middleware('auth');
+        
         // se autentica los roles del usuario
         if (!$request->user()->authorizeRole(['Admin'])) {
             return back()->withErrors([
@@ -481,6 +502,8 @@ class postController extends Controller
      */
     public function destroy($id)
     {
+        $this->middleware('auth');
+        
         //
     }
 

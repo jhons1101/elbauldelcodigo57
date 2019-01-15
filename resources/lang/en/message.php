@@ -123,4 +123,12 @@ return [
     'destroy'            => 'Destroy',
     'assoc'              => 'Associate',
     'disass'             => 'Disassociate',
+    'codepost'           => 'Code of post',
+    'seccionListpost'    => 'List of post',
+    'seccionEditpost'    => 'Edit post',
+    'titlePost'          => 'Title of the post',
+    'description'        => 'Description',
+    'theme'              => 'Theme',
+    'code'               => 'Code',
+    'published'          => 'Published',
 ];

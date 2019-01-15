@@ -43,34 +43,19 @@
                 <label for="nav-toggle" class="nav-toggle" onclick>☰</label>
                 <ul class="ul">
                     <li>
-                        <a href="">
+                        <a href="/">
                             <span class="nav-ul-li-span">{{ trans('message.appName') }}</span>
                         </a>
                     </li>
                     @if ($roles->rol_user_id == 1)
-                    <li>
-                        <a href="/blog/create">
-                            <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.newBlog') }}
-                        </a>
-                    </li>
                     <li>
                         <a href="/blog/">
                             <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.allBlog') }}
                         </a>
                     </li>
                     <li>
-                        <a href="/post/create">
-                            <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.newPost') }}
-                        </a>
-                    </li>
-                    <li>
                         <a href="/post/">
                             <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.allPost') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/rol/create">
-                            <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.newRole') }}
                         </a>
                     </li>
                     <li>
@@ -142,8 +127,8 @@
                     @if ($roles->rol_user_id == 1)
                     <li><a href="/home/">{{ trans('message.seccionHome') }}</a></li>
                     <li><a href="/post/create">{{ trans('message.publish') }}</a></li>
-                    <li><a href="/rol/create">{{ trans('message.roles') }}</a></li>
-                    <li><a href="/post/showUser">{{ trans('message.publications') }}</a></li>
+                    <li><a href="/rol/">{{ trans('message.roles') }}</a></li>
+                    <li><a href="/post/showPostAdmin">{{ trans('message.publications') }}</a></li>
                     @endif
                     <li>
                         <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

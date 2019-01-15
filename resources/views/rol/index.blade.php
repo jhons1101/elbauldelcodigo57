@@ -17,19 +17,37 @@
 
 @section('css')
 <style>
-
+.table {
+    border-collapse: unset !important;
+    border: 0;
+}
 </style>
 @stop
 
 @section('contenido')
     <div class="row">
         <div class="col s12 m12 l12">
-            <div class="labeltxt">{{ trans('message.listRole') }}</div>
+            <div class="labeltxt">
+                <table class="table">
+                    <tr>
+                        <td width="30%" class="left-align">
+                            {{ trans('message.listRole') }}
+                        </td>
+                        <td width="70%" class="right-align">
+                            <a href="/rol/create">
+                                <button class="waves-effect grey darken-4 btn-small" name="action">{{ trans('message.newRole') }}
+                                    <i class="material-icons right"></i>
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
             <div class="input-field">
                 <table>
                     <thead>
                         <tr>
-                            <th width="10%">{{ trans('message.codeRole') }}</th>
+                            <th width="10%">{{ trans('message.code') }}</th>
                             <th width="20%">{{ trans('message.titleRol') }}</th>
                             <th width="30%">{{ trans('message.descRol') }}</th>
                             <th width="20%">{{ trans('message.slug') }}</th>
@@ -40,7 +58,7 @@
                     <tbody>
                     @foreach ($allRole as $rol)
                         <tr>
-                            <td data-label="{{ trans('message.codeRole') }}">{{ $rol->id }}</td>
+                            <td data-label="{{ trans('message.code') }}">{{ $rol->id }}</td>
                             <td data-label="{{ trans('message.titleRol') }}">{{ $rol->rol_nombre }}</td>
                             <td data-label="{{ trans('message.descRol') }}">{{ $rol->rol_descrip }}</td>
                             <td data-label="{{ trans('message.slug') }}">{{ $rol->slug }}</td>

@@ -10,7 +10,11 @@
                         </a>
                     </li>
                     <li><h1><a href="{{ asset('/') }}" class="txtWhite"><b>{{ config('app.name') }}</b></a></h1></li>
-                    <li class="txtWhite">{{ trans('message.groupWS') }} {{ trans('message.celWS') }}</li>
+                    <li class="txtWhite">
+                        <a href="https://chat.whatsapp.com/IzwFOc8BbqpKcgEA9i3p33" class="txtWhite" target="_blank">
+                            {{ trans('message.groupWS') }} {{ trans('message.celWS') }}
+                        </a>
+                    </li>
                     <li>
                         <a href="https://www.facebook.com/groups/1820752601515497/" class="txtWhite" target="_blank">
                             {{ trans('message.groupFB') }}
@@ -42,7 +46,11 @@
                             <img src="{{ asset('/') }}img/claves-elbauldelcodigo.png" alt="ElbauldelCodigo.com" title="Ir al inicio de ElbauldelCodigo.com" class="logo_mb" />
                         </a>
                     </li>
-                    <li class="aMovil">{{ trans('message.groupWS') }} {{ trans('message.celWS') }}</li>
+                    <li class="aMovil">
+                        <a href="https://chat.whatsapp.com/IzwFOc8BbqpKcgEA9i3p33" target="_blank">
+                            {{ trans('message.groupWS') }} {{ trans('message.celWS') }}
+                        </a>
+                    </li>
                     <li style="display: inline-block;">
                         <a href="https://www.facebook.com/groups/1820752601515497/" target="_blank">
                             {{ trans('message.groupFB') }}

@@ -13,10 +13,10 @@
 
 Route::get('/', 'postController@index');
 
+Route::get('post/showPostAdmin', 'postController@showPostAdmin')->name('showPostAdmin');
 Route::resource('post', 'postController');
 Route::resource('rol', 'roleController');
 
-Route::get('showPostAdmin/{slug}', 'postController@showPostAdmin');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();

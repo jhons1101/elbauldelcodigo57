@@ -85,7 +85,7 @@
 							</a>
 						</li>
 						<li><h1><a href="{{ asset('/') }}" style="color:white;"><i><b>{{ config('app.name') }}</b></i></a></h1></li>
-						<li><a class="txtWhite" href="{{ asset('/foro') }}">{{ trans('message.foro') }}</a></li>
+						{{-- <li><a class="txtWhite" href="{{ asset('/foro') }}">{{ trans('message.foro') }}</a></li> --}}
 						<li><a class="txtWhite" href="{{ asset('/blog') }}">{{ trans('message.blog') }}</a></li>
 						<li class="txtWhite">{{ trans('message.groupWS') }} {{ trans('message.celWS') }}</li>
 						<li>
