@@ -194,6 +194,7 @@ return [
         'txtTitTheme'           => 'theme title',
         'txtImgTheme'           => 'img of theme',
         'txtTagTheme'           => 'tag of theme',
+        'comentario'            => 'comment',
     ],
 
 ];

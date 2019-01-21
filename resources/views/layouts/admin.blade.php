@@ -149,7 +149,11 @@
                 @yield('header')
             </header>
             {!! $errors->first('msg', '<div class="card-panel red-text red lighten-5 red text-darken-4">:message</div>') !!}
-            @include('partials.errors')
+            <div class="row">
+                <div class="col s12 m12 l12">
+                    @include('partials.errors')
+                </div>
+            </div>
             @yield('contenido')
         </div>
         @yield('footer')

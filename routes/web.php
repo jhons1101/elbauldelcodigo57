@@ -18,5 +18,6 @@ Route::get('post/showPostAdmin', 'PostController@showPostAdmin')->name('showPost
 Route::resource('post', 'PostController');
 Route::resource('rol', 'RoleController');
 Route::resource('tema', 'ThemeController');
+Route::resource('contacto', 'ContactController');
 
 Auth::routes();

@@ -153,7 +153,11 @@
 			</div>
 			<div class="wow fadeInUp content-card">
 				<paper-fab class="mobile-fab" icon="shop"></paper-fab>
-				@include('partials.errors')
+				<div class="row">
+					<div class="col s12 m12 l12">
+						@include('partials.errors')
+					</div>
+				</div>
 				<div class="icon-and-title-flex">
 					<div class="cajaTema">
 						<div class="texTema">

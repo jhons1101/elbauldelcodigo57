@@ -33,6 +33,7 @@ return [
     'msgModuleRol'       => 'the ROLE',
     'msgModuleTheme'     => 'the THEME',
     'msgModuleBLog'      => 'the BLOG',
+    'msgModuleContact'   => 'the contact',
     'seccionShowRol'     => 'Show ROLE',
     'dateCreated'        => 'Creation date',
     'seccionHome'        =>  getParametroString(13),
@@ -170,4 +171,16 @@ return [
     'subcopyEmailReset1' => 'If you’re having trouble clicking the "',
     'subcopyEmailReset2' => '" button, copy and paste the URL below',
     'intoSubCopy'        => 'into your web browser.',
+    'message'            => 'message',
+    'contactTextarea'    => 'Detail your message, we will be attentive to answer it.',
+    'weCanyou'           => 'WHERE CAN WE HELP YOU!',
+    'communicateContact' => 'Communicate with us and we will be happy to attend your request.
+                             Elbauldelcodigo needs collaborators ... you can be one! Write us and join.',
+    'msgContactMail1'    => 'Thank you very much for communicating with us',
+    'msgContactMail2'    => 'We will answer your request in the shortest possible time.
+                             You can check our publications while you wait.',
+    'msgContactMail3'    => 'You can check our publications while you wait.',
+    'msgContactMail4'    => 'Remember to follow us on our social networks',
+    'subjectMailContact' => 'Contact with elbauldelcodigo.com',
+    'with'               => 'as',
 ];

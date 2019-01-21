@@ -1,3 +1,4 @@
+@if (!isset($sinPaginate))
 <div class="right-align">
     @php
         $currentPage = $paginate->currentPage();
@@ -36,3 +37,4 @@
         </li>
     </ul>
 </div>
+@endif

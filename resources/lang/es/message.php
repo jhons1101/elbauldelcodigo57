@@ -33,6 +33,7 @@ return [
     'msgModuleRol'       => 'el ROL',
     'msgModuleTheme'     => 'el TEMA',
     'msgModuleBLog'      => 'el BLOG',
+    'msgModuleContact'   => 'el contacto',
     'seccionShowRol'     => 'Visualizar ROL',
     'dateCreated'        => 'Fecha de creación',
     'seccionHome'        =>  getParametroString(7),
@@ -170,4 +171,16 @@ return [
     'subcopyEmailReset1' => 'Si tienes problemas para hacer clic en el botón "',
     'subcopyEmailReset2' => '" copia y pega la URL',
     'intoSubCopy'        => 'a continuación en tu navegador web',
+    'message'            => 'mensaje',
+    'contactTextarea'    => 'Detalla tu mensaje, estaremos atento para responderlo.',
+    'weCanyou'           => 'EN QUE PODEMOS AYUDARTE.!',
+    'communicateContact' => 'Comunicate con nosotros y estaremos dichosos de atender tu solicitud.
+                            Elbauldelcodigo necesita colaboradores... tu puedes ser uno.! Escribenos y unete.',
+    'msgContactMail1'    => 'Muchas gracias por comunicarte con nosotros',
+    'msgContactMail2'    => 'Atenderemos tu solicitud en el menor tiempo posible.
+                             puedes revisar nuestras publicaciones mientras esperas.',
+    'msgContactMail3'    => 'puedes revisar nuestras publicaciones mientras esperas.',
+    'msgContactMail4'    => 'Recuerda seguirnos en nuestra redes sociales',
+    'subjectMailContact' => 'Contacto con en el elbauldelcodigo.com',
+    'with'               => 'como',
 ];

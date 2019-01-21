@@ -187,5 +187,6 @@ return [
         'txtTitTheme'           => 'título del tema',
         'txtImgTheme'           => 'img del tema',
         'txtTagTheme'           => 'tag del tema',
+        'comentario'            => 'comentario',
     ],
 ];

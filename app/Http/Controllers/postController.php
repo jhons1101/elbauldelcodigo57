@@ -51,7 +51,6 @@ class postController extends Controller
             $error = "";
         }
 
-
         $tema = DB::table('posts as p')
                 ->select('tm.tema_txt', 'tm.tema_img')
                 ->distinct()
