@@ -66,14 +66,8 @@
 		<style>img{cursor: pointer;} @yield('css')</style>
 	</head>
 	<body>
-		<script type="text/javascript">
-			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-			ga('create', 'UA-81299925-1', 'auto');
-			ga('send', 'pageview');
-		</script>
+		<script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create', 'UA-81299925-1', 'auto');ga('send', 'pageview');</script>
+		<div id="fb-root"></div><script>(function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) return;js = d.createElement(s); js.id = id;js.src = 'https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v3.2';fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));</script>
 		<header style="z-index:100; position: relative;">
 			<nav>
 			    <div class="nav-wrapper">
@@ -216,87 +210,13 @@
 						</a>
 						<hr />
 						<div class="row">
-							{{ Form::open(array('method' => 'POST', 'name' => 'guardarComentario', 'url' => 'guardarComentario')) }}
-							<div class="col s12 m12 l12">
-								<br /><br />
-								<span class="labelComentario">{{ trans('message.addComment') }}</span>
-								<br /><br />
-							</div>
-							<div class="col s12 m12 l12">
-								<label for="emailComm" data-error="wrong" data-success="right" class="labelbk">{{ trans('message.email') }}</label>
-									{{ Form::email('email', null, array(
-										'class'			=> 'validate',
-										'id' 			=> 'emailComm',
-										'placeholder'	=> trans('message.writeEmail'),
-										'required',
-										'maxlength'		=> '120'))
-									}}
-								<span class="erroresLaravel" >{{ $errors->first('email')}}</span>
-							</div>
-							<div class="col s12 m12 l12">
-							  <label for="commText" class="labelbk">{{ trans('message.writeComment') }}</label>
-								{{ Form::textarea('comentario', null, array(
-									'class'			=> 'commText materialize-textarea',
-									'id'			=> 'commText',
-									'placeholder'	=> trans('message.writeBodyComment'),
-									'required',
-									'maxlength'		=> '2000'))
-								}}
-								<span class="erroresLaravel" >{{ $errors->first('comentario')}}</span>
-								<div class="etiquetasDisponibles">
-									<span>{{ trans('message.tagsAval') }}</span>
-									&#60;pre&#62;&#60;/pre&#62;, &#60;p&#62;&#60;/p&#62;,  &#60;div&#62;&#60;/div&#62;, + ({{ trans('message.taggerUser') }})
-								</div>
-								<br />
-								<div class="captchaText">{{$keyCp}}</div>
-								<br />
-								<input type="text" name="codecaptcha" width="300px" placeholder="{{ trans('message.writeCaptcha') }}"/>
-								<br />
-								{{ Form::hidden('idPost', null, array('id' => 'idPost')) }}
-								{{ Form::button(trans('message.saveComment'), array(
-									'class' => 'btn waves-effect waves-light',
-									'type'  => 'submit'))
-								}}
-								<i class="material-icons right"></i>
-								<br /><br /><br /><br />
-							</div>
-							{{ Form::close() }}
+							<div class="fb-comments" data-href="http://127.0.0.1:8000" data-width="100%" data-numposts="5"></div>
 						</div>
-
-
-						@if (count($comm) <= 0)
-						   <div>{{ trans('message.zeroComments') }}</div>
-						@else
-							@foreach($comm as $comentario)
-								<div class="col s12 m12 l12">
-									<div class="card-panel grey lighten-5 z-depth-1" style="font-family: RobotoDraft,sans-serif; font-size: 17px;">
-										<div class="row valign-wrapper">
-											<div class="col s3 m2 l1 ">
-												@if ($comentario->usuarios_img == null)
-													<img src="{{ asset('/img/usuarios/img_default.png') }}" class="circle responsive-img">
-												@else
-													<img src="{{ asset('/img/usuarios') }}/{{ $comentario->usuarios_img }}" class="circle responsive-img">
-												@endif
-											</div>
-											<div class="col s9 m10 l11" style="padding-left:10px">
-												<div class="ComUser">{{ $comentario->usuarios_name }}</div>
-												<div class="ComUser ComFecha">{{ $comentario->com_fec }}</div>
-												<div class="ComUser ComTexto">
-													{{ $comentario->com_texto }}
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							@endforeach
-						@endif
 						<script>
 							setTimeout(function(){
 								document.getElementById("idPost").value = rutaPagina[2];
 							}, 3000);
 						</script>
-
-
 					</main>
 				</div>
 
