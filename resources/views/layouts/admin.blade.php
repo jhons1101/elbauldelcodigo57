@@ -145,7 +145,7 @@
         <div class="contenedor">
             <header>
                 <div class="header-estado">&nbsp;</div>
-                <div class="header-seccion">@yield('seccion')</div>
+                <div class="header-seccion">@yield('moduleSeccion')</div>
                 @yield('header')
             </header>
             {!! $errors->first('msg', '<div class="card-panel red-text red lighten-5 red text-darken-4">:message</div>') !!}

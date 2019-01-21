@@ -34,6 +34,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
+        \App::setLocale('en');
         $this->middleware('guest')->except('logout');
     }
 }

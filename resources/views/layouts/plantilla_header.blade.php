@@ -21,7 +21,7 @@
                         </a>
                     </li>
                     {{-- <li><a href="{{ asset('/foro') }}" class="txtWhite">{{ trans('message.foro') }}</a></li> --}}
-                    <li><a href="{{ asset('/foro') }}" class="txtWhite">{{ trans('message.blog') }}</a></li>
+                    {{-- <li><a href="{{ asset('/foro') }}" class="txtWhite">{{ trans('message.blog') }}</a></li> --}}
                     @if (Auth::guest())
                     <li><a href="{{ asset('/login') }}" class="txtWhite">{{ trans('message.login') }}</a></li>
                     <li><a href="{{ asset('/register') }}" class="txtWhite">{{ trans('message.register') }}</a></li>
@@ -57,7 +57,7 @@
                         </a>
                     </li>
                     {{-- <li><a href="{{ asset('/foro') }}">{{ trans('message.foro') }}</a></li> --}}
-                    <li><a href="{{ asset('/foro') }}">{{ trans('message.blog') }}</a></li>
+                    {{-- <li><a href="{{ asset('/foro') }}">{{ trans('message.blog') }}</a></li> --}}
                     @if (Auth::guest())
                     <li><a href="{{ asset('/login') }}">{{ trans('message.login') }}</a></li>
                     <li><a href="{{ asset('/register') }}">{{ trans('message.register') }}</a></li>

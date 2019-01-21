@@ -52,7 +52,7 @@ class RoleController extends Controller
                 ->get();
         
         return View('rol.index')
-        ->with('seccion',      trans('message.seccionListRol'))
+        ->with('seccion',      trans('message.moduleRole'))
         ->with('roles',        $roles[0])
         ->with('allRole',      $allRole)
         ->with('user',         $user[0]);
@@ -92,7 +92,7 @@ class RoleController extends Controller
         return View('rol.create')
         ->with('roles',        $roles[0])
         ->with('roleSelects',  $roleSelects)
-        ->with('seccion',      trans('message.seccionCreateRol'))
+        ->with('seccion',      trans('message.moduleRole'))
         ->with('user',         $user[0])
         ->with('usuarios',     $usuarios)
         ;
@@ -142,27 +142,27 @@ class RoleController extends Controller
                     return  redirect()->route('rol.show',  [ $rol->slug ])
                             ->with('msgStatus',     1)
                             ->with('status',        1)
-                            ->with('statusModule',  'moduleRol');
+                            ->with('statusModule',  'msgModuleRol');
 
                 } catch (\Illuminate\Database\QueryException $ex) {
                     return  redirect()->route('rol.create')
                             ->with('sqlerror',      $ex->errorInfo[2])
                             ->with('msgStatus',     1)
                             ->with('status',        0)
-                            ->with('statusModule',  'moduleRol');
+                            ->with('statusModule',  'msgModuleRol');
                 }
             } else {
                 return  redirect()->route('rol.show',  [ $rol->slug ])
                             ->with('msgStatus',     1)
                             ->with('status',        1)
-                            ->with('statusModule',  'moduleRol');
+                            ->with('statusModule',  'msgModuleRol');
             }
         } catch (\Illuminate\Database\QueryException $ex) {
             return  redirect()->route('rol.create')
                     ->with('sqlerror',      $ex->errorInfo[2])
                     ->with('msgStatus',     1)
                     ->with('status',        0)
-                    ->with('statusModule',  'moduleRol');
+                    ->with('statusModule',  'msgModuleRol');
         }
     }
 
@@ -202,7 +202,7 @@ class RoleController extends Controller
         
         
         return View('rol.show')
-        ->with('seccion',      trans('message.seccionShowRol'))
+        ->with('seccion',      trans('message.moduleRole'))
         ->with('roles',        $roles[0]) 
         ->with('user',         $user[0])
         ->with('objRol',       $objRol[0])
@@ -240,7 +240,7 @@ class RoleController extends Controller
         // echo "<pre>"; print_r($role); echo"</pre>"; die('pausa');
         return View('rol.edit')
         ->with('roles',        $roles[0])
-        ->with('seccion',      trans('message.seccionEditRol'))
+        ->with('seccion',      trans('message.moduleRole'))
         ->with('user',         $user[0])
         ->with('rol',          $role[0])
         ->with('roleSelects',  $roleSelects)
@@ -292,20 +292,20 @@ class RoleController extends Controller
                     return  redirect()->route('rol.show',  [ $role->slug ])
                             ->with('msgStatus',     1)
                             ->with('status',        1)
-                            ->with('statusModule',  'moduleRol');
+                            ->with('statusModule',  'msgModuleRol');
 
                 } catch (\Illuminate\Database\QueryException $ex) {
                     return  redirect()->route('rol.create')
                             ->with('sqlerror',      $ex->errorInfo[2])
                             ->with('msgStatus',     1)
                             ->with('status',        0)
-                            ->with('statusModule',  'moduleRol');
+                            ->with('statusModule',  'msgModuleRol');
                 }
             } else {
                 return  redirect()->route('rol.index',  [ $role->slug ])
                             ->with('msgStatus',     1)
                             ->with('status',        1)
-                            ->with('statusModule',  'moduleRol');
+                            ->with('statusModule',  'msgModuleRol');
             }
             
         } catch (\Illuminate\Database\QueryException $ex) {
@@ -313,7 +313,7 @@ class RoleController extends Controller
                     ->with('sqlerror',      $ex->errorInfo[2])
                     ->with('msgStatus',     1)
                     ->with('status',        0)
-                    ->with('statusModule',  'moduleRol');
+                    ->with('statusModule',  'msgModuleRol');
         }
 
     }
@@ -344,14 +344,14 @@ class RoleController extends Controller
             return  redirect()->route('rol.show',  [ $role->slug ])
                     ->with('msgStatus',     1)
                     ->with('status',        1)
-                    ->with('statusModule',  'moduleRol');
+                    ->with('statusModule',  'msgModuleRol');
             
         } catch (\Illuminate\Database\QueryException $ex) {
             return  redirect()->route('rol.show',  [ $role->slug ])
                     ->with('sqlerror',      $ex->errorInfo[2])
                     ->with('msgStatus',     1)
                     ->with('status',        0)
-                    ->with('statusModule',  'moduleRol');
+                    ->with('statusModule',  'msgModuleRol');
         }
     }
 }

@@ -26,7 +26,6 @@ class StorePostRequest extends FormRequest
         return [
             'txtTitPost'   => 'required|min:20|max:200',
             'txtTemPost'   => 'required|numeric',
-            'txtSlugPost'  => 'required|min:20|max:200',
             'txtTagsPost'  => 'required|array',
             'txtKeyPost'   => 'required|min:5|max:300',
             'txtDesPost'   => 'required|min:20|max:200',

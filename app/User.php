@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use elbauldelcodigo\ParametroGral;
+use elbauldelcodigo\Notifications\ResetPasswordNotification;
 
 class User extends Authenticatable
 {
@@ -84,5 +85,16 @@ class User extends Authenticatable
             return true;
         }
         return false;
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 }

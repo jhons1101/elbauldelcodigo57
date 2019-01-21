@@ -34,6 +34,12 @@
 
 @section('contenido')
     <div class="row">
+        <h5>{{ trans('message.newRole') }}</h5>
+        <hr />
+        <br />
+        <br />
+    </div>
+    <div class="row">
         <div class="col s12 m12 l12">
             <form action="/rol" method="post">
                 @csrf

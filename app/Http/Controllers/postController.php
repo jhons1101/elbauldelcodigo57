@@ -73,12 +73,12 @@ class postController extends Controller
         if (auth()->user()) {
             $usuPost        = Auth::user()->id;
         
-        $roles  = DB::table('rol_user_user as r')
-                ->select('r.rol_user_id', 'rs.rol_nombre')
-                ->join('rol_users as rs', 'rs.id', '=', 'r.rol_user_id')
-                ->where('user_id', $usuPost)
-                ->orderBy('rol_user_id', 'asc')
-                ->get();
+            $roles  = DB::table('rol_user_user as r')
+                    ->select('r.rol_user_id', 'rs.rol_nombre')
+                    ->join('rol_users as rs', 'rs.id', '=', 'r.rol_user_id')
+                    ->where('user_id', $usuPost)
+                    ->orderBy('rol_user_id', 'asc')
+                    ->get();
         } else {
             $roles = new RolUserUser(); 
         }
@@ -129,13 +129,14 @@ class postController extends Controller
                 ->get();
 
         return View('post.create')
-        ->with('tipoPost',   $tipoPost)
-        ->with('usuPost',    $usuPost)
-        ->with('temaPost',   $temaPost)
-        ->with('tagsPost',   $tagsPost)
-        ->with('roles',      $roles[0])
-        ->with('seccion',    trans('message.seccionAdmin'))
-        ->with('user',       $user[0])
+        ->with('tipoPost',        $tipoPost)
+        ->with('usuPost',         $usuPost)
+        ->with('temaPost',        $temaPost)
+        ->with('tagsPost',        $tagsPost)
+        ->with('roles',           $roles[0])
+        ->with('seccion',         trans('message.newPost'))
+        ->with('moduleSeccion',   trans('message.modulePost'))
+        ->with('user',            $user[0])
         ;
     }
 
@@ -172,7 +173,7 @@ class postController extends Controller
         $post->post_tipo    =  $request->get('txtTipPost');
         $post->slug         =  $request->get('txtSlugPost');
         $post->desc_post    =  htmlentities ($request->get('textareaPost'), ENT_QUOTES);
-        $post->des_code     =  htmlentities ($request->get('textareaCode'), ENT_QUOTES);
+        $post->desc_code    =  htmlentities ($request->get('textareaCode'), ENT_QUOTES);
 
         foreach ($txtTags as $key => $tag) {
             $itemTag .= $tag. ',';
@@ -195,7 +196,7 @@ class postController extends Controller
                     ->route('post.show',  [ $post->slug ])
                     ->with('msgStatus',     1)
                     ->with('status',        1)
-                    ->with('statusModule',  'modulePost');
+                    ->with('statusModule',  'msgModulePost');
 
         } catch (\Illuminate\Database\QueryException $ex) {
             
@@ -204,7 +205,7 @@ class postController extends Controller
                     ->with('sqlerror',      $ex->errorInfo[2])
                     ->with('msgStatus',     1)
                     ->with('status',        0)
-                    ->with('statusModule',  'modulePost');
+                    ->with('statusModule',  'msgModulePost');
         }
     }
 
@@ -325,7 +326,7 @@ class postController extends Controller
                 ->get();
         
         return View('post.showPostAdmin')
-        ->with('seccion',      trans('message.seccionListpost'))
+        ->with('seccion',      trans('message.modulePost'))
         ->with('roles',        $roles[0])
         ->with('allPost',      $allPost)
         ->with('user',         $user[0])
@@ -373,23 +374,16 @@ class postController extends Controller
                 ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
                 ->where('p.id', $id)->get();
         
-        // Consultamos los post relacionados según el tema de la entrada.
-        $relacionados = DB::table('posts')
-                        ->where('post_tema', $posts[0]->post_tema)
-                        ->where('id', '!=', $id)
-                        ->orderBy('post_fec', 'desc')
-                        ->skip(0)->take(5)->get();
         
         // recorremos los tags del post y le traemos su descipción para pintarla en la plantilla
         $txtTags  = [];
         foreach ($posts as $key => $value){
             
             foreach(explode(',', $value->post_tags) as $item => $idtag){
-                $tag             = DB::table('tags_posts')->select('tag_txt')->where('tag_id', $idtag)->get();
+                $tag             = DB::table('tags_posts')->select('tag_txt')->where('tag_id', $idtag)->get(); 
                 $txtTags[$item]  = strtolower($tag[0]->tag_txt);
             }
         }
-        
 
         // traemos los roles de usuario
         $roles  = DB::table('rol_user_user as r')
@@ -401,15 +395,17 @@ class postController extends Controller
 
         
         return view('post.edit')
-        ->with('id',        $id)
-        ->with('posts',     $posts[0])
-        ->with('txtTags',   $txtTags)
-        ->with('tipoPost',  $tipoPost)
-        ->with('usuPost',   $usuPost)
-        ->with('temaPost',  $temaPost)
-        ->with('roles',     $roles[0])
-        ->with('user',      $user[0])
-        ->with('tagsPost',  $tagsPost);
+        ->with('id',              $id)
+        ->with('posts',           $posts[0])
+        ->with('txtTags',         $txtTags)
+        ->with('tipoPost',        $tipoPost)
+        ->with('usuPost',         $usuPost)
+        ->with('temaPost',        $temaPost)
+        ->with('roles',           $roles[0])
+        ->with('user',            $user[0])
+        ->with('seccion',         trans('message.editPost'))
+        ->with('moduleSeccion',   trans('message.modulePost'))
+        ->with('tagsPost',        $tagsPost);
     }
 
     /**
@@ -451,11 +447,11 @@ class postController extends Controller
         $post->updated_at   =  date("Y-m-d H:i:s");
         $post->post_tipo    =  $request->get('txtTipPost');
         $post->desc_post    =  htmlentities ($request->get('textareaPost'), ENT_QUOTES);
-        $post->des_code     =  htmlentities ($request->get('textareaCode'), ENT_QUOTES);
+        $post->desc_code    =  htmlentities ($request->get('textareaCode'), ENT_QUOTES);
 
-        // foreach ($txtTags as $key => $tag) {
-        //     $itemTag .= $tag. ',';
-        // }
+        foreach ($txtTags as $key => $tag) {
+            $itemTag .= $tag. ',';
+        }
 
         if ($request->get('txtPubPost') == 'on'){
             $txtPubPost = 1;
@@ -468,7 +464,7 @@ class postController extends Controller
         //https://www.youtube.com/watch?v=uRQv_ojF9JQ&list=PLIddmSRJEJ0sxS-RmqdRMlkyWOQWvEGEt&index=23
 
         $post->flg_publicar =  $txtPubPost;
-        $post->post_tags    =  $request->get('txtTagsPost'); //itemTag
+        $post->post_tags    =  substr($itemTag, 0, -1);
         
         if ($post->save()) {
 
@@ -478,7 +474,7 @@ class postController extends Controller
                     ->route('post.edit',     [ $post->slug ])
                     ->with('msgStatus',      $msj->txt_parametro)
                     ->with('status',         1)
-                    ->with('statusModule',  'modulePost');
+                    ->with('statusModule',  'msgModulePost');
 
         } else {
 
@@ -488,7 +484,7 @@ class postController extends Controller
                     ->route('post.edit',     [ $post->slug ])
                     ->with('msgStatus',      $msj->txt_parametro)
                     ->with('status',         0)
-                    ->with('statusModule',  'modulePost');
+                    ->with('statusModule',  'msgModulePost');
         }
     }
 

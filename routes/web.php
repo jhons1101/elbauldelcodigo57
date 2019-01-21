@@ -11,12 +11,12 @@
 |
 */
 
-Route::get('/', 'postController@index');
-
-Route::get('post/showPostAdmin', 'postController@showPostAdmin')->name('showPostAdmin');
-Route::resource('post', 'postController');
-Route::resource('rol', 'roleController');
-
+Route::get('/', 'PostController@index');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('post/showPostAdmin', 'PostController@showPostAdmin')->name('showPostAdmin');
+
+Route::resource('post', 'PostController');
+Route::resource('rol', 'RoleController');
+Route::resource('tema', 'ThemeController');
 
 Auth::routes();

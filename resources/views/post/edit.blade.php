@@ -3,7 +3,16 @@
 
 <!-- sección para poner el title del post -->
 @section('seccion')
-Editar post
+{{ $seccion }} {{ $posts->post_tit }}
+@stop
+
+<!-- sección para poner el modulo de la pantalla -->
+@section('moduleSeccion')
+{{ $moduleSeccion }}
+@stop
+
+@section('header')
+<div style="padding:20px">&nbsp;</div>
 @stop
 
 
@@ -35,9 +44,10 @@ Editar post
 <!-- secciónpara cargar la foto del usuario de la sessión del post -->
 @section('css')
 <style>
-.select-wrapper+label {
-    top: -75px;
-    position: relative;
+[type=checkbox]:not(:checked), [type=checkbox]:checked {
+    opacity:1 !important;
+    position: unset !important;
+    pointer-events: initial !important;
 }
 </style>
 @stop
@@ -45,82 +55,98 @@ Editar post
 
 @section('contenido')
     <div class="row">
-        <h2>Editar POST: {{ $posts->post_tit }}</h2>
+        <h5>{{ trans('message.editPost') }}: <i>{{ $posts->post_tit }}</i></h5>
         <hr />
+        <br />
+        <br />
     </div>
     <div class="row">
         <div class="col s12 m12 l12">
-        <form class="" action="/post/{{ $posts->slug }}" method="POST">
+        <form action="/post/{{ $posts->slug }}" method="POST">
                 @method('PUT')
                 @csrf
                 <div class="row">
                     <div class="col s12 m6 l6">
+                        <label>{{ trans('message.titlePost') }}</label>
                         <div class="input-field">
-                            <input type="text" class="validate" id="tit_post" name="txtTitPost" value="{{ $posts->post_tit }}">
-                            <label>Título</label>
+                            <input type="text" class="validate" id="tit_post" name="txtTitPost" @if (old('txtTitPost') != '') value="{{ old('txtTitPost') }}" @else value="{{ $posts->post_tit }}" @endif>
                             @if ($errors->has('txtTitPost'))
-                                <span class="helper-text red-text">{{ $errors->first('txtTitPost') }}</span>
+                                <span class="helper-text red-text text-darken-4">{{ $errors->first('txtTitPost') }}</span>
                             @endif
                         </div>
                     </div>
                     <div class="col s12 m6 l6">
+                        <label>{{ trans('message.topic') }}</label>
                         <div class="input-field">
                             <select id="tem_post" name="txtTemPost">
-                                <option value="">Seleccione</option>
+                                <option value="">{{ trans('message.select') }}</option>
                                 @foreach ($temaPost as $tema)
-                                <option value="{{$tema->tema_id}}" @if($posts->post_tema == $tema->tema_id) selected @endif>{{$tema->tema_txt}}</option>
+                                <option value="{{$tema->tema_id}}" @if (old('txtTemPost') == $tema->tema_id) selected @elseif($posts->post_tema == $tema->tema_id) selected @endif>{{$tema->tema_txt}}</option>
                                 @endforeach
                             </select>
-                            <label>Tema principal</label>
                             @if ($errors->has('txtTemPost'))
-                                <span class="helper-text red-text">{{ $errors->first('txtTemPost') }}</span>
+                                <span class="helper-text red-text text-darken-4">{{ $errors->first('txtTemPost') }}</span>
                             @endif
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col s12 m6 l6">
+                    <div class="col s12 m12 l12">
+                        <label>{{ trans('message.slug') }}</label>
                         <div class="input-field">
-                            <input type="text" class="" id="slug_post" name="txtSlugPost" value="{{ $posts->slug }}">
-                            <label>Slug</label>
-                            @if ($errors->has('txtSlugPost'))
-                                <span class="helper-text red-text">{{ $errors->first('txtSlugPost') }}</span>
-                            @endif
+                            {{ $posts->slug }}
                         </div>
                     </div>
-                    <div class="col s12 m6 l6">
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <label>{{ trans('message.tags') }}</label>
                         <div class="input-field">
-                            <select multiple name="txtTagsPost">
-                                <option value="">Seleccione</option>
-                                @foreach ($tagsPost as $tag)
-                                <option value="{{$tag->tag_id}}" @if($posts->post_tags == $tag->tag_id) selected @endif>{{$tag->tag_txt}}</option>
-                                @endforeach
-                            </select>
-                            <label>Tags</label>
+                            @foreach ($tagsPost as $tag)
+                                <div class="col s6 m2 l2">
+                                    <input type="checkbox" name="txtTagsPost[]" value="{{$tag->tag_id}}" id="txtTagsPost_{{$tag->tag_id}}" 
+                                        @if (is_array(old('txtTagsPost'))) 
+                                            @foreach (old('txtTagsPost') as $oldtag)
+                                                @if ($oldtag == $tag->tag_id)
+                                                    checked
+                                                @endif
+                                            @endforeach
+                                        @else
+                                            @foreach (explode (',', $posts->post_tags) as $posttag)
+                                                @if ($posttag == $tag->tag_id)
+                                                    checked
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    />
+                                    {{$tag->tag_txt}}
+                                </div>
+                            @endforeach
+                            <br />
                             @if ($errors->has('txtTagsPost'))
-                                <span class="helper-text red-text">{{ $errors->first('txtTagsPost') }}</span>
+                                <span class="helper-text red-text text-darken-4">{{ $errors->first('txtTagsPost') }}</span>
                             @endif
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12">
+                        <label>{{ trans('message.key') }}</label>
                         <div class="input-field">
-                            <input type="text" class="" id="key_post" name="txtKeyPost" value="{{ $posts->slug }}">
-                            <label>Keys</label>
+                            <input type="text" id="key_post" name="txtKeyPost" @if (old('txtKeyPost') != '') value="{{ old('txtKeyPost') }}" @else value="{{ $posts->post_key }}" @endif>
                             @if ($errors->has('txtKeyPost'))
-                                <span class="helper-text red-text">{{ $errors->first('txtKeyPost') }}</span>
+                                <span class="helper-text red-text text-darken-4">{{ $errors->first('txtKeyPost') }}</span>
                             @endif
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12">
+                        <label>{{ trans('message.describe') }}</label>
                         <div class="input-field">
-                            <input type="text" class="" id="des_post" name="txtDesPost" value="{{ $posts->slug }}">
-                            <label>Describe</label>
+                            <input type="text" id="des_post" name="txtDesPost" @if (old('txtDesPost') != '') value="{{ old('txtDesPost') }}" @else value="{{ $posts->post_desc }}" @endif>
                             @if ($errors->has('txtDesPost'))
-                                <span class="helper-text red-text">{{ $errors->first('txtDesPost') }}</span>
+                                <span class="helper-text red-text text-darken-4">{{ $errors->first('txtDesPost') }}</span>
                             @endif
                         </div>
                     </div>
@@ -128,11 +154,15 @@ Editar post
                 <div class="row">
                     <div class="col s12 m12 l12">
                         <div class="input-field">
-                            <textarea class="textareaTiny" name="textareaPost" value="{{ $posts->slug }}">
-                                Ingrese la descripcion del post
+                            <textarea class="textareaTiny" name="textareaPost" >
+                                @if (old('textareaPost') != '')
+                                    {!! html_entity_decode(old('textareaPost'), ENT_QUOTES, 'UTF-8') !!}
+                                @else
+                                    {!! html_entity_decode($posts->desc_post, ENT_QUOTES, 'UTF-8') !!}
+                                @endif
                             </textarea>
                             @if ($errors->has('textareaPost'))
-                                <span class="helper-text red-text">{{ $errors->first('textareaPost') }}</span>
+                                <span class="helper-text red-text text-darken-4">{{ $errors->first('textareaPost') }}</span>
                             @endif
                         </div>
                     </div>
@@ -140,41 +170,45 @@ Editar post
                 <div class="row">
                     <div class="col s12 m12 l12">
                         <div class="input-field">
-                            <textarea class="textareaTiny" name="textareaCode" value="{{ $posts->slug }}">
-                                Ingrese la información complementaria, código fuente y evidencias del código que se está probando
+                            <textarea class="textareaTiny" name="textareaCode" >
+                                @if (old('textareaCode') != '')
+                                    {!! html_entity_decode(old('textareaCode'), ENT_QUOTES, 'UTF-8') !!}
+                                @else
+                                    {!! html_entity_decode($posts->desc_code, ENT_QUOTES, 'UTF-8') !!}
+                                @endif
                             </textarea>
                             @if ($errors->has('textareaCode'))
-                                <span class="helper-text red-text">{{ $errors->first('textareaCode') }}</span>
+                                <span class="helper-text red-text text-darken-4">{{ $errors->first('textareaCode') }}</span>
                             @endif
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12 m6 l6">
-                        <label for="txtPubPost" data-error="wrong" data-success="right" class="labelbk">Publicar</label>
+                        <label>{{ trans('message.publish') }}</label>
                         <div class="switch">
                             <label>
-                                NO
+                                {{ trans('message.not') }}
                                 <input type="checkbox" name="txtPubPost" id="txtPubPost" @if( $posts->flg_publicar == 1) checked @endif>
                                 <span class="lever"></span>
-                                SI
+                                {{ trans('message.yes') }}
                             </label>
-                            @if ($errors->has('txtPubPost'))
-                                <span class="helper-text red-text">{{ $errors->first('txtPubPost') }}</span>
+                            @if ($errors->has('yes'))
+                                <span class="helper-text red-text text-darken-4">{{ $errors->first('txtPubPost') }}</span>
                             @endif
                         </div>
                     </div>
                     <div class="col s12 m6 l6">
+                        <label>{{ trans('message.typePost') }}</label>
                         <div class="input-field">
                             <select id="tip_post" name="txtTipPost">
-                                <option value="">Seleccione</option>
+                                <option value="">{{ trans('message.select') }}</option>
                                 @foreach ($tipoPost as $tipo)
-                                <option value="{{$tipo->tipo_id}}" @if($posts->post_tipo == $tipo->tipo_id) selected @endif>{{$tipo->tipo_txt}}</option>
+                                    <option value="{{$tipo->tipo_id}}" @if (old('txtTipPost') == $tipo->tipo_id) selected @elseif($posts->post_tipo == $tipo->tipo_id) selected @endif >{{$tipo->tipo_txt}}</option>
                                 @endforeach
                             </select>
-                            <label>Tipo de entrada</label>
                             @if ($errors->has('txtTipPost'))
-                                <span class="helper-text red-text">{{ $errors->first('txtTipPost') }}</span>
+                                <span class="helper-text red-text text-darken-4">{{ $errors->first('txtTipPost') }}</span>
                             @endif
                         </div>
                     </div>
@@ -182,7 +216,7 @@ Editar post
                 <div class="row">
                     <div class="col s12 m12 l12">
                         <div class="input-field">
-                            <button class="waves-effect grey darken-4 btn-large" type="submit" name="action">Guardar
+                            <button class="waves-effect grey darken-4 btn-large" type="submit" name="action">{{ trans('message.save') }}
                                 <i class="material-icons right"></i>
                             </button>
                         </div>

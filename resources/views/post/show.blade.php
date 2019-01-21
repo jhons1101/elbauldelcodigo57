@@ -45,5 +45,5 @@
 
 <!-- sección para definir el código fuente y los detalles del post -->
 @section('CodigoFte')
-{!! html_entity_decode($Posts[0]->des_code, ENT_QUOTES, 'UTF-8') !!}
+{!! html_entity_decode($Posts[0]->desc_code, ENT_QUOTES, 'UTF-8') !!}
 @stop

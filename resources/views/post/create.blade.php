@@ -6,6 +6,11 @@
 {{ $seccion }}
 @stop
 
+<!-- sección para poner el modulo de la pantalla -->
+@section('moduleSeccion')
+{{ $moduleSeccion }}
+@stop
+
 @section('header')
 <div style="padding:20px">&nbsp;</div>
 @stop
@@ -46,6 +51,12 @@
 @stop
 
 @section('contenido')
+    <div class="row">
+        <h5>{{ trans('message.newPost') }}</h5>
+        <hr />
+        <br />
+        <br />
+    </div>
     <div class="row">
         <div class="col s12 m12 l12">
             <form class="" action="/post" method="POST">
@@ -91,7 +102,10 @@
                         <label>{{ trans('message.tags') }}</label>
                         <div class="input-field">
                             @foreach ($tagsPost as $tag)
-                            <input type="checkbox" name="txtTagsPost[]" value="{{$tag->tag_id}}" id="txtTagsPost_{{$tag->tag_id}}" /> {{$tag->tag_txt}}  &nbsp; 
+                                <div class="col s6 m2 l2">
+                                    <input type="checkbox" name="txtTagsPost[]" value="{{$tag->tag_id}}" id="txtTagsPost_{{$tag->tag_id}}" />
+                                    {{$tag->tag_txt}}
+                                </div>
                             @endforeach
                             <br />
                             @if ($errors->has('txtTagsPost'))
@@ -125,8 +139,12 @@
                 <div class="row">
                     <div class="col s12 m12 l12">
                         <div class="input-field">
-                            <textarea class="textareaTiny" name="textareaPost" value="{{ old('textareaPost') }}">
-                                {{ trans('message.textareaPost') }}
+                            <textarea class="textareaTiny" name="textareaPost">
+                                @if (old('textareaCode') != '')
+                                    {!! html_entity_decode(old('textareaPost'), ENT_QUOTES, 'UTF-8') !!}
+                                @else
+                                    {{ trans('message.textareaPost') }}
+                                @endif
                             </textarea>
                             @if ($errors->has('textareaPost'))
                                 <span class="helper-text red-text text-darken-4">{{ $errors->first('textareaPost') }}</span>
@@ -137,8 +155,12 @@
                 <div class="row">
                     <div class="col s12 m12 l12">
                         <div class="input-field">
-                            <textarea class="textareaTiny" name="textareaCode" value="{{ old('textareaCode') }}">
-                                {{ trans('message.textareaCode') }}
+                            <textarea class="textareaTiny" name="textareaCode">
+                                @if (old('textareaCode') != '')
+                                    {!! html_entity_decode(old('textareaCode'), ENT_QUOTES, 'UTF-8') !!}
+                                @else
+                                    {{ trans('message.textareaCode') }}
+                                @endif
                             </textarea>
                             @if ($errors->has('textareaCode'))
                                 <span class="helper-text red-text text-darken-4">{{ $errors->first('textareaCode') }}</span>

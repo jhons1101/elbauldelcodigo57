@@ -34,6 +34,12 @@
 
 @section('contenido')
     <div class="row">
+        <h5>{{ trans('message.editRole') }}: <i>{{ $rol->rol_nombre }}</i></h5>
+        <hr />
+        <br />
+        <br />
+    </div>
+    <div class="row">
         <div class="col s12 m12 l12">
             <form action="/rol/{{ $rol->slug }}" method="POST">
                 @method('PUT')

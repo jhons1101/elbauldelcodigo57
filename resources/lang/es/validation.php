@@ -127,6 +127,9 @@ return [
         'email'    => [
             'unique' => 'El :attribute ya ha sido registrado.',
         ],
+        'attribute-name' => [
+            'rule-name' => 'Mensaje personalizado',
+        ],
     ],
     /*
     |--------------------------------------------------------------------------
@@ -180,6 +183,9 @@ return [
         'txtDesPost'            => 'descripción SEO del post',
         'textareaPost'          => 'sección de contenido del post ',
         'textareaCode'          => 'sección del código fuente del post',
-        'txtTipPost'            => 'tipo de post'
+        'txtTipPost'            => 'tipo de post',
+        'txtTitTheme'           => 'título del tema',
+        'txtImgTheme'           => 'img del tema',
+        'txtTagTheme'           => 'tag del tema',
     ],
 ];
