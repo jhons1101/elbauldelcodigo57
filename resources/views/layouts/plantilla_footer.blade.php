@@ -11,16 +11,14 @@
                 <a href="{{ asset('/usuario/jhons1101') }}" target="_blank" style="color:white;">@jhons1101</a><sup>©</sup>
             </span>
             <br>
-            <span>Síguenos para que estés actualizado de lo último del diseño y desarrollo web, búscanos con bajo estas etiquetas</span><br>
-            <span> #jhons1101, #SoyCode, #baulCode y en redes sociales +elbauldelcodigo</span>
+            <span>{{ trans('message.follow') }}</span><br>
+            <span>{{ trans('message.tagsFollow') }}</span>
         </div>
     </div>
     <div class="footer-copyright">
         <div class="container">
-            Power By Jhons1101<sup>©</sup> 2015
-            <sup title="Todos los Derechos Reservados">&reg;</sup> para <a href="http://elbauldelcodigo.com/" target="_blank" style="color:white;">
-                elBaulDelCodigo.com</a><sup title="Todos los Derechos Reservados">&reg;</sup>
-            <a class="grey-text text-lighten-4 right" href="#!">Mejoramos tu sitio web.!</a>
+            {{ trans('message.powerBy') }}
+            <a class="grey-text text-lighten-4 right" href="#!">{{ trans('message.improveBc') }}</a>
         </div>
     </div>
 </footer>

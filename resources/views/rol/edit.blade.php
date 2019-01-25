@@ -12,9 +12,11 @@
 
 <!-- sección de javascript propios del rol -->
 @section('javascript')
+<script type="text/javascript">
     $(document).ready(function(){
         $('select').material_select();
     });
+</script>
 @stop
 
 @section('css')

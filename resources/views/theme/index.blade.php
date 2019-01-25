@@ -12,7 +12,7 @@
 
 <!-- sección de javascript propios del rol -->
 @section('javascript')
-
+<script type="text/javascript"></script>
 @stop
 
 @section('css')

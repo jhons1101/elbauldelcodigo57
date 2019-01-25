@@ -130,7 +130,6 @@ class ThemeController extends Controller
             ]);
         }
 
-        // guardamos el nuevo rol en la tabla 'rol_users'
         $theme              =  new TemaPost();
         $theme->tema_txt    =  ucfirst(slugify($request->get('txtTitTheme')));
         $theme->tema_img    =  strtolower($request->get('txtImgTheme'));

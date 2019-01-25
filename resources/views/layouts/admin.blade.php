@@ -15,24 +15,29 @@
         <link rel="stylesheet" href="{{ asset('/css/materialize.css') }}">
         <link rel="stylesheet" href="{{ asset('/css/tablas-responsive.css') }}">
         <style>
-        .nav-navigation {
-            overflow-y: auto;
-            height: 84%;
-        }
-        .nav-ul-li-span {
-            display: inline-block !important; 
-            line-height: 56px !important;
-            font-size: 1rem !important;
-        }
-        .labeltxt {
-            font-weight:700;
-            color:rgba(0,0,0,.87);
-            text-transform: uppercase;
-        }
-        textarea {
-            padding:20px;
-            color:#909090;
-        }
+            .nav-navigation {
+                overflow-y: auto;
+                height: 84%;
+            }
+            .nav-ul-li-span {
+                display: inline-block !important; 
+                line-height: 56px !important;
+                font-size: 1rem !important;
+            }
+            .labeltxt {
+                font-weight:700;
+                color:rgba(0,0,0,.87);
+                text-transform: uppercase;
+            }
+            textarea {
+                padding:20px;
+                color:#909090;
+            }
+            [type=checkbox]:not(:checked), [type=checkbox]:checked {
+                opacity:1 !important;
+                position: unset !important;
+                pointer-events: initial !important;
+            }
         </style>
         @yield('css')
     </head>   
@@ -162,8 +167,19 @@
         <script src="{{ asset('/js/modernizr.js') }}"></script>
         <script src="{{ asset('/materialize/js/materialize.min.js') }}"></script>
         <script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+        @yield('javascript')
         <script type="text/javascript">
-            @yield('javascript')
+            tinymce.init({
+                selector: '.textareaTiny',
+                theme: 'modern',
+                plugins: [
+                    'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+                    'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+                    'save table contextmenu directionality emoticons template paste textcolor'
+                ],
+                content_css: '../css/tidy.css',
+                toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | preview media fullpage | forecolor backcolor'
+            });
         </script>
     </body>
 </html>

@@ -19,5 +19,6 @@ Route::resource('post', 'PostController');
 Route::resource('rol', 'RoleController');
 Route::resource('tema', 'ThemeController');
 Route::resource('contacto', 'ContactController');
+Route::resource('blog', 'BlogController');
 
 Auth::routes();

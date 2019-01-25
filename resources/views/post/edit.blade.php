@@ -18,7 +18,7 @@
 
 <!-- sección de javascript propios del post -->
 @section('javascript')
-
+<script type="text/javascript">
     $(document).ready(function(){
         $('select').material_select();
 
@@ -39,6 +39,7 @@
         content_css: 'css/tidy.css',
         toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | preview media fullpage | forecolor backcolor'
     });
+</script>
 @stop
 
 <!-- secciónpara cargar la foto del usuario de la sessión del post -->

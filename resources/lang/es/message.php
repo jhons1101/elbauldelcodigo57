@@ -21,6 +21,7 @@ return [
     'select'             => 'Seleccione...',
     'textareaPost'       => 'Ingrese la descripción del post',
     'textareaCode'       => 'Ingrese la información complementaria, código fuente y evidencias del código que se está probando',
+    'textareaBlog'       => 'Ingrese la descripción del blog',
     'publish'            => 'Publicar',
     'yes'                => 'SI',
     'not'                => 'NO',
@@ -183,4 +184,9 @@ return [
     'msgContactMail4'    => 'Recuerda seguirnos en nuestra redes sociales',
     'subjectMailContact' => 'Contacto con en el elbauldelcodigo.com',
     'with'               => 'como',
+    'file'               => 'Imagen',
+    'search'             => 'Buscar',
+    'topFive'            => 'Top 5',
+    'follow'             => 'Síguenos para que estés actualizado de lo último del diseño y desarrollo web, búscanos con bajo estas etiquetas',
+    'tagsFollow'         => '#jhons1101, #SoyCode, #baulCode y en redes sociales +elbauldelcodigo',
 ];

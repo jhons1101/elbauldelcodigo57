@@ -20,7 +20,7 @@
 
 <!-- sección de javascript propios del post -->
 @section('javascript')
-
+<script type="text/javascript"></script>
 @stop
 
 
