@@ -52,7 +52,8 @@ class RoleController extends Controller
                 ->get();
         
         return View('rol.index')
-        ->with('seccion',      trans('message.moduleRole'))
+        ->with('seccion',      trans('message.listRole'))
+        ->with('moduleSeccion',trans('message.moduleRole'))
         ->with('roles',        $roles[0])
         ->with('allRole',      $allRole)
         ->with('user',         $user[0]);
@@ -92,7 +93,8 @@ class RoleController extends Controller
         return View('rol.create')
         ->with('roles',        $roles[0])
         ->with('roleSelects',  $roleSelects)
-        ->with('seccion',      trans('message.moduleRole'))
+        ->with('seccion',      trans('message.newRole'))
+        ->with('moduleSeccion',trans('message.moduleRole'))
         ->with('user',         $user[0])
         ->with('usuarios',     $usuarios)
         ;
@@ -202,7 +204,8 @@ class RoleController extends Controller
         
         
         return View('rol.show')
-        ->with('seccion',      trans('message.moduleRole'))
+        ->with('seccion',      trans('message.allRole'))
+        ->with('moduleSeccion',trans('message.moduleRole'))
         ->with('roles',        $roles[0]) 
         ->with('user',         $user[0])
         ->with('objRol',       $objRol[0])
@@ -237,10 +240,11 @@ class RoleController extends Controller
                 ->where('user_id', $usuPost)
                 ->orderBy('rol_user_id', 'asc')
                 ->get();
-        // echo "<pre>"; print_r($role); echo"</pre>"; die('pausa');
+        
         return View('rol.edit')
         ->with('roles',        $roles[0])
-        ->with('seccion',      trans('message.moduleRole'))
+        ->with('seccion',      trans('message.editRole'))
+        ->with('moduleSeccion',trans('message.moduleRole'))
         ->with('user',         $user[0])
         ->with('rol',          $role[0])
         ->with('roleSelects',  $roleSelects)

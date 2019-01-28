@@ -65,15 +65,12 @@ class BlogController extends Controller
      */
     public function create(request $request)
     {
-        $this->middleware('auth');
-
-        // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['Admin'])) {
+        if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
         }
-        
+
         $usuPost     = Auth::user()->id;
         $user        = User::where('id', $usuPost)->get();
         $usuarios    = User::orderBy('email', 'asc')->get();
@@ -106,10 +103,7 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        $this->middleware('auth');
-
-        // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['Admin'])) {
+        if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -169,12 +163,24 @@ class BlogController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $blog        = Blogs::where('slug', $slug)->firstOrFail();
+        $leido       = Blogs::orderBy('views', 'desc')->paginate(5);
+
+        $tags        = explode(',', $blog->tags_blog);
+        $tagsBlog    = TagsPost::whereIn('tag_id', $tags)->orderBy('tag_txt', 'asc')->get();
+        $userBlog    = User::where('id', $blog->id_usu)->firstOrFail();
+        
+        return View('blog.show')
+        ->with('blog',        $blog)
+        ->with('tagsBlog',    $tagsBlog)
+        ->with('topLeido',    $leido)
+        ->with('userBlog',    $userBlog)
+        ;
     }
 
     /**
@@ -185,7 +191,11 @@ class BlogController extends Controller
      */
     public function edit($id)
     {
-        $this->middleware('auth');
+        if(!$this->validateSessionUser($request)){
+            return back()->withErrors([
+                'msg' => trans('auth.401')
+            ]);
+        }
     }
 
     /**
@@ -197,6 +207,34 @@ class BlogController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->middleware('auth');
+        if(!$this->validateSessionUser($request)){
+            return back()->withErrors([
+                'msg' => trans('auth.401')
+            ]);
+        }
+    }
+
+
+    /**
+     * Valia las credenciales de acceso a este controlador
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response Boolean
+     */
+    public function validateSessionUser (request $request) {
+        
+        if ($request->user()) {
+            
+            $this->middleware('auth');
+
+            // se autentica los roles del usuario
+            if (!$request->user()->authorizeRole(['Admin'])) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        
+        return true;
     }
 }

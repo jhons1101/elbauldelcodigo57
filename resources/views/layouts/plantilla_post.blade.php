@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>@foreach ($Posts as $post){{ $post->post_tit }}@endforeach| {{ config('app.name') }}</title>
+		<title>{{ $post->post_tit }}| {{ config('app.name') }}</title>
 		<meta charset="UTF-8">
 		<link rel="shortcut icon" href="{{ asset('/img/claves-elbauldelcodigo_ico.png') }}" type="image/png" />
-		<meta name="description" content="@foreach ($Posts as $post){{ $post->post_desc }}@endforeach">
-		<meta name="keywords" content="@foreach ($Posts as $post){{ $post->post_key }}@endforeach">
+		<meta name="description" content="{{ $post->post_desc }}">
+		<meta name="keywords" content="{{ $post->post_key }}">
 		<meta name="copyright" content="Copyright © 2014 elbauldelcodigo.com">
 		<meta name="author" content="jhons1101">
 		<meta name="theme-color" content="#ffffff">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 		
-		<meta property="og:title" content="@foreach ($Posts as $post){{ $post->post_tit }}@endforeach || elbauldelcodigo">
+		<meta property="og:title" content="{{ $post->post_tit }} || elbauldelcodigo">
 		<meta property="og:site_name" content="elbauldelcodigo">
 		<meta property="og:url" content="www.elbauldelcodigo.com">
-		<meta property="og:description" content="@foreach ($Posts as $post){{ $post->post_desc }}@endforeach">
+		<meta property="og:description" content="{{ $post->post_desc }}">
 		<meta property="fb:app_id" content="1386964998221435">
 		<meta property="og:type" content="website">
 
 		<span itemscope>
 			<meta itemprop="name" content="elbauldelcodigo">
-			<meta itemprop="description" content="@foreach ($Posts as $post){{ $post->post_desc }}@endforeach">
+			<meta itemprop="description" content="{{ $post->post_desc }}">
 		</span>
 		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 		<script>
@@ -29,18 +29,12 @@
 				enable_page_level_ads: true
 			});
 		</script>
-		<script>
-			var EstaUrl = document.URL;
-			var res = EstaUrl.split("//");
-			var EstaUrl = res[1];
-			var rutaPagina = EstaUrl.split("/")
-		</script>
 
 		<meta itemprop="name" content="twitter">
 		<meta name="twitter:card" content="summary">
 		<meta name="twitter:site" content="@jhons1101">
 		<meta name="twitter:title" content="elbauldelcodigo" />
-		<meta name="twitter:description" content="@foreach ($Posts as $post){{ $post->post_desc }}@endforeach">
+		<meta name="twitter:description" content="{{ $post->post_desc }}">
 		<meta name="twitter:url" content="http://elbauldelcodigo.com/" />
 
 		@yield('img-for-share')
@@ -62,8 +56,8 @@
 		<script src="{{ asset('js/jquery-1.11.1.min.js') }}"></script>
 		<script src="{{ asset('materialize/js/materialize.min.js') }}"></script>
 		<script src="{{ asset('js/index.js') }}"></script>
-		<script type="text/javascript">@yield('javascript')</script>
-		<style>img{cursor: pointer;} @yield('css')</style>
+		@yield('javascript');
+		@yield('css');
 	</head>
 	<body>
 		<script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create', 'UA-81299925-1', 'auto');ga('send', 'pageview');</script>
@@ -155,22 +149,20 @@
 				<div class="icon-and-title-flex">
 					<div class="cajaTema">
 						<div class="texTema">
-						@foreach ($Posts as $post){{ $post->tema_txt }}@endforeach
-						<input id="tema_txt" type="hidden" value="@foreach ($Posts as $post){{ $post->tema_txt }}@endforeach" />
+						{{ $post->tema_txt }}
+						<input id="tema_txt" type="hidden" value="{{ $post->tema_txt }}" />
 						</div>
 					</div>
 					<div class="title-container">
 						<h1 class="text-title">
-							@foreach ($Posts as $post){{ $post->post_tit }}@endforeach
-							<input id="post_tit" type="hidden" value="@foreach ($Posts as $post){{ $post->post_tit }}@endforeach" />
+							{{ $post->post_tit }}
+							<input id="post_tit" type="hidden" value="{{ $post->post_tit }}" />
 						</h1>
 						<div class="fecha-blogger">
 							{{ trans('message.forBy') }} : 
-							@foreach ($Posts as $post)
-								<a href="/usuario/{{ $post->usuarios_name }}" target="_blank">{{ $post->usuarios_name }}</a>
-							@endforeach
+							<a href="/usuario/{{ $post->usuarios_name }}" target="_blank">{{ $post->usuarios_name }}</a>
 						</div>
-						<div class="fecha-blogger">@foreach ($Posts as $post){{ $post->post_fec }}@endforeach</div>
+						<div class="fecha-blogger">{{ $post->post_fec }}</div>
 						<div class="fecha-blogger">{{ trans('message.tags') }} : @yield('TagsPost')</div>
 					</div>
 				</div>
@@ -210,13 +202,8 @@
 						</a>
 						<hr />
 						<div class="row">
-							<div class="fb-comments" data-href="http://127.0.0.1:8000" data-width="100%" data-numposts="5"></div>
+							<div class="fb-comments" data-href="{{ asset('post/'.$post->slug.'') }}" data-width="100%" data-numposts="5"></div>
 						</div>
-						<script>
-							setTimeout(function(){
-								document.getElementById("idPost").value = rutaPagina[2];
-							}, 3000);
-						</script>
 					</main>
 				</div>
 
@@ -279,7 +266,7 @@
 			</div>
 		</div>
 
-
+		<!--Botones flotantes -->
 		<div class="fixed-action-btn" style="bottom: 55px; right: 24px;">
 		    <a class="btn-floating btn-large red" title="{{ trans('message.shareyou') }}" >
 		        <img src="/img/share.png" style="position: relative; transform: translateY(45%);width: 28px;" alt="{{ trans('message.shareyou') }}">
@@ -308,35 +295,8 @@
 		    </ul>
 		</div>
 
-
-  		<div id="modal1" class="modal modal-fixed-footer" style="width: 550px;height: 320px;">
-    		<div class="modal-content">
-      			<div class="text-description">{{ trans('message.copyCode') }}</div>
-      			<br />
-      			<script>
-      				document.write('<p>&#60;iframe width="560" height="315" src="'+document.URL+'" frameborder="0" allowfullscreen>&#60;/iframe&#62;</p>')
-      			</script>
-      			<br />
-      			<span class="text-description">{{ trans('message.changeProperties') }}</span>
-    		</div>
-   		 	<div class="modal-footer">
-      			<a href="#" class="waves-effect waves-green btn-flat modal-action modal-close">{{ trans('message.accept') }}</a>
-      		</div>
-  		</div>
-
-
-  		<div id="modal2" class="modal modal-fixed-footer" style="width: 550px;height: 210px;">
-    		<div class="modal-content">
-      			<div class="text-description">{{ trans('message.copyCode') }}</div>
-      			<br />
-      			<script>
-      				document.write('<p>&#60;a href="'+document.URL+'" target="_blank">{{ trans('message.visitNow') }}&#60;/a&#62;</p>')
-      			</script>
-      		</div>
-   		 	<div class="modal-footer">
-      			<a href="#" class="waves-effect waves-green btn-flat modal-action modal-close">{{ trans('message.accept') }}</a>
-      		</div>
-  		</div>
+		<!-- Modales para copartir el Blog, post, etc... -->
+		@include('partials.modalShare')
 
 
 		<br />

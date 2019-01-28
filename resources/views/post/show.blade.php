@@ -26,24 +26,24 @@
 
 <!-- sección de css propios de este post -->
 @section('css')
-
+<style></style>
 @stop
 
 
 <!-- sección para pintar el listado de las descriciones de los post -->
 @section('TagsPost')
     @foreach($txtTags as $tag)
-        <a href="/tags/{{ $tag }}" target="_blank"> {{ $tag }} </a>
+        <a href="{{ asset('tema/'.$tag.'') }}" target="_blank"><span class="icon-price-tag"></span>  {{ $tag }} </a>
     @endforeach
 @stop
 
 <!-- sección para el contenido introductorio del post -->
 @section('PostContent')
-{!! html_entity_decode($Posts[0]->desc_post, ENT_QUOTES, 'UTF-8') !!}
+{!! html_entity_decode($post->desc_post, ENT_QUOTES, 'UTF-8') !!}
 @stop
 
 
 <!-- sección para definir el código fuente y los detalles del post -->
 @section('CodigoFte')
-{!! html_entity_decode($Posts[0]->desc_code, ENT_QUOTES, 'UTF-8') !!}
+{!! html_entity_decode($post->desc_code, ENT_QUOTES, 'UTF-8') !!}
 @stop

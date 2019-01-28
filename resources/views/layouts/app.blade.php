@@ -45,6 +45,10 @@
         .padding10 {
             padding: 10px;
         }
+        .img-logo {
+            width: 100%;
+            max-height: 55px;
+        }
     </style>
     @yield('css')
 

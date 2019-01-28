@@ -38,6 +38,9 @@
                 position: unset !important;
                 pointer-events: initial !important;
             }
+            .ul ul {
+                padding-left: 10px;
+            }
         </style>
         @yield('css')
     </head>   
@@ -53,67 +56,88 @@
                         </a>
                     </li>
                     @if ($roles->rol_user_id == 1)
-                    <li>
-                        <a href="/blog/">
-                            <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.allBlog') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/post/">
-                            <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.allPost') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/rol/">
-                            <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.allRole') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="configuracion">
-                            <i class="icon-cogs nav-ul-li-span"></i>&nbsp; {{ trans('message.configuration') }}
-                        </a>
-                    </li>
+                        <ul>
+                            <li>{{ trans('message.create') }}</li>
+                            <li>
+                                <a href="/post/create">
+                                    <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.newPost') }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/blog/create">
+                                    <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.newBlog') }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/rol/create">
+                                    <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.newRole') }}
+                                </a>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li>{{ trans('message.view') }}</li>
+                            <li>
+                                <a href="/post/">
+                                    <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.allPost') }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/blog/">
+                                    <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.allBlog') }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/rol/">
+                                    <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.allRole') }}
+                                </a>
+                            </li>
+                        </ul>
+                        <li>
+                            <a href="configuracion">
+                                <i class="icon-cogs nav-ul-li-span"></i>&nbsp; {{ trans('message.configuration') }}
+                            </a>
+                        </li>
                     @elseif ($roles->rol_user_id == 2)
-                    <li>
-                        <a href="tus-puntos">
-                            <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.points') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="tus-preguntas">
-                            <i class="icon-notification nav-ul-li-span"></i>&nbsp; {{ trans('message.questions') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="tus-respuestas">
-                            <i class="icon-compass nav-ul-li-span"></i>&nbsp; {{ trans('message.answers') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="dudas">
-                            <i class="icon-question nav-ul-li-span"></i>&nbsp; {{ trans('message.needHelp') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="reponde">
-                            <i class="icon-checkmark2 nav-ul-li-span"></i>&nbsp; {{ trans('message.reply') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="estadisticas">
-                            <i class="icon-stats-dots nav-ul-li-span"></i>&nbsp; {{ trans('message.statistics') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="linea-de-tiempo">
-                            <i class="icon-hour-glass nav-ul-li-span"></i>&nbsp; {{ trans('message.timeline') }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="favoritos">
-                            <i class="icon-star-half nav-ul-li-span"></i>&nbsp; {{ trans('message.favorites') }}
-                        </a>
-                    </li>
+                        <li>
+                            <a href="tus-puntos">
+                                <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.points') }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tus-preguntas">
+                                <i class="icon-notification nav-ul-li-span"></i>&nbsp; {{ trans('message.questions') }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="tus-respuestas">
+                                <i class="icon-compass nav-ul-li-span"></i>&nbsp; {{ trans('message.answers') }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="dudas">
+                                <i class="icon-question nav-ul-li-span"></i>&nbsp; {{ trans('message.needHelp') }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="reponde">
+                                <i class="icon-checkmark2 nav-ul-li-span"></i>&nbsp; {{ trans('message.reply') }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="estadisticas">
+                                <i class="icon-stats-dots nav-ul-li-span"></i>&nbsp; {{ trans('message.statistics') }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="linea-de-tiempo">
+                                <i class="icon-hour-glass nav-ul-li-span"></i>&nbsp; {{ trans('message.timeline') }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="favoritos">
+                                <i class="icon-star-half nav-ul-li-span"></i>&nbsp; {{ trans('message.favorites') }}
+                            </a>
+                        </li>
                     @endif
                 </ul>
             </div>

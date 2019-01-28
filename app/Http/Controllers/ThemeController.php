@@ -72,7 +72,7 @@ class ThemeController extends Controller
                 'paginate'    => $theme,
                 'user'        => $user[0],
                 'msgStatus'   => 1,
-                'status'      => 2
+                'status'      => 2,
                 'errores'     => $error,
                 'seccion'     => trans('message.moduleTheme'),
                 'roles'       => $roles[0]
@@ -209,7 +209,7 @@ class ThemeController extends Controller
                 'entradas'        => $entradas,
                 'temas'           => $tema,
                 'msgStatus'       => 1,
-                'status'          => 2
+                'status'          => 2,
                 'errores'         => $error,
                 'errorsPostTheme' => $errorsPostTheme,
             )

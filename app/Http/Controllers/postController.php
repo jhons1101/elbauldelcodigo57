@@ -282,7 +282,7 @@ class postController extends Controller
         ->with('id',             $id)
         ->with('comm',           $comm)
         ->with('flagNuevoComm',  $flagNuevoComm)
-        ->with('Posts',          $posts)
+        ->with('post',           $posts[0])
         ->with('totalImg',       $totalImg)
         ->with('pantallazo',     $pantallazo)
         ->with('relacionados',   $relacionados)

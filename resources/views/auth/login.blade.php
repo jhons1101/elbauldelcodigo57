@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col s3 m5 l5">&nbsp;</div>
             <div class="col s6 m2 l2 center-align">
-                <img src="{{ asset('img/claves-elbauldelcodigo.png') }}" title="{{ config('app.name') }}" alt="{{ config('app.name') }}" class="ancho100" />
+                <img src="{{ asset('img/claves-elbauldelcodigo.png') }}" title="{{ config('app.name') }}" alt="{{ config('app.name') }}" class="img-logo" />
             </div>
             <div class="col s3 m5 l5">&nbsp;</div>
         </div>

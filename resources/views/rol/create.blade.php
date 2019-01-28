@@ -6,6 +6,11 @@
 {{ $seccion }}
 @stop
 
+<!-- sección para poner el modulo de la pantalla -->
+@section('moduleSeccion')
+{{ $moduleSeccion }}
+@stop
+
 @section('header')
 <div style="padding:20px">&nbsp;</div>
 @stop

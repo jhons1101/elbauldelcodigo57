@@ -189,4 +189,6 @@ return [
     'topFive'            => 'Top 5',
     'follow'             => 'Síguenos para que estés actualizado de lo último del diseño y desarrollo web, búscanos con bajo estas etiquetas',
     'tagsFollow'         => '#jhons1101, #SoyCode, #baulCode y en redes sociales +elbauldelcodigo',
+    'create'             => 'Crear',
+    'view'               => 'Visualizar',
 ];
