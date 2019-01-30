@@ -12,7 +12,7 @@
                         @foreach ($entradas as $entrada)
                             @if ($entrada->tema_txt == $tema->tema_txt)
                                 <div class="tema-collapsible">
-                                    <a href="{{ asset('/post') }}/{{$entrada->slug}}" title="Por : {{$entrada->usuarios_name}} el {{$entrada->post_fec}}" target="_blank">
+                                    <a href="{{ asset('/post') }}/{{$entrada->slug}}" title="Por : {{$entrada->name}} el {{$entrada->post_fec}}" target="_blank">
                                         <b>* </b>{{$entrada->post_tit}}
                                     </a>
                                 </div>

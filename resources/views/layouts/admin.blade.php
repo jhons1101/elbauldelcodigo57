@@ -3,7 +3,7 @@
     <head>
         <title>@yield('seccion') / {{ config('app.name') }}</title>
         <meta charset="utf-8" />
-        <link rel="shortcut icon" href="{{ asset('/') }}img/BaulCode.png" type="image/png" />
+        <link rel="shortcut icon" href="{{ asset('img/claves-elbauldelcodigo_ico.png') }}" type="image/png" />
         <meta content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes" name="viewport">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link href='http://fonts.googleapis.com/css?family=Josefin+Sans:300,400,600' rel='stylesheet' type='text/css'>

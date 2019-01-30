@@ -160,7 +160,7 @@
 						</h1>
 						<div class="fecha-blogger">
 							{{ trans('message.forBy') }} : 
-							<a href="/usuario/{{ $post->usuarios_name }}" target="_blank">{{ $post->usuarios_name }}</a>
+							<a href="/usuario/{{ $post->name }}" target="_blank">{{ $post->name }}</a>
 						</div>
 						<div class="fecha-blogger">{{ $post->post_fec }}</div>
 						<div class="fecha-blogger">{{ trans('message.tags') }} : @yield('TagsPost')</div>

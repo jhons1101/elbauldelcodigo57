@@ -175,14 +175,14 @@ class ThemeController extends Controller
         $tema = DB::table('posts as p')
                 ->select('tm.tema_txt', 'tm.tema_img')
                 ->distinct()
-                ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
+                ->join('users as u', 'p.post_usu', '=', 'u.id')
                 ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
                 ->orderBy('tm.tema_txt', 'asc')
                 ->get();
 
         $entradas =  DB::table('posts as p')
-                    ->select('p.*', 'u.usuarios_name', 'tm.tema_txt')
-                    ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
+                    ->select('p.*', 'u.name', 'tm.tema_txt')
+                    ->join('users as u', 'p.post_usu', '=', 'u.id')
                     ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
                     ->orderBy('p.post_fec', 'desc')
                     ->get();

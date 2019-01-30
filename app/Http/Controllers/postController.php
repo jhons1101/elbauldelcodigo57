@@ -50,19 +50,19 @@ class postController extends Controller
         } else {
             $error = "";
         }
-
+        
         $tema = DB::table('posts as p')
                 ->select('tm.tema_txt', 'tm.tema_img')
                 ->distinct()
-                ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
+                ->join('users as u', 'p.post_usu', '=', 'u.id')
                 ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
                 ->orderBy('tm.tema_txt', 'asc')
                 ->get();
         // Retornamos todos los datos
-
+        
         $entradas =  DB::table('posts as p')
-                    ->select('p.*', 'u.usuarios_name', 'tm.tema_txt')
-                    ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
+                    ->select('p.*', 'u.name', 'tm.tema_txt')
+                    ->join('users as u', 'p.post_usu', '=', 'u.id')
                     ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
                     ->orderBy('p.post_fec', 'desc')
                     ->get();
@@ -220,20 +220,13 @@ class postController extends Controller
         $this->middleware('auth');
         
         // traemos los datos del post según el ID
-        $post        = Post::where('slug', '=', $slug)->firstOrFail();
-        $id          = $post->id;
-        
-        // se cargan los comentarios del post, si los tiene...
-        $comm = DB::table('comentarios')
-                ->select('com_texto', 'com_fec', 'usuarios_name', 'usuarios_email', 'usuarios_img')
-                ->join('usuarios', 'comentarios.com_usu', '=', 'usuarios.usuarios_id')
-                ->where('comentarios.com_post', $id)->orderBy('com_fec', 'desc')->get();
-        $flagNuevoComm = null;
+        $post          = Post::where('slug', '=', $slug)->firstOrFail();
+        $id            = $post->id;
 
         // se cargan la información del post...
         $posts = DB::table('posts as p')
-                ->select('p.*', 'u.usuarios_name', 'tm.tema_txt')
-                ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
+                ->select('p.*', 'u.name', 'tm.tema_txt')
+                ->join('users as u', 'p.post_usu', '=', 'u.id')
                 ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
                 ->where('p.id', $id)->get();
         
@@ -280,8 +273,6 @@ class postController extends Controller
         
         return view('post.show')
         ->with('id',             $id)
-        ->with('comm',           $comm)
-        ->with('flagNuevoComm',  $flagNuevoComm)
         ->with('post',           $posts[0])
         ->with('totalImg',       $totalImg)
         ->with('pantallazo',     $pantallazo)
@@ -368,8 +359,8 @@ class postController extends Controller
 
         // se cargan la información del post...
         $posts = DB::table('posts as p')
-                ->select('p.*', 'u.usuarios_name', 'tm.tema_txt')
-                ->join('usuarios as u', 'p.post_usu', '=', 'u.usuarios_id')
+                ->select('p.*', 'u.name', 'tm.tema_txt')
+                ->join('users as u', 'p.post_usu', '=', 'u.id')
                 ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
                 ->where('p.id', $id)->get();
         

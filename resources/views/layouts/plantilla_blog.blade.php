@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="/img/claves-elbauldelcodigo_ico.png" type="image/png" />
+    <link rel="shortcut icon" href="{{ asset('img/claves-elbauldelcodigo_ico.png') }}" type="image/png" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="/materialize/css/materialize.min.css">
     <link rel="image_src"  href="/resources/img/elbauldelcodigo.com_front_2.png" />
