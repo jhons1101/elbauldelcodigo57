@@ -188,5 +188,10 @@ return [
         'txtImgTheme'           => 'img del tema',
         'txtTagTheme'           => 'tag del tema',
         'comentario'            => 'comentario',
+        'txtTitblog'            => 'título del blog',
+        'txtTagsBlog'           => 'labels (tags) del blog',
+        'textareaBlog'          => 'contenido del blog',
+        'imageBlog'             => 'imagen del blog',
+        'txtPubBlog'            => 'publicar el blog'
     ],
 ];

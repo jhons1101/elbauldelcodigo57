@@ -3,7 +3,7 @@
 
 <!-- sección para poner el title del Theme -->
 @section('seccion')
-{{ $seccion }}
+{{ $seccion }} | {{ $themes->tema_txt }}
 @stop
 
 @section('header')
@@ -30,7 +30,7 @@
     </div>
     <div class="row">
         <div class="col s12 m12 l12">
-            <form action="/tema/{{ $themes->tema_txt }}" method="post">
+            <form action="/tema/{{ $themes->tema_txt }}/edit" method="post">
                 @method('PUT')
                 @csrf
                 <div class="row">

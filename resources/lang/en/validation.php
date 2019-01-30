@@ -195,6 +195,11 @@ return [
         'txtImgTheme'           => 'img of theme',
         'txtTagTheme'           => 'tag of theme',
         'comentario'            => 'comment',
+        'txtTitblog'            => 'blog name',
+        'txtTagsBlog'           => 'labels (tags) of the blog',
+        'textareaBlog'          => 'content of blog',
+        'imageBlog'             => 'image of blog',
+        'txtPubBlog'            => 'publish the blog'
     ],
 
 ];

@@ -41,6 +41,9 @@
             .ul ul {
                 padding-left: 10px;
             }
+            .ancho100 {
+                width: 100%;
+            }
         </style>
         @yield('css')
     </head>   
@@ -201,7 +204,7 @@
                     'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
                     'save table contextmenu directionality emoticons template paste textcolor'
                 ],
-                content_css: '../css/tidy.css',
+                content_css: '../../css/tidy.css',
                 toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | preview media fullpage | forecolor backcolor'
             });
         </script>

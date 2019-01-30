@@ -50,6 +50,12 @@
     text-align: justify;
     word-break: break-all;
 }
+.editarBlog {
+    padding: 10px 0;
+}
+.editarBlog a {
+    padding: 6px 10px 0 10px;
+}
 </style>
 <div class="row">
     <div class="col s12 m8">
@@ -69,6 +75,14 @@
                 </div>
                 <div class="blog-show-user">{{ trans('message.username') }}: {{ ucfirst($userBlog->name) }}</div>
                 <div class="blog-show-date">{{ trans('message.date') }}: {{ $blog->created_at }}</div>
+                @if (!Auth::guest())
+                    <div class="editarBlog">
+                        <a href="{{ asset('blog/'.$blog->slug.'/edit') }}" class="waves-effect waves-light btn">
+                            <i class="material-icons right">cloud</i>
+                            editar
+                        </a>
+                    </div>
+                @endif
             </div>
         </div>
         <div class="row blog-show-text">
