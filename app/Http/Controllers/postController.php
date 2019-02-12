@@ -416,7 +416,7 @@ class postController extends Controller
         ->with('seccion',         trans('message.editPost'))
         ->with('moduleSeccion',   trans('message.modulePost'))
         ->with('tagsPost',        $tagsPost)
-        ->with('urlLang',         'post/edit');
+        ->with('urlLang',         'post/'.$post->slug.'/edit');
     }
 
     /**
