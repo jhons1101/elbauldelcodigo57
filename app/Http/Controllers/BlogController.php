@@ -25,7 +25,7 @@ class BlogController extends Controller
 
     public function __construct()
     {
-        \App::setLocale('en');
+        \App::setLocale('es');
     }
 
 
@@ -35,7 +35,13 @@ class BlogController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(request $request)
-    {   
+    {
+
+        if ($request->get('lang') != null) {
+            \App::setLocale($request->get('lang'));
+        } else {
+            \App::setLocale('es');
+        }
         
         $blog   = Blogs::BuscarEnBlog($request->get('buscar'))
                 ->where('flg_publicar' , 1)
@@ -54,7 +60,8 @@ class BlogController extends Controller
                 'msgStatus'   => 1,
                 'status'      => 2
             )
-        );
+        )
+        ->with('urlLang',      'blog/');
     }
 
     /**
@@ -64,6 +71,12 @@ class BlogController extends Controller
      */
     public function create(request $request)
     {
+        if ($request->get('lang') != null) {
+            \App::setLocale($request->get('lang'));
+        } else {
+            \App::setLocale('es');
+        }
+
         if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
@@ -90,6 +103,7 @@ class BlogController extends Controller
         ->with('usuarios',     $usuarios)
         ->with('tagsBlog',     $tagsBlog)
         ->with('roles',        $roles[0])
+        ->with('urlLang',      'blog/create')
         ;
     }
 
@@ -101,6 +115,7 @@ class BlogController extends Controller
      */
     public function store(StoreBlogRequest $request)
     {
+
         if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
@@ -164,8 +179,15 @@ class BlogController extends Controller
      * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show(request $request, $slug)
     {
+
+        if ($request->get('lang') != null) {
+            \App::setLocale($request->get('lang'));
+        } else {
+            \App::setLocale('es');
+        }
+        
         $blog        = Blogs::where('slug', $slug)->firstOrFail();
         $leido       = Blogs::where('flg_publicar' , 1)->orderBy('views', 'desc')->paginate(5);
 
@@ -183,6 +205,7 @@ class BlogController extends Controller
         ->with('tagsBlog',    $tagsBlog)
         ->with('topLeido',    $leido)
         ->with('userBlog',    $userBlog)
+        ->with('urlLang',     'blog/'.$blog->slug)
         ;
     }
 
@@ -194,6 +217,12 @@ class BlogController extends Controller
      */
     public function edit(request $request, $slug)
     {
+        if ($request->get('lang') != null) {
+            \App::setLocale($request->get('lang'));
+        } else {
+            \App::setLocale('es');
+        }
+
         if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
@@ -222,6 +251,7 @@ class BlogController extends Controller
         ->with('usuarios',     $usuarios)
         ->with('tagsBlog',     $tagsBlog)
         ->with('roles',        $roles[0])
+        ->with('urlLang',      'blog/'.$blog->slug.'/edit')
         ;
     }
 

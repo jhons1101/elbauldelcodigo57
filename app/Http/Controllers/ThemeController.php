@@ -22,7 +22,7 @@ class ThemeController extends Controller
 
     public function __construct()
     {
-        \App::setLocale('en');
+        \App::setLocale('es');
     }
     /**
      * Display a listing of the resource.
@@ -31,10 +31,13 @@ class ThemeController extends Controller
      */
     public function index(request $request)
     {
-        $this->middleware('auth');
+        if ($request->get('lang') != null) {
+            \App::setLocale($request->get('lang'));
+        } else {
+            \App::setLocale('es');
+        }
 
-        // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['Admin'])) {
+        if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -68,14 +71,16 @@ class ThemeController extends Controller
         
         return View(
             'theme.index', array(
-                'alltheme'    => $theme,
-                'paginate'    => $theme,
-                'user'        => $user[0],
-                'msgStatus'   => 1,
-                'status'      => 2,
-                'errores'     => $error,
-                'seccion'     => trans('message.moduleTheme'),
-                'roles'       => $roles[0]
+                'alltheme'          => $theme,
+                'paginate'          => $theme,
+                'user'              => $user[0],
+                'msgStatus'         => 1,
+                'status'            => 2,
+                'errores'           => $error,
+                'seccion'           => trans('message.allTheme'),
+                'moduleSeccion'     => trans('message.moduleTheme'),
+                'roles'             => $roles[0],
+                'urlLang'           => 'tema/'
             )
         );
     }
@@ -87,10 +92,13 @@ class ThemeController extends Controller
      */
     public function create(request $request)
     {
-        $this->middleware('auth');
+        if ($request->get('lang') != null) {
+            \App::setLocale($request->get('lang'));
+        } else {
+            \App::setLocale('es');
+        }
 
-        // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['Admin'])) {
+        if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -109,9 +117,11 @@ class ThemeController extends Controller
                 ->get();
 
         return View('theme.create')
-        ->with('roles',      $roles[0])
-        ->with('seccion',    trans('message.moduleTheme'))
-        ->with('user',       $user[0])
+        ->with('roles',          $roles[0])
+        ->with('seccion',        trans('message.newTheme'))
+        ->with('moduleSeccion',  trans('message.moduleRole'))
+        ->with('user',           $user[0])
+        ->with('urlLang',        'tema/create')
         ;
     }
 
@@ -123,8 +133,8 @@ class ThemeController extends Controller
      */
     public function store(StoreThemeRequest $request)
     {
-        // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['Admin'])) {
+
+        if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -141,13 +151,13 @@ class ThemeController extends Controller
 
             $theme->save();
 
-            return  redirect()->route('tema.show',  [ $theme->tema_txt ])
+            return  redirect()->route('theme.show',  [ $theme->tema_txt ])
                         ->with('msgStatus',     1)
                         ->with('status',        1)
                         ->with('statusModule',  'msgModuleTheme');
         
         } catch (\Illuminate\Database\QueryException $ex) {
-            return  redirect()->route('tema.create')
+            return  redirect()->route('theme.create')
                     ->with('sqlerror',      $ex->errorInfo[2])
                     ->with('msgStatus',     1)
                     ->with('status',        0)
@@ -161,8 +171,13 @@ class ThemeController extends Controller
      * @param  string  $txtTheme
      * @return \Illuminate\Http\Response
      */
-    public function show($txtTheme)
+    public function show(request $request, $txtTheme)
     {
+        if ($request->get('lang') != null) {
+            \App::setLocale($request->get('lang'));
+        } else {
+            \App::setLocale('es');
+        }
 
         $theme = TemaPost::where('tema_txt', $txtTheme)->get();
         
@@ -212,6 +227,7 @@ class ThemeController extends Controller
                 'status'          => 2,
                 'errores'         => $error,
                 'errorsPostTheme' => $errorsPostTheme,
+                'urlLang'         => 'tema/'.$theme[0]->tema_txt
             )
         );
     }
@@ -224,8 +240,13 @@ class ThemeController extends Controller
      */
     public function edit(request $request, $themeTxt)
     {
-        // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['Admin'])) {
+        if ($request->get('lang') != null) {
+            \App::setLocale($request->get('lang'));
+        } else {
+            \App::setLocale('es');
+        }
+
+        if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -245,11 +266,13 @@ class ThemeController extends Controller
                 ->get();
         
         return View('theme.edit')
-        ->with('roles',        $roles[0])
-        ->with('seccion',      trans('message.moduleTheme'))
-        ->with('user',         $user[0])
-        ->with('themes',       $themes[0])
-        ->with('usuarios',     $usuarios)
+        ->with('roles',          $roles[0])
+        ->with('seccion',        trans('message.editTheme'))
+        ->with('moduleSeccion',  trans('message.moduleTheme'))
+        ->with('user',           $user[0])
+        ->with('themes',         $themes[0])
+        ->with('usuarios',       $usuarios)
+        ->with('urlLang',        'tema/'.$themes[0]->tema_txt.'/edit')
         ;
     }
 
@@ -262,8 +285,8 @@ class ThemeController extends Controller
      */
     public function update(StoreThemeRequest $request, $themeTxt)
     {
-        // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['Admin'])) {
+
+        if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -301,5 +324,28 @@ class ThemeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Valia las credenciales de acceso a este controlador
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response Boolean
+     */
+    public function validateSessionUser (request $request) {
+        
+        if ($request->user()) {
+            
+            $this->middleware('auth');
+
+            // se autentica los roles del usuario
+            if (!$request->user()->authorizeRole(['Admin'])) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        
+        return true;
     }
 }

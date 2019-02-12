@@ -20,8 +20,7 @@ class RoleController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
-        \App::setLocale('en');
+        \App::setLocale('es');
     }
 
 
@@ -32,8 +31,13 @@ class RoleController extends Controller
      */
     public function index(request $request)
     {
-        // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['Admin'])) {
+        if ($request->get('lang') != null) {
+            \App::setLocale($request->get('lang'));
+        } else {
+            \App::setLocale('es');
+        }
+
+        if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -56,7 +60,8 @@ class RoleController extends Controller
         ->with('moduleSeccion',trans('message.moduleRole'))
         ->with('roles',        $roles[0])
         ->with('allRole',      $allRole)
-        ->with('user',         $user[0]);
+        ->with('user',         $user[0])
+        ->with('urlLang',      'rol/');
     }
 
     /**
@@ -67,8 +72,13 @@ class RoleController extends Controller
      */
     public function create(Request $request)
     {
-        // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['Admin'])) {
+        if ($request->get('lang') != null) {
+            \App::setLocale($request->get('lang'));
+        } else {
+            \App::setLocale('es');
+        }
+
+        if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -97,6 +107,7 @@ class RoleController extends Controller
         ->with('moduleSeccion',trans('message.moduleRole'))
         ->with('user',         $user[0])
         ->with('usuarios',     $usuarios)
+        ->with('urlLang',      'rol/create')
         ;
     }
 
@@ -109,8 +120,8 @@ class RoleController extends Controller
      */
     public function store(StoreRolRequest $request)
     {
-        // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['Admin'])) {
+
+        if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -176,8 +187,13 @@ class RoleController extends Controller
      */
     public function show(request $request, $slug)
     {
-        // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['Admin'])) {
+        if ($request->get('lang') != null) {
+            \App::setLocale($request->get('lang'));
+        } else {
+            \App::setLocale('es');
+        }
+
+        if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -209,7 +225,8 @@ class RoleController extends Controller
         ->with('roles',        $roles[0]) 
         ->with('user',         $user[0])
         ->with('objRol',       $objRol[0])
-        ->with('userRoles',    $UserRoles);
+        ->with('userRoles',    $UserRoles)
+        ->with('urlLang',      'rol/'.$objRol[0]->slug);
     }
 
     /**
@@ -220,8 +237,13 @@ class RoleController extends Controller
      */
     public function edit(request $request, $slug)
     {
-        // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['Admin'])) {
+        if ($request->get('lang') != null) {
+            \App::setLocale($request->get('lang'));
+        } else {
+            \App::setLocale('es');
+        }
+
+        if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -249,6 +271,7 @@ class RoleController extends Controller
         ->with('rol',          $role[0])
         ->with('roleSelects',  $roleSelects)
         ->with('usuarios',     $usuarios)
+        ->with('urlLang',      'rol/'.$role[0]->slug.'/edit');
         ;
     }
 
@@ -261,8 +284,8 @@ class RoleController extends Controller
      */
     public function update(Request $request, $slug)
     {
-        // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['Admin'])) {
+
+        if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -331,8 +354,8 @@ class RoleController extends Controller
      */
     public function destroy(request $request, $id)
     {
-        // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['Admin'])) {
+
+        if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -355,7 +378,31 @@ class RoleController extends Controller
                     ->with('sqlerror',      $ex->errorInfo[2])
                     ->with('msgStatus',     1)
                     ->with('status',        0)
-                    ->with('statusModule',  'msgModuleRol');
+                    ->with('statusModule',  'msgModuleRol')
+                    ->with('urlLang',        'rol/'.$role->slug);
         }
+    }
+
+    /**
+     * Valia las credenciales de acceso a este controlador
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response Boolean
+     */
+    public function validateSessionUser (request $request) {
+        
+        if ($request->user()) {
+            
+            $this->middleware('auth');
+
+            // se autentica los roles del usuario
+            if (!$request->user()->authorizeRole(['Admin'])) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        
+        return true;
     }
 }

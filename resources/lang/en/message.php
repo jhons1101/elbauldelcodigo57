@@ -191,4 +191,6 @@ return [
     'tagsFollow'         => '#jhons1101, #SoyCode, #baulCode y en redes sociales +elbauldelcodigo',
     'create'             => 'Create',
     'view'               => 'View',
+    'textLatino'         => 'Text in Latin Spanish',
+    'textEnglish'        => 'Text in English',
 ];

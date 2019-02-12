@@ -1,5 +1,6 @@
 @section('header')
     <header class="header">
+        @include('partials.lang')
         <nav>
             <div class="nav-wrapper">
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="mdi-navigation-menu"></i></a>

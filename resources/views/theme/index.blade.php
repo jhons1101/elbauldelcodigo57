@@ -6,6 +6,10 @@
 {{ $seccion }}
 @stop
 
+@section('moduleSeccion')
+{{ $moduleSeccion }}
+@stop
+
 @section('header')
 <div style="padding:20px">&nbsp;</div>
 @stop

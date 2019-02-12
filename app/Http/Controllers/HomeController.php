@@ -17,8 +17,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
-        \App::setLocale('en');
+        \App::setLocale('es');
     }
 
     /**
@@ -26,8 +25,20 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(request $request)
     {
+        if ($request->get('lang') != null) {
+            \App::setLocale($request->get('lang'));
+        } else {
+            \App::setLocale('es');
+        }
+
+        if(!$this->validateSessionUser($request)){
+            return back()->withErrors([
+                'msg' => trans('auth.401')
+            ]);
+        }
+
         $idUser  = Auth::user()->id;
         $user    = User::where('id', Auth::user()->id)->get();
 
@@ -43,6 +54,30 @@ class HomeController extends Controller
                 ->with('idUser',   $idUser)
                 ->with('user',     $user[0])
                 ->with('roles',    $roles[0])
-                ->with('seccion',  trans('message.seccionHome'));
+                ->with('seccion',  trans('message.seccionHome'))
+                ->with('urlLang',  'home/');
+    }
+
+    /**
+     * Valia las credenciales de acceso a este controlador
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response Boolean
+     */
+    public function validateSessionUser (request $request) {
+        
+        if ($request->user()) {
+            
+            $this->middleware('auth');
+
+            // se autentica los roles del usuario
+            if (!$request->user()->authorizeRole(['Admin'])) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        
+        return true;
     }
 }

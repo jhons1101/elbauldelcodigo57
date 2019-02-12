@@ -26,7 +26,7 @@ class postController extends Controller
 
     public function __construct()
     {
-        \App::setLocale('en');
+        \App::setLocale('es');
     }
 
 
@@ -36,8 +36,13 @@ class postController extends Controller
      *
      * @return view resources/view/post.index
      */
-    public function index()
+    public function index(request $request)
     {
+        if ($request->get('lang') != null) {
+            \App::setLocale($request->get('lang'));
+        } else {
+            \App::setLocale('es');
+        }
 
         $post = DB::table('posts as p')
                 ->join('tema_posts as t', 'p.post_tema', '=', 't.tema_id')
@@ -90,7 +95,8 @@ class postController extends Controller
                 'errores'     => $error,
                 'entradas'    => $entradas,
                 'public_path' => public_path(),
-                'roles'       => $roles[0]
+                'roles'       => $roles[0],
+                'urlLang'     => 'post/'
             )
         );
     }
@@ -103,10 +109,13 @@ class postController extends Controller
      */
     public function create(request $request)
     {
-        $this->middleware('auth');
+        if ($request->get('lang') != null) {
+            \App::setLocale($request->get('lang'));
+        } else {
+            \App::setLocale('es');
+        }
 
-        // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['Admin'])) {
+        if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -136,6 +145,7 @@ class postController extends Controller
         ->with('seccion',         trans('message.newPost'))
         ->with('moduleSeccion',   trans('message.modulePost'))
         ->with('user',            $user[0])
+        ->with('urlLang',         'post/create')
         ;
     }
 
@@ -148,10 +158,8 @@ class postController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        $this->middleware('auth');
-        
-        // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['Admin'])) {
+
+        if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -215,9 +223,13 @@ class postController extends Controller
      * @param  string  $slug
      * @return view resources/view/post.show
      */
-    public function show($slug)
+    public function show(request $request, $slug)
     {
-        $this->middleware('auth');
+        if ($request->get('lang') != null) {
+            \App::setLocale($request->get('lang'));
+        } else {
+            \App::setLocale('es');
+        }
         
         // traemos los datos del post según el ID
         $post          = Post::where('slug', '=', $slug)->firstOrFail();
@@ -278,7 +290,8 @@ class postController extends Controller
         ->with('pantallazo',     $pantallazo)
         ->with('relacionados',   $relacionados)
         ->with('keyCp',          $key)
-        ->with('txtTags',        $txtTags);
+        ->with('txtTags',        $txtTags)
+        ->with('urlLang',        'post/'.$posts[0]->slug);
     }
 
     /**
@@ -290,10 +303,13 @@ class postController extends Controller
      */
     public function showPostAdmin(request $request)
     {
-        $this->middleware('auth');
-        
-        // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['Admin'])) {
+        if ($request->get('lang') != null) {
+            \App::setLocale($request->get('lang'));
+        } else {
+            \App::setLocale('es');
+        }
+
+        if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -320,7 +336,8 @@ class postController extends Controller
         ->with('roles',        $roles[0])
         ->with('allPost',      $allPost)
         ->with('user',         $user[0])
-        ->with('paginate',     $allPost);
+        ->with('paginate',     $allPost)
+        ->with('urlLang',      'post/showPostAdmin');
     }
 
     /**
@@ -333,10 +350,13 @@ class postController extends Controller
      */
     public function edit(Request $request, $slug)
     {
-        $this->middleware('auth');
-        
-        // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['Admin'])) {
+        if ($request->get('lang') != null) {
+            \App::setLocale($request->get('lang'));
+        } else {
+            \App::setLocale('es');
+        }
+
+        if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -395,7 +415,8 @@ class postController extends Controller
         ->with('user',            $user[0])
         ->with('seccion',         trans('message.editPost'))
         ->with('moduleSeccion',   trans('message.modulePost'))
-        ->with('tagsPost',        $tagsPost);
+        ->with('tagsPost',        $tagsPost)
+        ->with('urlLang',         'post/edit');
     }
 
     /**
@@ -409,10 +430,8 @@ class postController extends Controller
      */
     public function update(UpdatePostRequest $request, $slug)
     {
-        $this->middleware('auth');
-        
-        // se autentica los roles del usuario
-        if (!$request->user()->authorizeRole(['Admin'])) {
+
+        if(!$this->validateSessionUser($request)){
             return back()->withErrors([
                 'msg' => trans('auth.401')
             ]);
@@ -488,7 +507,17 @@ class postController extends Controller
      */
     public function destroy($id)
     {
-        $this->middleware('auth');
+        if ($request->get('lang') != null) {
+            \App::setLocale($request->get('lang'));
+        } else {
+            \App::setLocale('es');
+        }
+
+        if(!$this->validateSessionUser($request)){
+            return back()->withErrors([
+                'msg' => trans('auth.401')
+            ]);
+        }
         
         //
     }
@@ -503,5 +532,28 @@ class postController extends Controller
 
     public function cadenaAleatoria($length = 7) {
         return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
+    }
+
+    /**
+     * Valia las credenciales de acceso a este controlador
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response Boolean
+     */
+    public function validateSessionUser (request $request) {
+        
+        if ($request->user()) {
+            
+            $this->middleware('auth');
+
+            // se autentica los roles del usuario
+            if (!$request->user()->authorizeRole(['Admin'])) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        
+        return true;
     }
 }

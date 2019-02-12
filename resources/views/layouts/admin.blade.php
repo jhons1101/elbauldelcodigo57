@@ -49,6 +49,7 @@
     </head>   
     <body>
         <input type="checkbox" id="nav-toggle" class="hide"/>
+        @include('partials.lang')
         <nav class="nav">
             <div class="nav-div nav-navigation">
                 <label for="nav-toggle" class="nav-toggle" onclick>☰</label>
@@ -76,6 +77,11 @@
                                     <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.newRole') }}
                                 </a>
                             </li>
+                            <li>
+                                <a href="/tema/create">
+                                    <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.newTheme') }}
+                                </a>
+                            </li>
                         </ul>
                         <ul>
                             <li>{{ trans('message.view') }}</li>
@@ -92,6 +98,11 @@
                             <li>
                                 <a href="/rol/">
                                     <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.allRole') }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/tema/">
+                                    <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.allTheme') }}
                                 </a>
                             </li>
                         </ul>
