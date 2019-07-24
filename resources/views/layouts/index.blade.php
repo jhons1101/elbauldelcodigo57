@@ -39,11 +39,6 @@
             <div class="row">
                 <div class="col s12 m12 l9">
                     <div class="row">
-                        <div class="col s12 m12 l9">
-                            {!! $errors->first('msg', '<div class="card-panel red-text red lighten-5 red text-darken-4">:message</div>') !!}
-                        </div>
-                    </div>
-                    <div class="row">
                         <div class="s12 m12 l12">
                             <div class="bottomCero">
                                 @include('partials.paginate')

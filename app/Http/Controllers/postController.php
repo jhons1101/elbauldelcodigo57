@@ -48,7 +48,7 @@ class postController extends Controller
                 ->join('tema_posts as t', 'p.post_tema', '=', 't.tema_id')
                 ->where('p.post_tipo', 3)
                 ->orderBy('p.updated_at', 'desc')
-                ->paginate(15);
+                ->paginate(1);
 
         if (count($post) < 1) {
             $error = "No hay más resultados para mostrar.";
@@ -476,7 +476,7 @@ class postController extends Controller
         $post->post_tags    =  substr($itemTag, 0, -1);
         
         if ($post->save()) {
-
+            
             $msj = ParametroGral::where('id', '=', 3)->firstOrFail();
 
             return  redirect()

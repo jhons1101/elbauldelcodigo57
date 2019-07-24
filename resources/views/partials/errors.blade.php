@@ -14,3 +14,13 @@
         {{ $errores }}
     </div>
 @endif
+<!-- muestra los errores que vienen del Request -->
+@if ($errors->any())
+    <div class="card-panel red-text text-darken-4 red lighten-5">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif

@@ -1,5 +1,5 @@
 @section('footer')
-<footer class="page-footer" style="padding-top: 0; background-color: #00adb5;">
+<footer class="page-footer" style="padding-top: 0; background-color: #212929;">
     <div class="footer-copyright">
         <div class="container">
             {{ trans('message.powerBy') }}

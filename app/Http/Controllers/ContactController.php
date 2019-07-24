@@ -30,8 +30,13 @@ class ContactController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(request $request)
     {
+        if ($request->get('lang') != null) {
+            \App::setLocale($request->get('lang'));
+        } else {
+            \App::setLocale('es');
+        }
 
         $tema = DB::table('posts as p')
                 ->select('tm.tema_txt', 'tm.tema_img')
@@ -53,6 +58,7 @@ class ContactController extends Controller
                 'entradas'        => $entradas,
                 'temas'           => $tema,
                 'sinPaginate'     => 1,
+                'urlLang'         => 'contacto'
             )
         );
     }

@@ -36,7 +36,8 @@
             'save table contextmenu directionality emoticons template paste textcolor'
         ],
         content_css: '../css/tidy.css',
-        toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | preview media fullpage | forecolor backcolor'
+        toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | preview media fullpage | forecolor backcolor',
+        height : "480"
     });
 </script>
 @stop

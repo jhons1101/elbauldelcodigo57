@@ -17,7 +17,7 @@
         <style>
             .nav-navigation {
                 overflow-y: auto;
-                height: 84%;
+                height: 100%;
             }
             .nav-ul-li-span {
                 display: inline-block !important; 
@@ -54,14 +54,15 @@
             <div class="nav-div nav-navigation">
                 <label for="nav-toggle" class="nav-toggle" onclick>☰</label>
                 <ul class="ul">
-                    <li>
+                    <li class="center">
                         <a href="/">
                             <span class="nav-ul-li-span">{{ trans('message.appName') }}</span>
                         </a>
+                        <hr />
                     </li>
                     @if ($roles->rol_user_id == 1)
                         <ul>
-                            <li>{{ trans('message.create') }}</li>
+                            <li>{{ trans('message.create') }}<hr /></li>
                             <li>
                                 <a href="/post/create">
                                     <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.newPost') }}
@@ -84,7 +85,12 @@
                             </li>
                         </ul>
                         <ul>
-                            <li>{{ trans('message.view') }}</li>
+                            <li>
+                                <br />
+                                <hr />
+                                {{ trans('message.view') }}
+                                <hr />
+                            </li>
                             <li>
                                 <a href="/post/">
                                     <i class="icon-lifebuoy nav-ul-li-span"></i>&nbsp; {{ trans('message.allPost') }}
@@ -107,6 +113,8 @@
                             </li>
                         </ul>
                         <li>
+                            <br />
+                            <hr />
                             <a href="configuracion">
                                 <i class="icon-cogs nav-ul-li-span"></i>&nbsp; {{ trans('message.configuration') }}
                             </a>
@@ -154,10 +162,6 @@
                         </li>
                     @endif
                 </ul>
-            </div>
-            <div class="nav-div-footer">
-                <img src="{{ asset('/') }}img/usuarios/{{$user->img}}" alt="{{ Auth::user()->name }}" class="nav-div-img">
-                <span class="nav-div-span">{{ Auth::user()->name }}</span>
             </div>
         </nav>
         <nav>
@@ -216,7 +220,8 @@
                     'save table contextmenu directionality emoticons template paste textcolor'
                 ],
                 content_css: '../../css/tidy.css',
-                toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | preview media fullpage | forecolor backcolor'
+                toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | preview media fullpage | forecolor backcolor',
+                height : "480"
             });
         </script>
     </body>

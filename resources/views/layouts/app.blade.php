@@ -28,7 +28,7 @@
         .card-header {
             padding: .75rem 1.25rem;
             margin-bottom: 0;
-            background-color: #00adb5;
+            background-color: #212929;
             color: white;
             font-size: 19px;
             border-bottom: 1px solid rgba(0,0,0,.125);
