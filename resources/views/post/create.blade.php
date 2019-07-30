@@ -67,10 +67,7 @@
                     <div class="col s12 m6 l6">
                         <label>{{ trans('message.title') }}</label>
                         <div class="input-field">
-                            <input type="text" class="" id="tit_post" name="txtTitPost" value="{{ old('txtTitPost') }}">
-                            @if ($errors->has('txtTitPost'))
-                                <span class="helper-text red-text text-darken-4 text-darken-4">{{ $errors->first('txtTitPost') }}</span>
-                            @endif
+                            <input type="text" class="" id="tit_post" name="txtTitPost" @if (old('txtTitPost') != '') value="{{ old('txtTitPost') }}" @endif>
                         </div>
                     </div>
                     <div class="col s12 m6 l6">
@@ -109,10 +106,6 @@
                                     {{$tag->tag_txt}}
                                 </div>
                             @endforeach
-                            <br />
-                            @if ($errors->has('txtTagsPost'))
-                                <span class="helper-text red-text text-darken-4">{{ $errors->first('txtTagsPost') }}</span>
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -121,9 +114,6 @@
                         <label>{{ trans('message.key') }}</label>
                         <div class="input-field">
                             <input type="text" class="" id="key_post" name="txtKeyPost" value="{{ old('txtKeyPost') }}">
-                            @if ($errors->has('txtKeyPost'))
-                                <span class="helper-text red-text text-darken-4">{{ $errors->first('txtKeyPost') }}</span>
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -132,9 +122,6 @@
                         <label>{{ trans('message.describe') }}</label>
                         <div class="input-field">
                             <input type="text" class="" id="des_post" name="txtDesPost" value="{{ old('txtDesPost') }}">
-                            @if ($errors->has('txtDesPost'))
-                                <span class="helper-text red-text text-darken-4">{{ $errors->first('txtDesPost') }}</span>
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -148,9 +135,6 @@
                                     {{ trans('message.textareaPost') }}
                                 @endif
                             </textarea>
-                            @if ($errors->has('textareaPost'))
-                                <span class="helper-text red-text text-darken-4">{{ $errors->first('textareaPost') }}</span>
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -164,9 +148,6 @@
                                     {{ trans('message.textareaCode') }}
                                 @endif
                             </textarea>
-                            @if ($errors->has('textareaCode'))
-                                <span class="helper-text red-text text-darken-4">{{ $errors->first('textareaCode') }}</span>
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -180,9 +161,6 @@
                                 <span class="lever"></span>
                                 {{ trans('message.yes') }}
                             </label>
-                            @if ($errors->has('txtPubPost'))
-                                <span class="helper-text red-text text-darken-4">{{ $errors->first('txtPubPost') }}</span>
-                            @endif
                         </div>
                     </div>
                     <div class="col s12 m6 l6">
@@ -194,9 +172,6 @@
                                 <option value="{{$tipo->tipo_id}}" @if (old('txtTipPost') == $tipo->tipo_id) selected @endif>{{$tipo->tipo_txt}}</option>
                                 @endforeach
                             </select>
-                            @if ($errors->has('txtTipPost'))
-                                <span class="helper-text red-text text-darken-4">{{ $errors->first('txtTipPost') }}</span>
-                            @endif
                         </div>
                     </div>
                 </div>

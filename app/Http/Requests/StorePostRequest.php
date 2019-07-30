@@ -31,7 +31,8 @@ class StorePostRequest extends FormRequest
             'txtDesPost'   => 'required|min:20|max:200',
             'textareaPost' => 'required|min:5',
             'textareaCode' => 'required|min:20',
-            'txtTipPost'   => 'required|numeric'
+            'txtTipPost'   => 'required|numeric',
+            'txtSlugPost'  => 'required'
         ];
     }
 }

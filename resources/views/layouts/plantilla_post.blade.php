@@ -97,18 +97,10 @@
 				</div>
 			</div>
 			<div class="wow fadeInUp content-card" style="margin-top: 0;">
-				<div class="row">
-					<div class="col s12 m12 l12">
-						<ul class="tabs">
-							<li class="tab"><a href="#codefte" class="active">{{ trans('message.codFte') }}</a></li>
-							<li class="tab"><a href="#pantallazos" class="active">{{ trans('message.screen') }}</a></li>
-						</ul>
-					</div>
-				</div>
 				<div id="codefte" class="col s12">
 					<main class="text-description">
 						@yield('CodigoFte')
-						<br /><br /><br /><br />
+						<br /><br /><br />
 						<a href="#redesSoc">
 							{{ trans('message.usefulContent') }}
 						</a>
@@ -117,30 +109,6 @@
 							<div class="fb-comments" data-href="{{ asset('post/'.$post->slug.'') }}" data-width="100%" data-numposts="5"></div>
 						</div>
 					</main>
-				</div>
-				<div id="pantallazos" class="col s12 m12 l12 txt-center text-description">
-					@if ($totalImg > 0)
-						@foreach ($pantallazo as $imagen)
-							@if ($imagen->tipo == 1)
-								<p class="resaltadoRojo">{{ $imagen->referencia }}</p>
-								<br />
-							@elseif ($imagen->tipo == 2)
-								<p class="resaltadoAzul">{{ $imagen->referencia }}</p>
-								<br />
-							@elseif ($imagen->tipo == 3)
-								<p class="resaltadoVerde">{{ $imagen->referencia }}</p>
-								<br />
-							@else
-								<p class="justificado">{{ $imagen->referencia }}</p>
-							@endif
-							<img src="{{ $imagen->ruta }}" alt="{{ $imagen->alt_title }}" title="{{ $imagen->alt_title }}" width="{{ $imagen->width }}%">
-							<br /><br /><hr /><br />
-						@endforeach
-					@else
-						<div class="s12 m12 l12">
-							<div class="resaltadoRojo">{{ trans('message.zeroSreen') }}</div>
-						</div>
-					@endif
 				</div>
 				<!-------------------------------------------------------------------------------------------------------------------------->
 			</div>

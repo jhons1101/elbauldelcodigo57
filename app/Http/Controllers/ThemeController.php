@@ -60,8 +60,7 @@ class ThemeController extends Controller
             $roles = new RolUserUser(); 
         }
 
-        $theme = TemaPost::orderBy('tema_txt', 'asc')
-                ->paginate(10);
+        $theme = TemaPost::orderBy('tema_txt', 'asc')->paginate(10);
         
         if (count($theme) < 1) {
             $error = "No hay más resultados para mostrar.";
@@ -194,7 +193,7 @@ class ThemeController extends Controller
                 ->join('tema_posts as tm', 'p.post_tema', '=', 'tm.tema_id')
                 ->orderBy('tm.tema_txt', 'asc')
                 ->get();
-
+        
         $entradas =  DB::table('posts as p')
                     ->select('p.*', 'u.name', 'tm.tema_txt')
                     ->join('users as u', 'p.post_usu', '=', 'u.id')
@@ -216,10 +215,23 @@ class ThemeController extends Controller
         } else {
             $errorsPostTheme = "";
         }
+        
+        if (count($theme) == 0) {
+            $urlTheme = NULL;
+            $theme->tema_id    = NULL;
+            $theme->tema_txt   = NULL;
+            $theme->tema_img   = NULL;
+            $theme->tema_tag   = NULL;
+            $theme->created_at = NULL;
+            $theme->updated_at = NULL;
+        } else {
+            $urlTheme = $theme[0]->tema_txt;
+            $theme    = $theme[0];
+        }
 
         return View(
             'theme.show', array(
-                'alltheme'        => $theme[0],
+                'alltheme'        => $theme,
                 'paginate'        => $postTheme,
                 'entradas'        => $entradas,
                 'temas'           => $tema,
@@ -227,7 +239,7 @@ class ThemeController extends Controller
                 'status'          => 2,
                 'errores'         => $error,
                 'errorsPostTheme' => $errorsPostTheme,
-                'urlLang'         => 'tema/'.$theme[0]->tema_txt
+                'urlLang'         => 'tema/'.$urlTheme
             )
         );
     }

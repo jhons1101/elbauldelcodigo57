@@ -48,7 +48,7 @@ class postController extends Controller
                 ->join('tema_posts as t', 'p.post_tema', '=', 't.tema_id')
                 ->where('p.post_tipo', 3)
                 ->orderBy('p.updated_at', 'desc')
-                ->paginate(1);
+                ->paginate(15);
 
         if (count($post) < 1) {
             $error = "No hay más resultados para mostrar.";
@@ -209,6 +209,7 @@ class postController extends Controller
             
             return  redirect()
                     ->route('post.create')
+                    ->withInput()
                     ->with('sqlerror',      $ex->errorInfo[2])
                     ->with('msgStatus',     1)
                     ->with('status',        0)
@@ -252,12 +253,11 @@ class postController extends Controller
                         ->where('id', '!=', $id)
                         ->orderBy('post_fec', 'desc')
                         ->skip(0)->take(5)->get();
-
+        
         // recorremos los tags del post y le traemos su descipción para pintarla en la plantilla
         $txtTags  = [];
         foreach ($posts as $key => $value){
-            
-            foreach(explode(',', substr($value->post_tags, 0, -1),-1) as $item => $idtag){
+            foreach(explode(',', $value->post_tags) as $item => $idtag){
                 $tag             = DB::table('tags_posts')->select('tag_txt')->where('tag_id', $idtag)->get();
                 $txtTags[$item]  = strtolower($tag[0]->tag_txt);
             }
@@ -480,7 +480,7 @@ class postController extends Controller
             $msj = ParametroGral::where('id', '=', 3)->firstOrFail();
 
             return  redirect()
-                    ->route('post.edit',     [ $post->slug ])
+                    ->route('post.show',     [ $post->slug ])
                     ->with('msgStatus',      $msj->txt_parametro)
                     ->with('status',         1)
                     ->with('statusModule',  'msgModulePost');
@@ -493,6 +493,7 @@ class postController extends Controller
                     ->route('post.edit',     [ $post->slug ])
                     ->with('msgStatus',      $msj->txt_parametro)
                     ->with('status',         0)
+                    ->withInput()
                     ->with('statusModule',  'msgModulePost');
         }
     }

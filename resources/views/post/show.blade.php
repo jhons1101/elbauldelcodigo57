@@ -26,14 +26,23 @@
 
 <!-- sección de css propios de este post -->
 @section('css')
-<style></style>
+<style>
+    img{cursor: pointer;} #txtPrueba {
+        max-width: 90%;
+        max-height : 100px;
+    }
+
+    #noResize {
+    resize:none;
+    }
+</style>
 @stop
 
 
 <!-- sección para pintar el listado de las descriciones de los post -->
 @section('TagsPost')
     @foreach($txtTags as $tag)
-        <a href="{{ asset('tema/'.$tag.'') }}" target="_blank"><span class="icon-price-tag"></span>  {{ $tag }} </a>
+        <a href="{{ asset('tema/'.$tag.'') }}" target="_blank"><span class="icon-price-tag"></span> {{ $tag }}</a> &nbsp;  &nbsp;
     @endforeach
 @stop
 
