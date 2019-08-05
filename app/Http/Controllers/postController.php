@@ -5,7 +5,6 @@ namespace elbauldelcodigo\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use elbauldelcodigo\Post;
-use elbauldelcodigo\TagsPost;
 use elbauldelcodigo\TemaPost;
 use elbauldelcodigo\TipoPost;
 use elbauldelcodigo\General;
@@ -125,7 +124,7 @@ class postController extends Controller
         $tipoPost   = TipoPost::orderBy('tipo_txt', 'asc')->get();
         $usuPost    = Auth::user()->id;
         $temaPost   = TemaPost::orderBy('tema_txt', 'asc')->get();
-        $tagsPost   = TagsPost::orderBy('tag_txt', 'asc')->get();
+        $tagsPost   = TemaPost::orderBy('tema_txt', 'asc')->get();
         $user       = User::where('id', $usuPost)->get();
 
         // traemos los roles de usuario
@@ -258,8 +257,8 @@ class postController extends Controller
         $txtTags  = [];
         foreach ($posts as $key => $value){
             foreach(explode(',', $value->post_tags) as $item => $idtag){
-                $tag             = DB::table('tags_posts')->select('tag_txt')->where('tag_id', $idtag)->get();
-                $txtTags[$item]  = strtolower($tag[0]->tag_txt);
+                $tag             = DB::table('tema_posts')->select('tema_txt')->where('tema_id', $idtag)->get();
+                $txtTags[$item]  = strtolower($tag[0]->tema_txt);
             }
         }
         
@@ -374,7 +373,7 @@ class postController extends Controller
         $tipoPost  = TipoPost::orderBy('tipo_txt', 'asc')->get();
         $usuPost   = Auth::user()->id;
         $temaPost  = TemaPost::orderBy('tema_txt', 'asc')->get();
-        $tagsPost  = TagsPost::orderBy('tag_txt', 'asc')->get();
+        $tagsPost  = TemaPost::orderBy('tema_txt', 'asc')->get();
         $user      = User::where('id', $usuPost)->get();
 
         // se cargan la información del post...
@@ -390,8 +389,8 @@ class postController extends Controller
         foreach ($posts as $key => $value){
             
             foreach(explode(',', $value->post_tags) as $item => $idtag){
-                $tag             = DB::table('tags_posts')->select('tag_txt')->where('tag_id', $idtag)->get(); 
-                $txtTags[$item]  = strtolower($tag[0]->tag_txt);
+                $tag             = DB::table('tema_posts')->select('tema_txt')->where('tema_id', $idtag)->get(); 
+                $txtTags[$item]  = strtolower($tag[0]->tema_txt);
             }
         }
 

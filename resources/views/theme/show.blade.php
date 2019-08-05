@@ -29,23 +29,13 @@
 @stop
 
 @section('post')
-    <br />
-    <div class="card-image waves-effect waves-block waves-light">
-        <div class="cardHeader">
-            <h3 class="cardHeaderText">{{ trans('message.relatedTo') }}:  {{ $alltheme->tema_txt }}</h3>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col s12 m12 l12 right-align">
-                <h3><b>{{ trans('message.themeImg') }}</b>:  <i>{{ $alltheme->tema_img }}</i></h3>
-                <h3><b>{{ trans('message.themeTag') }}</b>:  <i>{{ $alltheme->tema_tag }}</i></h3>
-        </div>
-    </div>
-    <br />
     @if (count($paginate) > 0)
     <div class="input-field">
         <table>
             <thead>
+                <tr>
+                    <th colspan="5">{{ trans('message.relatedTo') }}:  {{ $alltheme->tema_txt }}</th>
+                </tr>
                 <tr>
                     <th width="13%">{{ trans('message.author') }}</th>
                     <th width="30%">{{ trans('message.name') }} {{ trans('message.ofThe') }} {{ trans('message.post') }}</th>
@@ -73,7 +63,5 @@
             </tbody>
         </table>
     </div>
-    @else
-    <div class="card-panel red-text red lighten-5 red text-darken-4">{{ $errorsPostTheme }}</div>
     @endif
 @stop

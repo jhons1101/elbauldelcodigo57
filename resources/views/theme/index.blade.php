@@ -68,7 +68,6 @@
                                 <td data-label="{{ trans('message.code') }}">{{ $theme->tema_id }}</td>
                                 <td data-label="{{ trans('message.theme') }}">{{ $theme->tema_txt }}</td>
                                 <td data-label="{{ trans('message.themeImg') }}">{{ $theme->tema_img }}</td>
-                                <td data-label="{{ trans('message.themeTag') }}">{{ $theme->tema_tag }}</td>
                                 <td data-label="">
                                     <a href="/tema/{{ $theme->tema_txt }}/edit">
                                         <button class="waves-effect grey darken-4 btn-small" name="action">{{ trans('message.edit') }}

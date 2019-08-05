@@ -24,7 +24,7 @@
 
         setTimeout(function(){
             $("#mceu_88, #mceu_90").css('display', 'none');
-        }, 2000);
+        }, 5000);
     });
 
 
@@ -37,6 +37,7 @@
             'save table contextmenu directionality emoticons template paste textcolor'
         ],
         content_css: '../../css/tidy.css',
+        content_css: '../../css/prism.css',
         toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | preview media fullpage | forecolor backcolor',
         height : "480"
     });
@@ -93,22 +94,22 @@
                         <div class="input-field">
                             @foreach ($tagsPost as $tag)
                                 <div class="col s6 m2 l2">
-                                    <input type="checkbox" name="txtTagsPost[]" value="{{$tag->tag_id}}" id="txtTagsPost_{{$tag->tag_id}}" 
+                                    <input type="checkbox" name="txtTagsPost[]" value="{{$tag->tema_id}}" id="txtTagsPost_{{$tag->tema_id}}" 
                                         @if (is_array(old('txtTagsPost'))) 
                                             @foreach (old('txtTagsPost') as $oldtag)
-                                                @if ($oldtag == $tag->tag_id)
+                                                @if ($oldtag == $tag->tema_id)
                                                     checked
                                                 @endif
                                             @endforeach
                                         @else
                                             @foreach (explode (',', $posts->post_tags) as $posttag)
-                                                @if ($posttag == $tag->tag_id)
+                                                @if ($posttag == $tag->tema_id)
                                                     checked
                                                 @endif
                                             @endforeach
                                         @endif
                                     />
-                                    {{$tag->tag_txt}}
+                                    {{$tag->tema_txt}}
                                 </div>
                             @endforeach
                         </div>

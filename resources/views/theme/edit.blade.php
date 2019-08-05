@@ -58,17 +58,6 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col s12 m6 l6">
-                        <div  class="labeltxt">{{ trans('message.themeTag') }}</div>
-                        <div class="input-field">
-                            <input type="text" class="" id="tag_Theme" name="txtTagTheme" @if (old('txtTagTheme') != '') value="{{ old('txtTagTheme') }}" @else value="{{ $themes->tema_tag }}" @endif maxlength="31">
-                            @if ($errors->has('txtTagTheme'))
-                                <span class="helper-text red-text text-darken-4 text-darken-4">{{ $errors->first('txtTagTheme') }}</span>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col s12 m12 l12">
                         <div class="input-field">
                             <button class="waves-effect grey darken-4 btn-large" type="submit" name="action">{{ trans('message.save') }}

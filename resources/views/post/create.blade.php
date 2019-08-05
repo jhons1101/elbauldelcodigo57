@@ -23,7 +23,7 @@
 
         setTimeout(function(){
             $("#mceu_88, #mceu_90").css('display', 'none');
-        }, 3000);
+        }, 5000);
     });
 
 
@@ -35,7 +35,8 @@
             'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
             'save table contextmenu directionality emoticons template paste textcolor'
         ],
-        content_css: '../css/tidy.css',
+        content_css: '../../css/tidy.css',
+        content_css: '../../css/prism.css',
         toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | preview media fullpage | forecolor backcolor',
         height : "480"
     });
@@ -79,9 +80,6 @@
                                 <option value="{{$tema->tema_id}}" @if (old('txtTemPost') == $tema->tema_id) selected @endif>{{$tema->tema_txt}}</option>
                                 @endforeach
                             </select>
-                            @if ($errors->has('txtTemPost'))
-                                <span class="helper-text red-text text-darken-4">{{ $errors->first('txtTemPost') }}</span>
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -90,9 +88,6 @@
                         <label>{{ trans('message.slug') }}</label>
                         <div class="input-field">
                             <input type="text" class="" id="slug_post" name="txtSlugPost" value="{{ old('txtSlugPost') }}">
-                            @if ($errors->has('txtSlugPost'))
-                                <span class="helper-text red-text text-darken-4">{{ $errors->first('txtSlugPost') }}</span>
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -102,9 +97,16 @@
                         <div class="input-field">
                             @foreach ($tagsPost as $tag)
                                 <div class="col s6 m2 l2">
-                                    <input type="checkbox" name="txtTagsPost[]" value="{{$tag->tag_id}}" id="txtTagsPost_{{$tag->tag_id}}" />
-                                    {{$tag->tag_txt}}
-                                </div>
+                                    <input type="checkbox" name="txtTagsPost[]" value="{{$tag->tema_id}}" id="txtTagsPost_{{$tag->tema_id}}"
+                                @if (is_array(old('txtTagsPost'))) 
+                                    @foreach (old('txtTagsPost') as $oldtag)
+                                        @if ($oldtag == $tag->tema_id)
+                                            checked
+                                        @endif
+                                    @endforeach
+                                @endif />
+                                {{$tag->tema_txt}}
+                            </div>
                             @endforeach
                         </div>
                     </div>
@@ -157,7 +159,7 @@
                         <div class="switch">
                             <label>
                                 {{ trans('message.not') }}
-                                <input type="checkbox" name="txtPubPost" id="txtPubPost">
+                                <input type="checkbox" name="txtPubPost" id="txtPubPost" @if (old('txtPubPost') == 'on') checked @endif>
                                 <span class="lever"></span>
                                 {{ trans('message.yes') }}
                             </label>

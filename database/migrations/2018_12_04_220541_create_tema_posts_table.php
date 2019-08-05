@@ -17,7 +17,6 @@ class CreateTemaPostsTable extends Migration
             $table->increments('tema_id')->comment('Llave primaria que identifica el identificador del post');
             $table->string('tema_txt', 100)->comment('Descripción del tema');
             $table->string('tema_img', 50)->comment('Imagen/font que representa al tema');
-            $table->string('tema_tag', 50)->comment('Tag asociado al tema');
             $table->timestamps();
         });
     }

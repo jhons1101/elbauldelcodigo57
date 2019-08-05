@@ -47,16 +47,12 @@
                     </div>
                     <div class="row">
                         <div class="s12 m12 l12">
-                            <div class="row" style="margin-bottom: 0;">
-                                <div class="s12 m12 l12">
-                                    @include('partials.errors')
-                               </div>
-                            </div>
-                            <div class="row">
-                                <div class="s12 m12 l12">
-                                    @yield('post')
-                                </div>
-                            </div>
+                            @include('partials.errors')
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="s12 m12 l12">
+                            @yield('post')
                         </div>
                     </div>
                     <div class="row">

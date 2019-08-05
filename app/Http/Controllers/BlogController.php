@@ -14,7 +14,6 @@ use elbauldelcodigo\User;
 use elbauldelcodigo\Blogs;
 use elbauldelcodigo\RolUser;
 use elbauldelcodigo\RolUserUser;
-use elbauldelcodigo\TagsPost;
 
 class BlogController extends Controller
 {

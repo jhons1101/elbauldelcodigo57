@@ -142,7 +142,6 @@ class ThemeController extends Controller
         $theme              =  new TemaPost();
         $theme->tema_txt    =  ucfirst(slugify($request->get('txtTitTheme')));
         $theme->tema_img    =  strtolower($request->get('txtImgTheme'));
-        $theme->tema_tag    =  strtolower($request->get('txtTagTheme'));
         $theme->created_at  =  date("Y-m-d H:i:s");
         $theme->updated_at  =  date("Y-m-d H:i:s");
 
@@ -181,7 +180,7 @@ class ThemeController extends Controller
         $theme = TemaPost::where('tema_txt', $txtTheme)->get();
         
         if (count($theme) < 1) {
-            $error = "No hay más resultados para mostrar.";
+            $error = "El tema no existe en base de datos. \n";
         } else {
             $error = "";
         }
@@ -209,11 +208,13 @@ class ThemeController extends Controller
                     ->where('p.flg_publicar', 1)
                     ->orderBy('p.post_tit', 'asc')
                     ->paginate(10);
-
+        
         if (count($postTheme) < 1) {
-            $errorsPostTheme = "No existen post relacionados para mostrar.";
+            if (!count($theme) < 1) {
+                $error .= "No existen post relacionados para mostrar a este tema.";
+            }
         } else {
-            $errorsPostTheme = "";
+            $error .= "";
         }
         
         if (count($theme) == 0) {
@@ -221,14 +222,13 @@ class ThemeController extends Controller
             $theme->tema_id    = NULL;
             $theme->tema_txt   = NULL;
             $theme->tema_img   = NULL;
-            $theme->tema_tag   = NULL;
             $theme->created_at = NULL;
             $theme->updated_at = NULL;
         } else {
             $urlTheme = $theme[0]->tema_txt;
             $theme    = $theme[0];
         }
-
+        
         return View(
             'theme.show', array(
                 'alltheme'        => $theme,
@@ -238,7 +238,6 @@ class ThemeController extends Controller
                 'msgStatus'       => 1,
                 'status'          => 2,
                 'errores'         => $error,
-                'errorsPostTheme' => $errorsPostTheme,
                 'urlLang'         => 'tema/'.$urlTheme
             )
         );
@@ -307,7 +306,6 @@ class ThemeController extends Controller
         $theme              = TemaPost::where('tema_txt', $themeTxt)->firstOrFail();
         $theme->tema_txt    = ucfirst(slugify($request->get('txtTitTheme')));
         $theme->tema_img    = strtolower($request->get('txtImgTheme'));
-        $theme->tema_tag    = strtolower($request->get('txtTagTheme'));
         $theme->updated_at  = date("Y-m-d H:i:s");
 
         try {
