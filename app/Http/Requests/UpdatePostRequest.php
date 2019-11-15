@@ -24,7 +24,7 @@ class UpdatePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'txtTitPost'   => 'required|min:20|max:200',
+            'txtTitPost'   => 'required|min:10|max:200',
             'txtTemPost'   => 'required|numeric',
             'txtSlugPost'  => 'required|min:10|max:200',
             'txtTagsPost'  => 'required|array',

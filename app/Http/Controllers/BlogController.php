@@ -14,6 +14,7 @@ use elbauldelcodigo\User;
 use elbauldelcodigo\Blogs;
 use elbauldelcodigo\RolUser;
 use elbauldelcodigo\RolUserUser;
+use elbauldelcodigo\TemaPost;
 
 class BlogController extends Controller
 {
@@ -85,7 +86,7 @@ class BlogController extends Controller
         $usuPost     = Auth::user()->id;
         $user        = User::where('id', $usuPost)->get();
         $usuarios    = User::orderBy('email', 'asc')->get();
-        $tagsBlog    = TagsPost::orderBy('tag_txt', 'asc')->get();
+        $tagsBlog    = TemaPost::orderBy('tema_txt', 'asc')->get();
 
         // traemos los roles de usuario para mostrar las acciones disponibles
         $roles  = DB::table('rol_user_user as r')
@@ -191,7 +192,7 @@ class BlogController extends Controller
         $leido       = Blogs::where('flg_publicar' , 1)->orderBy('views', 'desc')->paginate(5);
 
         $tags        = explode(',', $blog->tags_blog);
-        $tagsBlog    = TagsPost::whereIn('tag_id', $tags)->orderBy('tag_txt', 'asc')->get();
+        $tagsBlog    = TemaPost::whereIn('tema_id', $tags)->orderBy('tema_txt', 'asc')->get();
         $userBlog    = User::where('id', $blog->id_usu)->firstOrFail();
 
         // Actualizamos el contador de visitas del blog
@@ -231,7 +232,7 @@ class BlogController extends Controller
         $usuPost     = Auth::user()->id;
         $user        = User::where('id', $usuPost)->get();
         $usuarios    = User::orderBy('email', 'asc')->get();
-        $tagsBlog    = TagsPost::orderBy('tag_txt', 'asc')->get();
+        $tagsBlog    = TemaPost::orderBy('tema_txt', 'asc')->get();
         $blog        = Blogs::where('slug', $slug)->firstOrFail();
 
         // traemos los roles de usuario para mostrar las acciones disponibles

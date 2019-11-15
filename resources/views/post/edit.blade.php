@@ -23,7 +23,11 @@
         $('select').material_select();
 
         setTimeout(function(){
-            $("#mceu_88, #mceu_90").css('display', 'none');
+            $("[id^='mceu_8']").each(function(key, value){
+                if($(value).hasClass('mce-notification-warning')){
+                    $(value).css('display', 'none');
+                }
+            });
         }, 5000);
     });
 
@@ -36,8 +40,7 @@
             'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
             'save table contextmenu directionality emoticons template paste textcolor'
         ],
-        content_css: '../../css/tidy.css',
-        content_css: '../../css/prism.css',
+        content_css: '../../css/tidy.css, ../../css/prism.css, ../../materialize/css/materialize.min.css, ../../css/tablas-responsive.css',
         toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | preview media fullpage | forecolor backcolor',
         height : "480"
     });

@@ -53,17 +53,25 @@
                         <div class="input-field">
                             @foreach ($tagsBlog as $tag)
                                 <div class="col s6 m2 l2">
-                                    <input type="checkbox" name="txtTagsBlog[]" value="{{$tag->tag_id}}" id="txtTagsBlog_{{$tag->tag_id}}" />
-                                    {{$tag->tag_txt}}
+                                    <input type="checkbox" name="txtTagsBlog[]" value="{{$tag->tema_id}}" id="txtTagsBlog_{{$tag->tema_id}}" 
+                                    @if (is_array(old('txtTagsBlog'))) 
+                                        @foreach (old('txtTagsBlog') as $oldtag)
+                                            @if ($oldtag == $tag->tema_id)
+                                                checked
+                                            @endif
+                                        @endforeach
+                                    @endif />
+                                    {{$tag->tema_txt}}
                                 </div>
                             @endforeach
-                            <br />
-                            @if ($errors->has('txtTagsBlog'))
-                                <span class="helper-text red-text text-darken-4">{{ $errors->first('txtTagsBlog') }}</span>
-                            @endif
                         </div>
                     </div>
                 </div>
+                @if ($errors->has('txtTagsBlog'))
+                <div class="row">
+                    <span class="helper-text red-text text-darken-4">{{ $errors->first('txtTagsBlog') }}</span>
+                </div>
+                @endif
                 <div class="row">
                     <div class="col s12 m12 l12">
                         <div class="input-field">
@@ -97,7 +105,7 @@
                         <div class="switch">
                             <label>
                                 {{ trans('message.not') }}
-                                <input type="checkbox" name="txtPubBlog" id="txtPubBlog">
+                                <input type="checkbox" name="txtPubBlog" id="txtPubBlog"@if (old('txtPubBlog') == 'on') checked @endif>
                                 <span class="lever"></span>
                                 {{ trans('message.yes') }}
                             </label>

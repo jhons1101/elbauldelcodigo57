@@ -24,7 +24,7 @@ class StorePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'txtTitPost'   => 'required|min:20|max:200',
+            'txtTitPost'   => 'required|min:10|max:200',
             'txtTemPost'   => 'required|numeric',
             'txtTagsPost'  => 'required|array',
             'txtKeyPost'   => 'required|min:5|max:300',

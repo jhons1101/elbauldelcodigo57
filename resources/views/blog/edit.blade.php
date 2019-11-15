@@ -26,7 +26,7 @@
 
 @section('contenido')
     <div class="row">
-        <h5>{{ trans('message.editBlog') }}: <i>{{ $blog->title }}</i></h5>
+        <h5>{{ $blog->title }}</h5>
         <hr />
         <br />
         <br />
@@ -53,22 +53,22 @@
                         <div class="input-field">
                             @foreach ($tagsBlog as $tag)
                                 <div class="col s6 m2 l2">
-                                    <input type="checkbox" name="txtTagsBlog[]" value="{{$tag->tag_id}}" id="txtTagsBlog_{{$tag->tag_id}}"
+                                    <input type="checkbox" name="txtTagsBlog[]" value="{{$tag->tema_id}}" id="txtTagsBlog_{{$tag->tema_id}}"
                                         @if (is_array(old('txtTagsBlog'))) 
                                             @foreach (old('txtTagsBlog') as $oldtag)
-                                                @if ($oldtag == $tag->tag_id)
+                                                @if ($oldtag == $tag->tema_id)
                                                     checked
                                                 @endif
                                             @endforeach
                                         @else
                                             @foreach (explode (',', $blog->tags_blog) as $blogtag)
-                                                @if ($blogtag == $tag->tag_id)
+                                                @if ($blogtag == $tag->tema_id)
                                                     checked
                                                 @endif
                                             @endforeach
                                         @endif
                                          />
-                                    {{$tag->tag_txt}}
+                                    {{$tag->tema_txt}}
                                 </div>
                             @endforeach
                             <br />

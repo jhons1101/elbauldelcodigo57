@@ -22,7 +22,11 @@
         $('select').material_select();
 
         setTimeout(function(){
-            $("#mceu_88, #mceu_90").css('display', 'none');
+            $("[id^='mceu_8']").each(function(key, value){
+                if($(value).hasClass('mce-notification-warning')){
+                    $(value).css('display', 'none');
+                }
+            });
         }, 5000);
     });
 
@@ -35,8 +39,7 @@
             'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
             'save table contextmenu directionality emoticons template paste textcolor'
         ],
-        content_css: '../../css/tidy.css',
-        content_css: '../../css/prism.css',
+        content_css: '../../css/tidy.css, ../../css/prism.css, ../../materialize/css/materialize.min.css, ../../css/tablas-responsive.css',
         toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | preview media fullpage | forecolor backcolor',
         height : "480"
     });
@@ -98,19 +101,24 @@
                             @foreach ($tagsPost as $tag)
                                 <div class="col s6 m2 l2">
                                     <input type="checkbox" name="txtTagsPost[]" value="{{$tag->tema_id}}" id="txtTagsPost_{{$tag->tema_id}}"
-                                @if (is_array(old('txtTagsPost'))) 
-                                    @foreach (old('txtTagsPost') as $oldtag)
-                                        @if ($oldtag == $tag->tema_id)
-                                            checked
-                                        @endif
-                                    @endforeach
-                                @endif />
-                                {{$tag->tema_txt}}
+                                    @if (is_array(old('txtTagsPost'))) 
+                                        @foreach (old('txtTagsPost') as $oldtag)
+                                            @if ($oldtag == $tag->tema_id)
+                                                checked
+                                            @endif
+                                        @endforeach
+                                    @endif />
+                                    {{$tag->tema_txt}}
                             </div>
                             @endforeach
                         </div>
                     </div>
                 </div>
+                @if ($errors->has('txtTagsPost'))
+                <div class="row">
+                    <span class="helper-text red-text text-darken-4">{{ $errors->first('txtTagsPost') }}</span>
+                </div>
+                @endif
                 <div class="row">
                     <div class="col s12 m12 l12">
                         <label>{{ trans('message.key') }}</label>

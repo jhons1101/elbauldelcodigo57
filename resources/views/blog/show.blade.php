@@ -13,7 +13,7 @@
     background-size: 100% 100%;
     height: 400px;
     max-width: 100%;
-    filter:brightness(0.4);
+    filter:brightness(0.8);
     background-image:url({{ asset('/img/blog/'.$blog->image.'') }});
 }
 .image-blog::after {
@@ -66,23 +66,24 @@
         </div>
         <div class="row">
             <div class="col s12">
-                <div class="blog-show-tag">{{ trans('message.tags') }}:
+                <div><span class="blog-show-tag">{{ trans('message.tags') }}:</span>
                     @foreach ($tagsBlog as $tag)
-                        <a href="{{ asset('tema/'.$tag->tag_txt.'') }}">
-                            <span class="icon-price-tag"></span> {{ ucfirst($tag->tag_txt) }}
+                        <a href="{{ asset('tema/'.$tag->tema_txt.'') }}">
+                            <span class="icon-price-tag"></span> {{ ucfirst($tag->tema_txt) }}
                         </a>
                     @endforeach
                 </div>
-                <div class="blog-show-user">{{ trans('message.username') }}: {{ ucfirst($userBlog->name) }}</div>
-                <div class="blog-show-date">{{ trans('message.date') }}: {{ $blog->created_at }}</div>
+                <div><span class="blog-show-user">{{ trans('message.username') }}:</span> {{ ucfirst($userBlog->name) }}</div>
+                <div><span class="blog-show-date">{{ trans('message.date') }}:</span> {{ $blog->created_at }}</div>
                 @if (!Auth::guest())
                     <div class="editarBlog">
-                        <a href="{{ asset('blog/'.$blog->slug.'/edit') }}" class="waves-effect waves-light btn">
-                            <i class="material-icons right">cloud</i>
-                            editar
+                        <a href="{{ asset('blog/'.$blog->slug.'/edit') }}" >
+                            <b><i>{{ trans('message.edit') }}...</i></b>
                         </a>
                     </div>
                 @endif
+                <hr />
+                <br />
             </div>
         </div>
         <div class="row blog-show-text">
@@ -110,7 +111,9 @@
             @foreach ($topLeido as $blog)
                 <div class="row blog">
                     <div class="col s12 m4">
-                        <img src="{{ asset('img/blog') }}/{{ $blog->image }}" alt="blog" width="100%" />
+                        <a href="{{ asset('blog') }}/{{ $blog->slug }}">
+                            <img src="{{ asset('img/blog') }}/{{ $blog->image }}" alt="blog" width="100%" />
+                        </a>
                         <div class="col s12 top-blog-title">
                             <a href="{{ asset('blog') }}/{{ $blog->slug }}">
                                 {{ $blog->title }}
