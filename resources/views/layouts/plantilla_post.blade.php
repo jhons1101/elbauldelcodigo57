@@ -164,14 +164,9 @@
 						<img src="/img/mini-twitter.png" style="position: relative; top: 8px;" alt="{{ trans('message.shareTw') }}">
 					</a>
 				</li>
-				<li class="shareBtn">
-					<a class="btn-floating blue" title="{{ trans('message.groupWS') }} {{ trans('message.celWS') }}" href="https://web.whatsapp.com/" target="_blank">
-						<img src="/img/whatsapp.png" style="position: relative; top: 2px; right: -2px;" alt="{{ trans('message.groupWS') }} {{ trans('message.celWS') }}">
-					</a>
-				</li>
 			</ul>
 		</div>
-		<!-- Modales para copartir el Blog, post, etc... -->
+		<!-- Modales para compartir el Blog, post, etc... -->
 		@include('partials.modalShare')
 		<br />
 		<br />

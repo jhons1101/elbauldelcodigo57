@@ -43,12 +43,20 @@ class postController extends Controller
             \App::setLocale('es');
         }
 
-        $post = DB::table('posts as p')
-                ->join('tema_posts as t', 'p.post_tema', '=', 't.tema_id')
-                ->where('p.post_tipo', 3)
-                ->orderBy('p.updated_at', 'desc')
-                ->paginate(15);
+        $txtPoster = [];
+        $busqueda  = Post::BuscarEnPost($request->get('buscar'))->get();
 
+        foreach($busqueda as $i => $bus){
+            $txtPoster[$i] = $bus->id.',';
+        }
+
+        $post = DB::table('posts as p')
+            ->join('tema_posts as t', 'p.post_tema', '=', 't.tema_id')
+            ->where('p.post_tipo', 3)
+            ->whereIn('p.id',  $txtPoster)
+            ->orderBy('p.updated_at', 'desc')
+            ->paginate(15);
+        
         if (count($post) < 1) {
             $error = "No hay más resultados para mostrar.";
         } else {
@@ -93,6 +101,7 @@ class postController extends Controller
                 'temas'       => $tema,
                 'errores'     => $error,
                 'entradas'    => $entradas,
+                'buscar'      => $request->get('buscar'),
                 'public_path' => public_path(),
                 'roles'       => $roles[0],
                 'urlLang'     => 'post/'
@@ -316,9 +325,18 @@ class postController extends Controller
         
         $usuPost     = Auth::user()->id;
         $user        = User::where('id', $usuPost)->get();
+
+        $txtPoster = [];
+        $busqueda  = Post::BuscarEnPost($request->get('buscar'))->get();
+        
+        foreach($busqueda as $i => $bus){
+            $txtPoster[$i] = $bus->id.',';
+        }
+
         $allPost     = DB::table('posts as p')
                     ->join('tema_posts as t', 't.tema_id', '=', 'p.post_tema')
                     ->where('p.post_usu', $usuPost)
+                    ->whereIn('p.id',  $txtPoster)
                     ->orderBy('p.updated_at', 'desc')
                     ->paginate(10);
         
@@ -335,6 +353,7 @@ class postController extends Controller
         ->with('roles',        $roles[0])
         ->with('allPost',      $allPost)
         ->with('user',         $user[0])
+        ->with('buscar',       $request->get('buscar'))
         ->with('paginate',     $allPost)
         ->with('urlLang',      'post/showPostAdmin');
     }

@@ -46,7 +46,11 @@
             </div>
         @endforeach
         <div class="row">
-            @include('partials.paginate')
+            <div class="s12 m12 l12">
+                <div class="bottomCero">
+                    @include('partials.paginate')
+                </div>
+            </div>
         </div>
     </div>
     <div class="col s12 m4">

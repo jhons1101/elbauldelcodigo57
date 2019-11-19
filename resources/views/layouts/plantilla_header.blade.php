@@ -19,17 +19,11 @@
                         </a>
                     </li>
                     <li><h1><a href="{{ asset('/') }}" class="txtWhite"><b>{{ config('app.name') }}</b></a></h1></li>
-                    <li class="txtWhite">
-                        <a href="https://chat.whatsapp.com/IzwFOc8BbqpKcgEA9i3p33" class="txtWhite" target="_blank">
-                            {{ trans('message.groupWS') }} {{ trans('message.celWS') }}
-                        </a>
-                    </li>
                     <li>
                         <a href="https://www.facebook.com/groups/1820752601515497/" class="txtWhite" target="_blank">
                             {{ trans('message.groupFB') }}
                         </a>
                     </li>
-                    {{-- <li><a href="{{ asset('/foro') }}" class="txtWhite">{{ trans('message.foro') }}</a></li> --}}
                     @if (Auth::guest())
                         {{-- <li><a href="{{ asset('/login') }}" class="txtWhite">{{ trans('message.login') }}</a></li> --}}
                         {{-- <li><a href="{{ asset('/register') }}" class="txtWhite">{{ trans('message.register') }}</a></li> --}}
@@ -57,16 +51,10 @@
                         </a>
                     </li>
                     <li class="aMovil liamobile inline-block">
-                        <a href="https://chat.whatsapp.com/IzwFOc8BbqpKcgEA9i3p33" target="_blank">
-                            {{ trans('message.groupWS') }} {{ trans('message.celWS') }}
-                        </a>
-                    </li>
-                    <li class="aMovil liamobile inline-block">
                         <a href="https://www.facebook.com/groups/1820752601515497/" target="_blank">
                             {{ trans('message.groupFB') }}
                         </a>
                     </li>
-                    {{-- <li class="liamobile"><a href="{{ asset('/foro') }}">{{ trans('message.foro') }}</a></li> --}}
                     <li class="liamobile"><a href="{{ asset('/blog') }}">{{ trans('message.blog') }}</a></li>
                     @if (Auth::guest())
                         {{-- <li class="liamobile"><a href="{{ asset('/login') }}">{{ trans('message.login') }}</a></li> --}}
@@ -75,14 +63,14 @@
                     @else
                         {{-- <li class="liamobile"><a href="{{ asset('/home') }}">{{ trans('message.contact') }}</a></li> --}}
                     @endif
-                    {{-- <li class="liamobile">
+                    <li class="liamobile">
                         <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             {{ trans('message.logout') }}
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             {{ csrf_field() }}
                         </form>
-                    </li> --}}
+                    </li>
                 </ul>
             </div>
         </nav>

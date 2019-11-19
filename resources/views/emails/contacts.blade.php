@@ -137,8 +137,6 @@
                                                                 <strong>{{ trans('message.msgContactMail4') }}</strong><br>
                                                                 Facebook {{ trans('message.with') }} elbauldelcodigo<br>
                                                                 Twitter {{ trans('message.with') }} @jhons1101<br>
-                                                                Google Plus (+) {{ trans('message.with') }} elbauldelcodigo<br>
-                                                                {{ trans('message.groupWS') }} https://chat.whatsapp.com/IzwFOc8BbqpKcgEA9i3p33
                                                             </p>
                                                             </div>
                                                         </div>

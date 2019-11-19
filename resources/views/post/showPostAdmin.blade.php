@@ -30,6 +30,17 @@
 @section('contenido')
     <div class="row">
         <div class="col s12 m12 l12">
+            <div class="buscador input-field" id="buscar">
+                {!! Form::open (['route' => 'showPostAdmin', 'method' => 'GET' ]) !!}
+                    <input id="buscarPost" type="text" class="validate" name="buscar" value="{{ $buscar }}">
+                    <label for="buscarPost">{{ trans('message.search') }}...</label>
+                    <button class="hide" type="submit">{{ trans('message.search') }}
+                        <i class="material-icons right">send</i>
+                    </button>
+                {!! Form::close() !!}
+            </div>
+        </div>
+        <div class="col s12 m12 l12">
             <div class="labeltxt">
                 <table class="table">
                     <tr>
@@ -70,14 +81,14 @@
                                     @if ( $post->flg_publicar == 0) {{trans('message.not')}} @else {{trans('message.yes')}} @endif
                                 </td>
                                 <td data-label="">
-                                    <a href="/post/{{ $post->slug }}/edit">
+                                    <a href="/post/{{ $post->slug }}/edit" target="_blank">
                                         <button class="waves-effect grey darken-4 btn-small" name="action">{{ trans('message.edit') }}
                                             <i class="material-icons right"></i>
                                         </button>
                                     </a>
                                 </td>
                                 <td data-label="">
-                                    <a href="/post/{{ $post->slug }}">
+                                    <a href="/post/{{ $post->slug }}" target="_blank">
                                         <button class="waves-effect grey darken-4 btn-small" name="action">{{ trans('message.show') }}
                                             <i class="material-icons right"></i>
                                         </button>

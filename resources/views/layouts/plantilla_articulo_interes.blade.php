@@ -18,9 +18,6 @@
 	<div class="row">
 		<div class="col s12 m12 l12">
 			<p>
-				<b></i>Unete al grupo de whatsApp +57 316 392 6456</i></b>
-			</p>
-			<p>
 				<a href="https://www.facebook.com/groups/1820752601515497/" target="_blank">
 					Sigue el grupo en facebook
 				</a>

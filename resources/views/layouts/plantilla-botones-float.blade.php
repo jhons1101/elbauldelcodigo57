@@ -19,11 +19,6 @@
 				<img src="/img/mini-twitter.png" style="position: relative; top: 8px;" alt="siguenos en twitter">
 			</a>
 		</li>
-		<li class="shareBtn">
-			<a class="btn-floating blue" title="Unete al grupo de whatsApp 57+ 3163926456" href="https://web.whatsapp.com/" target="_blank">
-				<img src="/img/whatsapp.png" style="position: relative; top: 2px; right: -2px;" alt="whatsApp 57+ 3163926456">
-			</a>
-		</li>
 	</ul>
 </div>
 @stop

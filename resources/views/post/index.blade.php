@@ -29,6 +29,15 @@
 @stop
 
 @section('post')
+    <div class="buscador input-field" id="buscar">
+        {!! Form::open (['route' => 'post.index', 'method' => 'GET' ]) !!}
+            <input id="buscarPost" type="text" class="validate" name="buscar" value="{{ $buscar }}">
+            <label for="buscarPost">{{ trans('message.search') }}...</label>
+            <button class="hide" type="submit">{{ trans('message.search') }}
+                <i class="material-icons right">send</i>
+            </button>
+        {!! Form::close() !!}
+    </div>
     @foreach ($post as $post)
     <div class="col s12 m4 l4">
         <div class="card basic">
