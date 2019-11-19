@@ -89,7 +89,6 @@
 			<div class="wow fadeInUp content-card" style="margin-top:2%;box-shadow: none;background: none;" id="redesSoc">
 				<div class="row" style="text-align: center;">
 					<img src="{{ asset('/img/compartir-facebook.png') }}" alt="{{ trans('message.shareFB') }}"  id="facebookbot" class="separar-img" title="{{ trans('message.shareFB') }}">
-					<img src="{{ asset('/img/compartir-google.png') }}"   alt="{{ trans('message.shareGoo') }}" id="googlebot"   class="separar-img" title="{{ trans('message.shareGoo') }}">
 					<img src="{{ asset('/img/compartir-twitter.png') }}"  alt="{{ trans('message.shareTw') }}"  id="twitterbot"  class="separar-img" title="{{ trans('message.shareTw') }}">
 					<img src="{{ asset('/img/compartir-blogger.png') }}"  alt="{{ trans('message.shareBg') }}"  id="bloggerbot"  class="separar-img" title="{{ trans('message.shareBg') }}">
 					<img src="{{ asset('/img/compartir-embebido.png') }}" alt="{{ trans('message.shareCe') }}"  id="embebidobot" class="separar-img" title="{{ trans('message.shareCe') }}">
@@ -152,11 +151,6 @@
 				<li>
 					<a class="btn-floating" style="background-color:#3B5998;" title="{{ trans('message.shareFB') }}" href="https://www.facebook.com/elBaulDelCodigo?ref=hl" target="_blank">
 						<img src="/img/mini-facebook.png" style="position: relative; top: 8px;" alt="{{ trans('message.shareFB') }}">
-					</a>
-				</li>
-				<li class="shareBtn">
-					<a class="btn-floating red" title="{{ trans('message.shareGoo') }}" href="https://plus.google.com/b/109009744640604915833/+ElbauldelcodigoOficial/posts" target="_blank">
-						<img src="/img/mini-google.png"  style="position: relative; top: 8px;" alt="{{ trans('message.shareGoo') }}">
 					</a>
 				</li>
 				<li class="shareBtn">

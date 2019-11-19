@@ -10,11 +10,6 @@
 			</a>
 		</li>
 		<li class="shareBtn">
-			<a class="btn-floating red" title="Siguenos en google plus" href="https://plus.google.com/b/109009744640604915833/+ElbauldelcodigoOficial/posts" target="_blank">
-				<img src="/img/mini-google.png"  style="position: relative; top: 8px;" alt="siguenos en google plus">
-			</a>
-		</li>
-		<li class="shareBtn">
 			<a class="btn-floating blue" title="Siguenos en twitter" href="https://twitter.com/Jhons1101" target="_blank">
 				<img src="/img/mini-twitter.png" style="position: relative; top: 8px;" alt="siguenos en twitter">
 			</a>

@@ -93,7 +93,6 @@
             <div class="content-card center" id="redesSocBlog">
                 <div class="row">
                     <img src="{{ asset('/img/compartir-facebook.png') }}" alt="{{ trans('message.shareFB') }}"  id="facebookbot" class="separar-img-blog" title="{{ trans('message.shareFB') }}">
-                    <img src="{{ asset('/img/compartir-google.png') }}"   alt="{{ trans('message.shareGoo') }}" id="googlebot"   class="separar-img-blog" title="{{ trans('message.shareGoo') }}">
                     <img src="{{ asset('/img/compartir-twitter.png') }}"  alt="{{ trans('message.shareTw') }}"  id="twitterbot"  class="separar-img-blog" title="{{ trans('message.shareTw') }}">
                     <img src="{{ asset('/img/compartir-blogger.png') }}"  alt="{{ trans('message.shareBg') }}"  id="bloggerbot"  class="separar-img-blog" title="{{ trans('message.shareBg') }}">
                     <img src="{{ asset('/img/compartir-embebido.png') }}" alt="{{ trans('message.shareCe') }}"  id="embebidobot" class="separar-img-blog" title="{{ trans('message.shareCe') }}">

@@ -6,9 +6,6 @@
         </div>
         <div class="row center">
             <div class="social-feed">
-                <a href="https://plus.google.com/b/109009744640604915833/+ElbauldelcodigoOficial" target="_blank">
-                    <span class="icon-google-plus2"></span>
-                </a>
                 <a href="https://es-la.facebook.com/elBaulDelCodigo/" target="_blank">
                     <span class="icon-facebook2"></span>
                 </a>
