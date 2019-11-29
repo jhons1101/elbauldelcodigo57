@@ -8,7 +8,6 @@
 		<meta name="keywords" content="{{ $post->post_key }}">
 		<meta name="copyright" content="Copyright © 2014 elbauldelcodigo.com">
 		<meta name="author" content="jhons1101">
-		<meta name="theme-color" content="#ffffff">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 		
 		<meta property="og:title" content="{{ $post->post_tit }} || elbauldelcodigo">
@@ -33,9 +32,6 @@
 		<meta name="twitter:url" content="http://elbauldelcodigo.com/" />
 
 		@yield('img-for-share')
-
-		<meta property="og:image" content="{{ asset('/img/elbauldelcodigo.com_front_3.png') }}" />
-		<link href="{{ asset('/img/elbauldelcodigo.com_front_3.png') }}" rel="image_src" />
 
 		<link rel="stylesheet" href="{{{ asset('/materialize/css/materialize.min.css') }}}">
 		<link rel="stylesheet" href="{{{ asset('/css/tidy.css')	}}}">
@@ -130,9 +126,6 @@
 				@endif
 				<div class="row">
 					<div class="col s12 m12 l12">
-						<p>
-							<b></i>{{ trans('message.groupWS') }} {{ trans('message.celWS') }}</i></b>
-						</p>
 						<p>
 							<a href="https://www.facebook.com/groups/1820752601515497/" target="_blank">
 								{{ trans('message.groupFB') }}

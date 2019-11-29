@@ -32,7 +32,8 @@ class UpdatePostRequest extends FormRequest
             'txtDesPost'   => 'required|min:20|max:300',
             'textareaPost' => 'required|min:100',
             'textareaCode' => 'required|min:100',
-            'txtTipPost'   => 'required|numeric'
+            'txtTipPost'   => 'required|numeric',
+            'imagePost'    => 'required|image'
         ];
     }
 }

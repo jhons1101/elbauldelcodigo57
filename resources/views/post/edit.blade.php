@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 @extends('sistemaAdmin.footer')
 
-<!-- sección para poner el title del post -->
+{{-- <!-- sección para poner el title del post --> --}}
 @section('seccion')
 {{ $seccion }} {{ $posts->post_tit }}
 @stop
 
-<!-- sección para poner el modulo de la pantalla -->
+{{-- <!-- sección para poner el modulo de la pantalla --> --}}
 @section('moduleSeccion')
 {{ $moduleSeccion }}
 @stop
@@ -16,7 +16,7 @@
 @stop
 
 
-<!-- sección de javascript propios del post -->
+{{-- <!-- sección de javascript propios del post --> --}}
 @section('javascript')
 <script type="text/javascript">
     $(document).ready(function(){
@@ -47,7 +47,7 @@
 </script>
 @stop
 
-<!-- sección para cargar la foto del usuario de la sessión del post -->
+{{-- <!-- sección para cargar la foto del usuario de la sessión del post --> --}}
 @section('css')
 <style>
 [type=checkbox]:not(:checked), [type=checkbox]:checked {
@@ -68,7 +68,7 @@
     </div>
     <div class="row">
         <div class="col s12 m12 l12">
-            <form action="/post/{{ $posts->slug }}" method="POST">
+            <form action="/post/{{ $posts->slug }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <div class="row">
@@ -183,6 +183,21 @@
                             </select>
                         </div>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m6 l6">
+                        <label>{{ trans('message.file') }}</label>
+                        <div class="file-field input-field">
+                            <div class="btn">
+                                <span>{{ trans('message.file') }}</span>
+                                <input type="file" name="imagePost">
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m6 l6">&nbsp;</div>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12">

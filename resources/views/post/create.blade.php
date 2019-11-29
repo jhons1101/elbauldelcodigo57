@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 @extends('sistemaAdmin.footer')
 
-<!-- sección para poner el title del post -->
+{{-- <!-- sección para poner el title del post --> --}}
 @section('seccion')
 {{ $seccion }}
 @stop
 
-<!-- sección para poner el modulo de la pantalla -->
+{{-- <!-- sección para poner el modulo de la pantalla --> --}}
 @section('moduleSeccion')
 {{ $moduleSeccion }}
 @stop
@@ -15,7 +15,7 @@
 <div style="padding:20px">&nbsp;</div>
 @stop
 
-<!-- sección de javascript propios del post -->
+{{-- <!-- sección de javascript propios del post --> --}}
 @section('javascript')
 <script type="text/javascript">
     $(document).ready(function(){
@@ -65,7 +65,7 @@
     </div>
     <div class="row">
         <div class="col s12 m12 l12">
-            <form class="" action="/post" method="POST">
+            <form class="" action="/post" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col s12 m6 l6">
@@ -87,10 +87,22 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col s12 m12 l12">
+                    <div class="col s12 m6 l6">
                         <label>{{ trans('message.slug') }}</label>
                         <div class="input-field">
                             <input type="text" class="" id="slug_post" name="txtSlugPost" value="{{ old('txtSlugPost') }}">
+                        </div>
+                    </div>
+                    <div class="col s12 m6 l6">
+                        <label>{{ trans('message.file') }}</label>
+                        <div class="file-field input-field">
+                            <div class="btn">
+                                <span>{{ trans('message.file') }}</span>
+                                <input type="file" name="imagePost">
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text">
+                            </div>
                         </div>
                     </div>
                 </div>

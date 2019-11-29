@@ -128,6 +128,6 @@
     </div>
 </div>
 
-<!-- Modales para copartir el Blog, post, etc... -->
+{{-- <!-- Modales para compartir el Blog, post, etc... --> --}}
 @include('partials.modalShare')
 @endsection

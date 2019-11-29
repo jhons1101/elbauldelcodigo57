@@ -203,6 +203,11 @@ class postController extends Controller
         $post->flg_publicar =  $txtPubPost;
         $post->post_tags    =  substr($itemTag, 0, -1);
         
+        if ($request->hasfile('imagePost')) {
+            $file   = $request->file('imagePost');
+            $name   = strtolower(slugify($request->get('txtTitPost'))).'.jpg';
+            $file->move(public_path().'/img/post/', $name);
+        }
 
         try {
 
@@ -492,6 +497,12 @@ class postController extends Controller
 
         $post->flg_publicar =  $txtPubPost;
         $post->post_tags    =  substr($itemTag, 0, -1);
+        
+        if ($request->hasfile('imagePost')) {
+            $file   = $request->file('imagePost');
+            $name   = strtolower(slugify($request->get('txtTitPost'))).'.jpg';
+            $file->move(public_path().'/img/post/', $name);
+        }
         
         if ($post->save()) {
             

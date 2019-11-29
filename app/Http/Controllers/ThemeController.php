@@ -149,13 +149,13 @@ class ThemeController extends Controller
 
             $theme->save();
 
-            return  redirect()->route('theme.show',  [ $theme->tema_txt ])
+            return  redirect()->route('tema.show',  [ $theme->tema_txt ])
                         ->with('msgStatus',     1)
                         ->with('status',        1)
                         ->with('statusModule',  'msgModuleTheme');
         
         } catch (\Illuminate\Database\QueryException $ex) {
-            return  redirect()->route('theme.create')
+            return  redirect()->route('tema.create')
                     ->with('sqlerror',      $ex->errorInfo[2])
                     ->with('msgStatus',     1)
                     ->with('status',        0)
