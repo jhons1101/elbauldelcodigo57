@@ -36,16 +36,13 @@
             <form action="/blog" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
-                    <div class="col s12 m6 l6">
+                    <div class="col s12 m9 l9">
                         <label>{{ trans('message.title') }}</label>
                         <div class="input-field">
                             <input type="text" id="tit_blog" name="txtTitblog" value="{{ old('txtTitblog') }}" maxlength="201">
-                            @if ($errors->has('txtTitblog'))
-                                <span class="helper-text red-text text-darken-4 text-darken-4">{{ $errors->first('txtTitblog') }}</span>
-                            @endif
                         </div>
                     </div>
-                    <div class="col s12 m6 l6">&nbsp;</div>
+                    <div class="col s12 m3 l3">&nbsp;</div>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12">
@@ -67,11 +64,20 @@
                         </div>
                     </div>
                 </div>
-                @if ($errors->has('txtTagsBlog'))
                 <div class="row">
-                    <span class="helper-text red-text text-darken-4">{{ $errors->first('txtTagsBlog') }}</span>
+                    <div class="col s12 m6 l6">
+                        <label>{{ trans('message.key') }}</label>
+                        <div class="input-field">
+                            <input type="text" id="key_blog" name="txtKeyblog" value="{{ old('txtKeyblog') }}" maxlength="201">
+                        </div>
+                    </div>
+                    <div class="col s12 m6 l6">
+                        <label>{{ trans('message.description') }}</label>
+                        <div class="input-field">
+                            <input type="text" id="desc_blog" name="txtDescblog" value="{{ old('txtDescblog') }}" maxlength="201">
+                        </div>
+                    </div>
                 </div>
-                @endif
                 <div class="row">
                     <div class="col s12 m12 l12">
                         <div class="input-field">
@@ -82,9 +88,6 @@
                                     {{ trans('message.textareaBlog') }}
                                 @endif
                             </textarea>
-                            @if ($errors->has('textareaBlog'))
-                                <span class="helper-text red-text text-darken-4">{{ $errors->first('textareaBlog') }}</span>
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -109,9 +112,6 @@
                                 <span class="lever"></span>
                                 {{ trans('message.yes') }}
                             </label>
-                            @if ($errors->has('txtPubBlog'))
-                                <span class="helper-text red-text text-darken-4">{{ $errors->first('txtPubBlog') }}</span>
-                            @endif
                         </div>
                     </div>
                 </div>

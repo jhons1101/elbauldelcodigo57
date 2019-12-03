@@ -1,5 +1,6 @@
 @section('botones-float')
-<div class="fixed-action-btn" style="bottom: 55px; right: 24px;"><!-- botones flotantes de compartir-->
+{{-- <!-- botones flotantes de compartir--> --}}
+<div class="fixed-action-btn" style="bottom: 55px; right: 24px;">
 	<a class="btn-floating btn-large red" title="Siguenos....." >
 		<img src="/img/share.png" style="position: relative; transform: translateY(45%);width: 28px;" alt="Siguenos.....">
 	</a>

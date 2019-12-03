@@ -27,6 +27,8 @@ class StoreBlogRequest extends FormRequest
             'txtTitblog'   => 'required|min:10|max:100',
             'txtTagsBlog'  => 'required|array',
             'textareaBlog' => 'required|min:300',
+            'txtKeyblog'   => 'required|min:10|max:200',
+            'txtDescblog'  => 'required|min:10|max:200',
             'imageBlog'    => 'required|image',
             'txtPubBlog'   => 'required'
         ];

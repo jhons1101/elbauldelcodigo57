@@ -37,7 +37,7 @@
                 @method('PUT')
                 @csrf
                 <div class="row">
-                    <div class="col s12">
+                    <div class="col s12 m9 l9">
                         <label>{{ trans('message.title') }}</label>
                         <div class="input-field">
                             <input type="text" id="tit_blog" name="txtTitblog" @if (old('txtTitblog') != '') value="{{ old('txtTitblog') }}" @else value="{{ $blog->title }}" @endif maxlength="201">
@@ -46,6 +46,7 @@
                             @endif
                         </div>
                     </div>
+                    <div class="col s12 m3 l3">&nbsp;</div>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12">
@@ -75,6 +76,20 @@
                             @if ($errors->has('txtTagsBlog'))
                                 <span class="helper-text red-text text-darken-4">{{ $errors->first('txtTagsBlog') }}</span>
                             @endif
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m6 l6">
+                        <label>{{ trans('message.key') }}</label>
+                        <div class="input-field">
+                            <input type="text" id="key_blog" name="txtKeyblog" @if (old('txtKeyblog') != '') value="{{ old('txtKeyblog') }}" @else value="{{ $blog->keys }}" @endif maxlength="201">
+                        </div>
+                    </div>
+                    <div class="col s12 m6 l6">
+                        <label>{{ trans('message.description') }}</label>
+                        <div class="input-field">
+                            <input type="text" id="desc_blog" name="txtDescblog" @if (old('txtDescblog') != '') value="{{ old('txtDescblog') }}" @else value="{{ $blog->desc }}" @endif maxlength="201">
                         </div>
                     </div>
                 </div>

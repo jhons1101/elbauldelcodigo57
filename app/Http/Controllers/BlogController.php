@@ -125,11 +125,12 @@ class BlogController extends Controller
         $blog               =  new Blogs();
         $itemTag            =  '';
         $txtTags            =  $request->get('txtTagsBlog');
-
         $blog->title        =  ucfirst(strtolower($request->get('txtTitblog')));
         $blog->text         =  htmlentities ($request->get('textareaBlog'), ENT_QUOTES);
         $blog->id_usu       =  Auth::user()->id;
         $blog->slug         =  strtolower(slugify($request->get('txtTitblog')));
+        $blog->keys         =  $request->get('txtKeyblog');
+        $blog->desc         =  $request->get('txtDescblog');
 
         foreach ($txtTags as $key => $tag) {
             $itemTag .= $tag. ',';
@@ -190,11 +191,11 @@ class BlogController extends Controller
         
         $blog        = Blogs::where('slug', $slug)->firstOrFail();
         $leido       = Blogs::where('flg_publicar' , 1)->orderBy('views', 'desc')->paginate(5);
-
+        
         $tags        = explode(',', $blog->tags_blog);
         $tagsBlog    = TemaPost::whereIn('tema_id', $tags)->orderBy('tema_txt', 'asc')->get();
         $userBlog    = User::where('id', $blog->id_usu)->firstOrFail();
-
+        
         // Actualizamos el contador de visitas del blog
         $blog->views        = $blog->views + 1;
         $blog->updated_at   =  date("Y-m-d H:i:s");
@@ -277,6 +278,8 @@ class BlogController extends Controller
         $blog->title       = $request->get('txtTitblog');
         $blog->text        = htmlentities ($request->get('textareaBlog'), ENT_QUOTES);
         $blog->id_usu      = Auth::user()->id;
+        $blog->keys        = $request->get('txtKeyblog');
+        $blog->desc        = $request->get('txtDescblog');
 
         foreach ($txtTags as $key => $tag) {
             $itemTag .= $tag. ',';
