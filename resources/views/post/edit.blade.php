@@ -197,7 +197,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col s12 m6 l6">&nbsp;</div>
+                    <div class="col s12 m3 l3">
+                        <img src="{{ asset('img/post/'.$posts->slug.'') }}.jpg" alt=" Imagen {{ $posts->post_tit }}" class="ancho100">
+                    </div>
+                    <div class="col s12 m3 l3">&nbsp;</div>
                 </div>
                 <div class="row">
                     <div class="col s12 m12 l12">

@@ -61,7 +61,7 @@
                     <td class="left-align ancho50"><a href="{{ asset('/post') }}/{{ $post->slug }}">{{ trans('message.leerMas') }}</a></td>
                     @if (auth()->user())
                         @if ($roles->rol_user_id == 1)
-                            <td class="right-align ancho50"><a href="/post/{{ $post->slug }}/edit">Editar</a></td>
+                            <td class="right-align ancho50"><a href="/post/{{ $post->slug }}/edit">{{ trans('message.edit') }}</a></td>
                         @endif
                     @endif
                 </tr>

@@ -78,6 +78,11 @@
 					</div>
 				</div>
 				<hr />
+				@if (auth()->user())
+					@if ($roles->rol_user_id == 1)
+						<div class="fecha-blogger"><a href="/post/{{ $post->slug }}/edit">{{ trans('message.edit') }}</a></div>
+					@endif
+				@endif
 				<div class="rowMarginTop50 text-description">
 					@yield('PostContent')
 				</div>

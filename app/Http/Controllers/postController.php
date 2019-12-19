@@ -248,6 +248,7 @@ class postController extends Controller
         // traemos los datos del post según el ID
         $post          = Post::where('slug', '=', $slug)->firstOrFail();
         $id            = $post->id;
+        $usuPost       = Auth::user()->id;
 
         // se cargan la información del post...
         $posts = DB::table('posts as p')
@@ -276,24 +277,13 @@ class postController extends Controller
             }
         }
         
-        // Establecer el tamaño que desee, o al azar para mas seguridad
-        $captchaTextSize = 7;
-
-        do {
-
-              //     Generar una cadena aleatoria y cifrarla con md5
-              $md5Hash = $this::cadenaAleatoria();
-
-              //     Eliminar cualquier caracter dificil de distinguir de nuestro hash
-              preg_replace( '([1aeilou0])', "", $md5Hash );
-
-        } while( strlen( $md5Hash ) < $captchaTextSize );
-
-            // Solo necesitamos 7 caracteres para este captcha
-            $key = substr( $md5Hash, 0, $captchaTextSize );
-
-            // Agregue la clave recién generada a la sesion. Tenga en cuenta que esta cifrado.
-            $_SESSION['key'] = md5( $key );
+        // traemos los roles de usuario para mostrar las acciones disponibles
+        $roles  = DB::table('rol_user_user as r')
+                ->select('r.rol_user_id', 'rs.rol_nombre')
+                ->join('rol_users as rs', 'rs.id', '=', 'r.rol_user_id')
+                ->where('user_id', $usuPost)
+                ->orderBy('rol_user_id', 'asc')
+                ->get();
     
         
         return view('post.show')
@@ -302,6 +292,7 @@ class postController extends Controller
         ->with('totalImg',       $totalImg)
         ->with('pantallazo',     $pantallazo)
         ->with('relacionados',   $relacionados)
+        ->with('roles',          $roles[0])
         ->with('keyCp',          $key)
         ->with('txtTags',        $txtTags)
         ->with('urlLang',        'post/'.$posts[0]->slug);
