@@ -205,7 +205,7 @@ class postController extends Controller
         
         if ($request->hasfile('imagePost')) {
             $file   = $request->file('imagePost');
-            $name   = strtolower(slugify($request->get('txtTitPost'))).'.jpg';
+            $name   = $request->get('txtSlugPost').'.jpg';
             $file->move(public_path().'/img/post/', $name);
         }
 
@@ -491,7 +491,7 @@ class postController extends Controller
         
         if ($request->hasfile('imagePost')) {
             $file   = $request->file('imagePost');
-            $name   = strtolower(slugify($request->get('txtTitPost'))).'.jpg';
+            $name   = strtolower($slug).'.jpg';
             $file->move(public_path().'/img/post/', $name);
         }
         

@@ -4,16 +4,16 @@
 
 {{-- <!-- sección de imagenes para cada post --> --}}
 @section('img-for-share')
-    <meta property="og:image" content="{{ asset('img/post') }}/{{ slugify($post->post_tit) }}.jpg" />
-    <link href="{{ asset('img/post') }}/{{ slugify($post->post_tit) }}.jpg" rel="image_src" />
-    <link href="{{ asset('img/post') }}/{{ slugify($post->post_tit) }}.jpg" rel="image_src" />
-    <meta name="twitter:image" content="{{ asset('img/post') }}/{{ slugify($post->post_tit) }}.jpg">
-    <meta name="twitter:image" content="{{ asset('img/post') }}/{{ slugify($post->post_tit) }}.jpg">
+    <meta property="og:image" content="{{ asset('img/post') }}/{{ $post->slug }}.jpg" />
+    <link href="{{ asset('img/post') }}/{{ $post->slug }}.jpg" rel="image_src" />
+    <link href="{{ asset('img/post') }}/{{ $post->slug }}.jpg" rel="image_src" />
+    <meta name="twitter:image" content="{{ asset('img/post') }}/{{ $post->slug }}.jpg">
+    <meta name="twitter:image" content="{{ asset('img/post') }}/{{ $post->slug }}.jpg">
     {{-- <!-- Resumen de la tarjeta de Twitter con la imagen grande debe ser al menos 280x150px --> --}}
-    <meta name="twitter:image:src" content="{{ asset('img/post') }}/{{ slugify($post->post_tit) }}.jpg">
-    <meta name="twitter:image:src" content="{{ asset('img/post') }}/{{ slugify($post->post_tit) }}.jpg">
-    <meta itemprop="image" content="{{ asset('img/post') }}/{{ slugify($post->post_tit) }}.jpg">
-    <meta itemprop="image" content="{{ asset('img/post') }}/{{ slugify($post->post_tit) }}.jpg">
+    <meta name="twitter:image:src" content="{{ asset('img/post') }}/{{ $post->slug }}.jpg">
+    <meta name="twitter:image:src" content="{{ asset('img/post') }}/{{ $post->slug }}.jpg">
+    <meta itemprop="image" content="{{ asset('img/post') }}/{{ $post->slug }}.jpg">
+    <meta itemprop="image" content="{{ asset('img/post') }}/{{ $post->slug }}.jpg">
 @stop
 
 
